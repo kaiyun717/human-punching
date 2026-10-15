@@ -1,0 +1,207 @@
+[
+  {
+    "id": "5931597",
+    "stage": "Genuine 5 ms controller",
+    "method": "Matched explicit/native PD at 2 ms and 5 ms, with unchanged physical properties",
+    "outcome": "diagnostic",
+    "question": "Why does the earlier controller oscillate at 5 ms?",
+    "finding": "The explicit damping linearization has a local stability bound near 2.57 ms. Native affine PD exposes damping to implicitfast and removes the fast oscillation, while retaining the original force caps. Classical balance/tracking still fails later; this is a numerical repair, not a learned-punch success.",
+    "evidence": [
+      "outputs/control-5ms-5931597/summary.json",
+      "docs/20-5ms-controller-investigation.md"
+    ]
+  },
+  {
+    "id": "5931602-export",
+    "stage": "Runtime provenance failure",
+    "method": "Independent saved-model and actual GPU-force audit",
+    "outcome": "diagnostic",
+    "question": "Does the exported XML reproduce the native actuator actually used for training?",
+    "finding": "The first mj_saveLastXML export dropped actuator enum/limit changes and rounded body parameters. Actual GPU forces still obeyed the intended clipped PD law within 3.03e-5 Nm. A new exporter serializes the true semantics, recompiles, and checks exact equality; old diagnostic exports are retained and rejected for release.",
+    "evidence": [
+      "outputs/control-5ms-5931597/runtime_audit.json",
+      "outputs/control-5ms-5931597/gpu_force_audit.json"
+    ]
+  },
+  {
+    "id": "5931598-5931641",
+    "stage": "Four-family scalar references",
+    "method": "Constrained IK, 25 ms smoothing, sole replanting and inactive-glove overlap repair",
+    "outcome": "passed",
+    "question": "Can all four source punches be expressed geometrically on the constrained scalar body?",
+    "finding": "All four references reach the analytic target, close exactly to guard, remain inside joint limits and avoid selected self-penetration. Sole drift is at most 0.25 mm. These are kinematic references; later tests exposed dynamic infeasibility in the fast hooks.",
+    "evidence": [
+      "outputs/scalar-four-reference-v1/manifest.json",
+      "docs/21-four-punch-references.md"
+    ]
+  },
+  {
+    "id": "5931645",
+    "stage": "First full-speed 5 ms jab",
+    "method": "Checkpoint 100, corrected runtime export and frozen 32-trial guard bank",
+    "outcome": "partial",
+    "question": "Does the full-speed learned jab work with actual 5 ms physics and 20 ms actions?",
+    "finding": "All 32 hit, remain upright and recover supported guard with valid clocks and force bounds. Only 18 pass every gate: 14 slightly exceed the wrist-stop allowance. Attack tracking error is 2.77\u20133.14 cm and contact is 34\u201344 ms late.",
+    "evidence": "outputs/punch-5ms-5931645/independent/summary.json"
+  },
+  {
+    "id": "5931667",
+    "stage": "Jab precision before constraint compliance",
+    "method": "Same validation bank, checkpoint 400",
+    "outcome": "partial",
+    "question": "Does more accurate tracking automatically satisfy physical joint limits?",
+    "finding": "Attack RMS improves to 5.96\u20137.29 mm and interpolated contact error to 1.14\u20133.61 ms, but all trials fail the unchanged joint-limit gate. Wrist excursion increases to 0.02765\u20130.03210 rad. The accurate checkpoint is used for further learning, not accepted as a release.",
+    "evidence": "outputs/punch-5ms-5931667/independent/summary.json"
+  },
+  {
+    "id": "5931694-5931735",
+    "stage": "Joint-stop penalty and guard mismatch",
+    "method": "Worst joint excursion measured across every 5 ms step; lower-rate PPO fine-tuning",
+    "outcome": "partial",
+    "question": "Can the policy brake before the wrist stop without sacrificing punch precision?",
+    "finding": "Yes: all trials satisfy joint limits and precision targets. The first fine-tuned checkpoint passes 28/32 complete cycles, while later checkpoints expose Chest-relative guard drift despite accurate world-space fists. The final-guard geometry requires its own reward; thresholds are not relaxed.",
+    "evidence": [
+      "outputs/punch-5ms-5931694/independent/summary.json",
+      "outputs/punch-5ms-5931711/independent/summary.json",
+      "outputs/punch-5ms-5931735/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931779",
+    "stage": "Improved jab accepted on validation bank",
+    "method": "Explicit Chest-relative guard reward, joint-stop cost and unchanged full-speed reference",
+    "outcome": "passed",
+    "question": "Can the improved jab satisfy precision, limits and supported recovery together?",
+    "finding": "All 18 physical gates and both summarized precision targets pass in all 32 trials. Attack RMS is 5.20\u20136.23 mm, absolute interpolated timing error is at most 3.82 ms, recovered guard dwell at least 1.83 s, and maximum joint-stop excursion 0.00319 rad. A fresh 64-trial test follows checkpoint selection.",
+    "evidence": "outputs/punch-5ms-5931779/independent/summary.json"
+  },
+  {
+    "id": "5931688-5931690",
+    "stage": "Initial additional-family transfer",
+    "method": "Three independent full-speed residual PPO trackers, checkpoint 200",
+    "outcome": "failed",
+    "question": "Does the improved jab immediately transfer to cross and hooks?",
+    "finding": "No family passes a complete cycle. Cross balances but misses; left hook falls in all trials, and right hook falls in half. High average imitation reward conceals poor attack tracking, motivating active-hand attack shaping and dynamic feasibility checks.",
+    "evidence": [
+      "outputs/punch-5ms-5931688/independent/summary.json",
+      "outputs/punch-5ms-5931689/independent/summary.json",
+      "outputs/punch-5ms-5931690/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931743-5931785",
+    "stage": "Attack reward and hook curriculum",
+    "method": "Active-hand rational tracking reward, conservative PPO updates and 0.6\u00d7 hook curriculum",
+    "outcome": "partial",
+    "question": "Can attack accuracy improve while retaining genuine 5 ms dynamics?",
+    "finding": "The full-speed cross reaches the head in every trial; by checkpoint 400 it also meets the summarized precision targets and recovers guard, but excessive joint excursion remains. The slower right hook also learns reliable contact. Foot drift, joint limits and recovery require further refinement.",
+    "evidence": [
+      "outputs/punch-5ms-5931743/independent/summary.json",
+      "outputs/punch-5ms-5931784/independent/summary.json",
+      "outputs/punch-5ms-5931785/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931716-5931826",
+    "stage": "Hook dynamics and explicit retiming",
+    "method": "Inverse-dynamics support/effort diagnostics, rejected posture variants and nonuniform phase retiming",
+    "outcome": "diagnostic",
+    "question": "Are geometrically valid full-speed hook targets physically tractable under the fixed strength limits?",
+    "finding": "Exact original hook tracking demands more than twice some shoulder limits. Posture changes alone do not solve this. Explicit nonuniform retiming reduces the right-hook ideal demand below every cap and the left-hook peak to about 1.045 times a cap, preserving the path and approximately preserving contact/cycle timing. This is declared conditioned motion, not unchanged uniform source playback.",
+    "evidence": [
+      "outputs/reference-dynamics-5931826/summary.json",
+      "docs/25-reference-dynamics.md"
+    ]
+  },
+  {
+    "id": "5931806-5931807",
+    "stage": "Improved jab fresh test",
+    "method": "Frozen selected checkpoint; fresh 64-trial bank and matched residual-disabled controller",
+    "outcome": "passed",
+    "question": "Does the selected full-speed jab pass unseen small initial perturbations?",
+    "finding": "64/64 learned cycles pass every physical gate and all three precision targets; 0/64 baseline cycles pass. Attack RMS is 4.98\u20137.32 mm and contact timing error at most 4.44 ms on the 5 ms sampling clock.",
+    "evidence": [
+      "outputs/punch-5ms-5931806/independent/summary.json",
+      "outputs/punch-5ms-5931807/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931852-5931898",
+    "stage": "Cross joint-posture recovery fix",
+    "method": "Chest-relative glove reward followed by worst-joint guard-posture refinement",
+    "outcome": "passed",
+    "question": "Why does the accurate cross still fail recovery?",
+    "finding": "Neck posture remains about 0.14 rad from its guard versus the unchanged 0.12 rad allowance. A dedicated guard-joint term fixes it; selected run 5931870 checkpoint 100 passes all 32 validation trials without changed timing, physical limits or tolerances.",
+    "evidence": [
+      "outputs/punch-5ms-5931853/independent/summary.json",
+      "outputs/punch-5ms-5931898/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931865-5931902",
+    "stage": "Retimed hooks learn contact and recovery",
+    "method": "Slower curriculum transfer, active-hand attack reward, joint-stop cost and guard refinement",
+    "outcome": "passed",
+    "question": "Can bounded learned control execute the conditioned hooks and return to guard?",
+    "finding": "Both hooks pass32/32 validation at checkpoint 300. Right-hook guard refinement increases minimum dwell from 0.23 s to 1.755 s. Left further refinement improves joint limits but reduces foot-drift margin, motivating explicit checkpoint comparison.",
+    "evidence": [
+      "outputs/punch-5ms-5931874/independent/summary.json",
+      "outputs/punch-5ms-5931889/independent/summary.json",
+      "outputs/punch-5ms-5931901/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931886",
+    "stage": "Independent hook-window geometry review",
+    "method": "Dense FK distance/radial-velocity review of frozen nonuniform references",
+    "outcome": "passed",
+    "question": "Do the derived attack windows contain the actual inbound contact and exclude recovery?",
+    "finding": "Each hook has one active contact interval inside its window, with inbound entry/outbound withdrawal and no inactive-hand or recovery contact. Dense FK timing agrees within 0.068 ms. This is geometric review, not original capture annotation or physical acceptance.",
+    "evidence": "outputs/hook-window-review-5931886/summary.json"
+  },
+  {
+    "id": "5931922",
+    "stage": "Rejected extra left-hook refinement",
+    "method": "Checkpoint 200 of run 5931885, existing 32-trial validation bank",
+    "outcome": "failed",
+    "question": "Is the newest left-hook checkpoint better overall?",
+    "finding": "No. It passes the other gates and precision but fails the unchanged 3 cm foot-drift gate in every trial:33.38\u201338.29mm. Retain earlier run 5931834 checkpoint 300, selected before fresh testing.",
+    "evidence": "outputs/punch-5ms-5931922/independent/summary.json"
+  },
+  {
+    "id": "5931915-5931916",
+    "stage": "Cross fresh test",
+    "method": "Selected specialist; fresh 64-trial paired evaluation at 5 ms / 20 ms",
+    "outcome": "passed",
+    "question": "Does the selected cross satisfy contact, physical constraints and recovery on fresh states?",
+    "finding": "64/64 learned cycles pass all 18 physical gates and all 3 precision targets versus 0/64 matched baseline cycles. Attack RMS 6.92\u20139.06mm; maximum interpolated contact error 9.87ms; uniform source timing.",
+    "evidence": [
+      "outputs/punch-5ms-5931915/independent/summary.json",
+      "outputs/punch-5ms-5931916/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931918-5931919",
+    "stage": "Right Hook fresh test",
+    "method": "Selected specialist; fresh 64-trial paired evaluation at 5 ms / 20 ms",
+    "outcome": "passed",
+    "question": "Does the selected right hook satisfy contact, physical constraints and recovery on fresh states?",
+    "finding": "64/64 learned cycles pass all 18 physical gates and all 3 precision targets versus 0/64 matched baseline cycles. Attack RMS 6.00\u201310.08mm; maximum interpolated contact error 0.93ms; declared nonuniform retiming.",
+    "evidence": [
+      "outputs/punch-5ms-5931918/independent/summary.json",
+      "outputs/punch-5ms-5931919/independent/summary.json"
+    ]
+  },
+  {
+    "id": "5931934-5931935",
+    "stage": "Left Hook fresh test",
+    "method": "Selected specialist; fresh 64-trial paired evaluation at 5 ms / 20 ms",
+    "outcome": "passed",
+    "question": "Does the selected left hook satisfy contact, physical constraints and recovery on fresh states?",
+    "finding": "64/64 learned cycles pass all 18 physical gates and all 3 precision targets versus 0/64 matched baseline cycles. Attack RMS 8.53\u201313.01mm; maximum interpolated contact error 8.38ms; declared nonuniform retiming.",
+    "evidence": [
+      "outputs/punch-5ms-5931934/independent/summary.json",
+      "outputs/punch-5ms-5931935/independent/summary.json"
+    ]
+  }
+]

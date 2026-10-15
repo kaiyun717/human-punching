@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/NVlabs/ProtoMotions",
+  "revision": "7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1",
+  "files": {
+    "soma23_humanoid.xml": {
+      "url": "https://raw.githubusercontent.com/NVlabs/ProtoMotions/7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1/protomotions/data/assets/mjcf/soma23_humanoid.xml",
+      "sha256": "0b3b4cc6967d0ebe24dd54b87a8a4b3fe1c05d44a53a8f435e2b854f3189a1b3"
+    },
+    "LICENSE.md": {
+      "url": "https://raw.githubusercontent.com/NVlabs/ProtoMotions/7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1/LICENSE.md",
+      "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+    },
+    "soma23_config.py": {
+      "url": "https://raw.githubusercontent.com/NVlabs/ProtoMotions/7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1/protomotions/robot_configs/soma23.py",
+      "sha256": "595cd087e0f701f6b231866e3b14cc8cb07069b125c0b60973d1e23a445b2c61"
+    },
+    "THIRD_PARTY_NOTICES.txt": {
+      "url": "https://raw.githubusercontent.com/NVlabs/ProtoMotions/7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1/legal/THIRD-PARTY%20SOFTWARE%20NOTICES%20AND%20ASSET%20LICENSES%20-%20ProtoMotions.txt",
+      "sha256": "c912e2fd4276369fdc75472c05254d1985facb24eb0154d4d06006bdd9adf8e4"
+    }
+  }
+}

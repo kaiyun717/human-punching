@@ -2,6 +2,8 @@
 
 This research informed the first physical implementation. References below to the existing nonphysical model describe the original preview; see [the implemented pilot and results](13-physical-pilot-and-next-gates.md) for the current physical code.
 
+For the final training-body decision, see the newer [Task 09 plan reconciliation](15-task09-body-plan-reconciliation.md). The 34-scalar-DOF model below is an unimplemented proposal; the code still uses the diagnostic ball-joint body. The original PDF separately proposed SMPL-X/SMPLSim with SOMA23 as a fallback.
+
 Date: 11 October 2026. Research and design assessment; implementation measurements belong in the accompanying experiment reports. This document does not claim that the proposed controller or all proposed model reductions have already passed physical tests.
 
 ## Recommendation

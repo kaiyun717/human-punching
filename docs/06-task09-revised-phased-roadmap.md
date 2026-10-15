@@ -2,6 +2,8 @@
 
 Assessment date: 10 October 2026. This is a proposed roadmap, not a claim that the later phases have been implemented or validated.
 
+This report preserves the early preview-stage assessment. For current physical results see [report 13](13-physical-pilot-and-next-gates.md); for the original SMPLSim/SOMA body plan, implemented prototype, and revised training milestones see [report 15](15-task09-body-plan-reconciliation.md). Simple blue appearance does not determine the choice of physical rig.
+
 All implementation belongs in `human-punching`. `robust_sav`, `mjlab`, and DuoBox remain read-only inputs. In particular, the Task 09 PDF's suggested `src/boxing/human/` additions should initially become modules under this project's `src/human_punching/`; changing the accepted `robust_sav` requires a separate explicit instruction.
 
 ## 1. Recommendation

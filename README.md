@@ -1,16 +1,51 @@
 # human-punching
 
-Retarget DuoBox's jab, cross, left hook and right hook to a **1.80 m articulated human mesh**, then render them in **MuJoCo 3.11.0**, the native simulator version used by `robust_sav`.
+**[Open the HTML master report](docs/master-report.html)** · **[Standalone HTML with embedded videos and images](outputs/master-report/master-report-standalone.html)**
 
-The project now includes both kinematic previews and a physical-human pilot. The pinned mjlab/MuJoCo-Warp physics and camera pipeline has also been tested on allocated V100 GPUs.
+The report traces the complete project progression, including failed experiments, fixes, embedded historical reports and the four learned punches at 5 ms. The standalone edition embeds its selected videos and images for viewing without the project folders. [Report guide and rebuild commands](docs/master-report-guide.md).
 
-The original previews replay motion kinematically; the new physical pilot uses bounded joint torques, gravity, and floor contact with an unactuated pelvis. Reports distinguish reference playback, native MuJoCo dynamics, and actual Warp dynamics. The body is a plain light-blue mannequin with a featureless head, simple feet and boxing gloves, not a licensed SMPL-X reconstruction.
+Retarget DuoBox punches and learn physical human motion in **MuJoCo 3.11.0 / MuJoCo-Warp**, using the simulator stack pinned by `robust_sav`.
+
+The project includes four-punch kinematic previews, a classical physical pilot, and **four learned punch trackers on a constrained SOMA23-derived scalar-joint body**. The pinned mjlab/MuJoCo-Warp physics and camera pipeline has been tested on allocated V100 GPUs.
+
+The original previews replay motion kinematically; physical controllers use bounded joint torques, gravity, and floor contact with an unactuated pelvis. Reports distinguish reference playback, native MuJoCo dynamics, and actual Warp dynamics. Appearance remains plain light blue, with a featureless head, simple feet and gloves.
 
 All code, environments, generated assets and videos live in this directory. `../robust_sav`, `../mjlab` and `../DuoBox` are read-only inputs.
 
+## Four learned punches at 5 ms
+
+**[Results and experiment history](docs/22-five-ms-learning-progress.md)** · **[Frozen policies and videos](outputs/four-punch-milestone/README.md)** · **[Independent validation](docs/23-five-ms-validation-log.md)**
+
+The improved jab, cross, left hook and right hook each pass **64/64 fresh physical trials**, versus **0/64** for their matched controllers with the learned residual disabled. All use genuine **5 ms physics**, with one PPO action every **20 ms** (four physics steps). Every trial hits the fixed head target, remains upright, respects the existing effort/joint/foot-drift gates and recovers supported guard. All also meet the 2 cm tracking and 20 ms contact-timing targets.
+
+| Family | Learned passes | Zero-residual passes | Attack-glove RMS (mm) | Maximum contact-time error (ms) | Minimum guard dwell (s) | Reference timing |
+|---|---:|---:|---:|---:|---:|---|
+| Jab | 64/64 | 0/64 | 4.98–7.32 | 4.43 | 1.835 | Uniform 1.0× |
+| Cross | 64/64 | 0/64 | 6.92–9.06 | 9.87 | 1.735 | Uniform 1.0× |
+| Left Hook | 64/64 | 0/64 | 8.53–13.01 | 8.38 | 1.735 | Nonuniform retiming |
+| Right Hook | 64/64 | 0/64 | 6.00–10.08 | 0.93 | 1.755 | Nonuniform retiming |
+
+The native-scale **1.7664 m**, 75 kg scenario body has **48 scalar joint motors** and an unactuated free pelvis. No external root assistance, mid-cycle resets or hidden smaller integration steps are used. Native implicit PD makes the original damping law stable at 5 ms while preserving the body and torque limits. PPO supplies bounded joint-target corrections to a reference motion; this is learned physical control, not pose playback.
+
+Jab and cross retain uniform source timing. The hooks use explicitly **nonuniform retiming** to reduce shoulder demand, approximately retaining contact time and preserving total cycle duration. Their local speed changes are recorded in the references. Contact-time errors are interpolated from a 5 ms sampling clock.
+
+These are **four specialist policies for isolated cycles at one fixed target**. They do not yet provide continuous mixed punches, an arbitrary requested rate, moving-target adaptation or a dynamic G1 opponent. The clock now matches G1, but shared global solver settings still need qualification before integration. See the [execution contract and G1 gaps](docs/24-five-ms-controller-interface.md).
+
+The bundle contains exact checkpoints, source/runtime body models, references, all 256 learned and 256 baseline trial records, independent audits, source snapshots, videos and hashes. Reproduction commands are in its README. The earlier [2 ms jab milestone](docs/19-scalar-jab-milestone.md) remains historical evidence.
+
+```bash
+sbatch scripts/train_punch_5ms_volta.sbatch \
+  --reference outputs/scalar-four-reference-v1/jab/jab.npz \
+  --num-envs 128 --updates 200 --save-every 25
+```
+
+This launches a new experiment; it does not reproduce the selected trained policy without its recorded initialization and training arguments. Use the frozen bundle's evaluation instructions to replay accepted checkpoints.
+
+The sections below retain the earlier procedural-body experiments and kinematic previews.
+
 ## Physical human and contact results
 
-Start with the [physical pilot report and remaining gates](docs/13-physical-pilot-and-next-gates.md). It links the successful cases, failed experiments, runtime evidence, and phased integration work.
+Start with the [physical pilot report and remaining gates](docs/13-physical-pilot-and-next-gates.md). For the future learned puncher, see [human-model choice and anatomical limitations](docs/14-human-model-for-learned-punching.md) and [the Task 09 body plan versus actual implementation](docs/15-task09-body-plan-reconciliation.md). These distinguish the implemented physical prototype from the planned SMPLSim/SOMA training body and link the measured results and remaining milestones.
 
 - [Contact contract](docs/10-contact-contract.md): either glove at **≤0.14 m** is contact; both at **≥0.16 m** have safe glove clearance. Impact forces are a separate choice.
 - [Human-model research](docs/08-physical-human-research.md): primitive rigid bodies and inferred inertias suffice for this pilot; no muscles or SMPL assets are needed.
@@ -30,7 +65,7 @@ sbatch scripts/physical_pilot_volta.sbatch \
 sbatch scripts/physical_sequence_volta.sbatch
 ```
 
-The native physical pilot uses **2 ms** steps. The tested **5 ms** variants failed their support/tracking gates, so this is not yet a drop-in replacement for the accepted G1 plant. Ball-joint anatomy, self-collision, full-speed all-family tracking, perception integration, and two-player learning remain explicit gaps. No files in `robust_sav` are changed.
+The earlier native physical pilot uses **2 ms** steps. The tested **5 ms** variants failed their support/tracking gates, so it is not a drop-in replacement for the accepted G1 plant. Its ball-joint anatomy and missing self-collision motivated the scalar body above. The later scalar-body milestone above resolves 5 ms execution and learns all four families, with declared hook retiming. Perception integration and two-player learning remain open. No files in `robust_sav` are changed.
 
 ## Preview videos
 
@@ -111,4 +146,4 @@ The dependency audit identifies a real version conflict: current sibling `mjlab`
 
 ## Later work
 
-See the [revised Task 09 assessment and phased roadmap](docs/06-task09-revised-phased-roadmap.md) for limitations, unnecessary early complexity, concrete software gaps, and acceptance gates. The runtime probe, contacting references, physical tracker pilot, and repeated-jab guard recovery are now implemented; see the newer [physical pilot report](docs/13-physical-pilot-and-next-gates.md) for measured passes and outstanding gates. The saved kinematic trajectories are useful references, not a drop-in trained adversary.
+See the [revised Task 09 assessment and phased roadmap](docs/06-task09-revised-phased-roadmap.md) for limitations, unnecessary early complexity, concrete software gaps, and acceptance gates. The [four-punch 5 ms milestone](docs/22-five-ms-learning-progress.md) is the latest result. Next come learned repeated and mixed sequences with measured recovery, broader initial states and targets, and qualification under G1’s shared solver settings. Then integrate the fixed opponent before introducing adversarial plan selection. The current specialists are not yet a drop-in adversary.

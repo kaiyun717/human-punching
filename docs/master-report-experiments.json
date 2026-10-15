@@ -1,0 +1,410 @@
+[
+  {
+    "id": "dependency-audit",
+    "stage": "Scope and compatibility",
+    "method": "Read-only PDF, source-revision and dependency-lock comparison",
+    "outcome": "diagnostic",
+    "question": "Can the Task 09 stack be installed unchanged beside the accepted G1 stack?",
+    "finding": "No. Accepted mjlab commit 8ee51fbc uses the compatible Torch 2.8 / MuJoCo 3.11 stack; sibling HEAD requires newer Torch. WBC's NumPy <2.5 constraint conflicts with the accepted NumPy 2.5.3 lock. Native MuJoCo preview and a separately pinned physics environment avoid changing robust_sav.",
+    "evidence": [
+      "docs/01-compatibility-assessment.md",
+      "requirements-preview.lock",
+      "requirements-physics.lock"
+    ]
+  },
+  {
+    "id": "duobox-hierarchy-audit",
+    "stage": "Source motion",
+    "method": "Hash-verified raw DuoBox loading and parent-composed forward kinematics",
+    "outcome": "passed",
+    "question": "What do the recorded rotations mean, and can all four complete body motions be reconstructed?",
+    "finding": "Selected actor ma, 21-joint hierarchy and inherited 120 Hz convention. Child rotations are parent-relative; treating them as world rotations causes 1.64–1.76 m errors. Correct composition reconstructs all four crops within 3.281e-7 m. Crop labels remain machine-selected candidates, not independently certified ground truth.",
+    "evidence": [
+      "docs/02-duobox-motion-audit.md",
+      "outputs/preview/manifest.json",
+      "outputs/tests.txt"
+    ]
+  },
+  {
+    "id": "detailed-preview",
+    "stage": "Initial appearance",
+    "method": "Procedural segmented triangle mesh and native MuJoCo kinematic replay",
+    "outcome": "diagnostic",
+    "question": "Can the four recorded punches be shown on a complete human without unavailable SMPL-X body files?",
+    "finding": "The procedural DuoBox-aligned body supplied a reproducible visual preview without body-model weights. The first detailed appearance was rejected as unnecessarily realistic and archived. This was prescribed FK playback with no active physics or learning.",
+    "evidence": [
+      "outputs/archive/preview-v1-detailed/manifest.json",
+      "outputs/archive/preview-v1-detailed/overview.png",
+      "docs/03-implementation-and-results.md"
+    ]
+  },
+  {
+    "id": "simplified-blue-preview",
+    "stage": "Appearance revision",
+    "method": "Featureless light-blue procedural mesh and CPU OSMesa rendering",
+    "outcome": "passed",
+    "question": "Can the body be visually simple while preserving the recorded motions?",
+    "finding": "Removed face, hair, clothing detail and separate visible toes. Neutral compiled mesh height was 1.800000 m; 29 mesh assets, 9,562 vertices and 19,008 triangles. Four videos decoded successfully; FK errors were at most 3.61e-7 m. No actuators, gravity or collision participation were enabled.",
+    "evidence": [
+      "outputs/preview/overview.png",
+      "outputs/preview/jab/jab.mp4",
+      "outputs/preview/manifest.json",
+      "outputs/media_validation.json"
+    ]
+  },
+  {
+    "id": "glove-rotation-audit",
+    "stage": "Hand attachment",
+    "method": "Full orientation and rigid-transform audit over 855 poses and synthetic wrist-axis rotations",
+    "outcome": "passed",
+    "question": "Were glove rotations being lost at the wrist?",
+    "finding": "No transform bug was found. Hand/source disagreement was 3.88e-12 degrees and hand-relative glove orientation drift 3.1e-14 degrees. Flattened gloves and pale orientation patches made the existing rotation visible. Left blue/right red colors were historical review aids, not the later production perception contract.",
+    "evidence": [
+      "outputs/glove_rotation_audit.json",
+      "docs/04-glove-rotation-audit.md",
+      "outputs/preview/overview.png"
+    ]
+  },
+  {
+    "id": "5884571",
+    "stage": "GPU access",
+    "method": "Allocated Slurm V100 probe and native NVIDIA EGL rendering",
+    "outcome": "passed",
+    "question": "Which GPUs are exposed on this server and can the project render on one?",
+    "finding": "The exposed partition was xeon-g6-volta with Tesla V100-PCIE-32GB; mit_normal_gpu/L40S was not exposed. Python 3.12.3, MuJoCo 3.11.0 and a valid 64x64 NVIDIA EGL image passed. CUDA_VISIBLE_DEVICES contained a UUID, requiring allocation-aware EGL device resolution.",
+    "evidence": [
+      "outputs/slurm/hp-volta-probe-5884571.log",
+      "outputs/compute_inventory.txt",
+      "docs/05-gpu-server-guide.md"
+    ]
+  },
+  {
+    "id": "5884573",
+    "stage": "GPU preview",
+    "method": "CPU retargeting and native MuJoCo NVIDIA EGL rendering on one V100",
+    "outcome": "passed",
+    "question": "Can one allocated GPU render all four previews reproducibly?",
+    "finding": "All four previews completed; application time 15.67 s and batch time 23 s. CUDA-to-EGL PCI device matching passed. This validates GPU rendering of kinematic replay, not GPU physics or learning.",
+    "evidence": [
+      "outputs/gpu-5884573/gpu_runtime.json",
+      "outputs/gpu-5884573/complete.json",
+      "outputs/gpu-5884573/preview/overview.png",
+      "outputs/gpu-validation.json"
+    ]
+  },
+  {
+    "id": "5884574",
+    "stage": "GPU device mapping",
+    "method": "Four independent one-GPU Slurm array tasks across two nodes",
+    "outcome": "passed",
+    "question": "Does device selection remain correct when concurrent jobs receive different physical GPUs?",
+    "finding": "All four tasks passed. Each process used CUDA logical device 0, but two required EGL device index 1. Device UUID/PCI matching prevented accidental rendering on the wrong GPU. Four GPUs were tested, not eight-GPU distributed training; all eight single-job/array videos decoded and trajectories matched CPU references to 1e-12.",
+    "evidence": [
+      "outputs/gpu-5884574_0/gpu_runtime.json",
+      "outputs/gpu-5884574_1/gpu_runtime.json",
+      "outputs/gpu-5884574_2/gpu_runtime.json",
+      "outputs/gpu-5884574_3/gpu_runtime.json",
+      "outputs/gpu-validation.json",
+      "outputs/gpu-slurm-accounting.txt"
+    ]
+  },
+  {
+    "id": "5884609",
+    "stage": "Standing-G1 targeting",
+    "method": "Smooth path deformation, active-arm Jacobian IK, native MuJoCo FK and GPU EGL rendering",
+    "outcome": "passed",
+    "question": "Can the four punches be redirected toward a fixed G1 head without machine learning?",
+    "finding": "All four near-contact previews reached their anchors with 0.265–0.408 mm IK error. Visible-head separation bounds stayed positive at 2.967–5.934 mm. G1 coordinates were fixed in all 855 poses. The approximately 0.184 m glove/head center distances did not meet the later audited 0.14 m contact contract; these were visual near-contact results.",
+    "evidence": [
+      "outputs/g1-targeting/manifest.json",
+      "outputs/g1-targeting/validation.json",
+      "outputs/g1-targeting/overview.png",
+      "outputs/g1-targeting/jab/jab.mp4",
+      "outputs/g1-gpu-5884609/gpu_runtime.json"
+    ]
+  },
+  {
+    "id": "contact-contract-audit",
+    "stage": "Task geometry",
+    "method": "Page-33 and Task 08 source audit; explicit both-glove geometry utilities",
+    "outcome": "passed",
+    "question": "Do 0.14 m contact and 0.16 m safe clearance transfer to an articulated human?",
+    "finding": "Yes. Use attached glove centers, 0.08 m gloves and the actual 0.06 m head proxy. Either glove at distance <=0.14 m is contact; both >=0.16 m gives safe glove clearance; the band between is unsafe without contact. Both hands remain hazards in all phases. No robust_sav threshold change was needed, and analytic contact does not imply impact impulses.",
+    "evidence": [
+      "docs/10-contact-contract.md",
+      "src/human_punching/contact.py",
+      "tests/test_contact.py"
+    ]
+  },
+  {
+    "id": "physical-body-research",
+    "stage": "Physical model design",
+    "method": "Literature/model comparison and engineering rigid-body design",
+    "outcome": "diagnostic",
+    "question": "Is a detailed human mesh or muscle simulation necessary for physical punching?",
+    "finding": "A simple articulated body with masses/inertias, constraints, bounded effort and floor contact is sufficient for a pilot. Adopted an intermediate 75 kg DuoBox-derived body with 20 ball joints/60 motors and a free root to isolate controller issues. Its extra elbow/knee freedom, disabled self-collision and uncalibrated mass/strength remain limitations. The proposed 34-scalar-DOF alternative was not implemented.",
+    "evidence": [
+      "docs/08-physical-human-research.md",
+      "outputs/physical-5890835/model/physical_model.json",
+      "outputs/physical-5890835/model/human_physical.xml"
+    ]
+  },
+  {
+    "id": "contact-reference-bank",
+    "stage": "Contact-directed references",
+    "method": "Kinematic arm IK toward a 0.135 m center target, with frozen head and approach-yaw variants",
+    "outcome": "passed",
+    "question": "Can the four families actually enter the unchanged Task 08 contact envelope?",
+    "finding": "All 12 references (four families x -6/0/+6 degree approach yaw) had sampled contact and finite states. Base minima were jab 0.135798 m, cross 0.135854 m, left hook 0.134628 m and right hook 0.134932 m. Combined-scene FK agreed within 1e-10 m. This is geometric acceptance, not balanced physical execution or validated launch TTC.",
+    "evidence": [
+      "outputs/contact-targeting/manifest.json",
+      "outputs/contact-targeting/validation.json",
+      "docs/11-reference-contact.md"
+    ]
+  },
+  {
+    "id": "5890789",
+    "stage": "Pinned GPU physics runtime",
+    "method": "Torch optimization, Warp kernel, batched mjlab dynamics and camera probe",
+    "outcome": "failed",
+    "question": "Does the accepted pinned training stack execute on the available V100?",
+    "finding": "Torch's five finite-gradient Adam steps reduced loss from 1.0700 to 0.9883, and batched floor physics/camera stages ran. Overall probe failed because diagnostic metadata used obsolete wp.context after the numerical Warp operation. This was an API bookkeeping failure, not evidence that V100 physics was unsupported.",
+    "evidence": [
+      "outputs/physics-probe-5890789/runtime.json",
+      "outputs/slurm/human-physics-probe-5890789.log"
+    ]
+  },
+  {
+    "id": "5890808",
+    "stage": "Runtime corrections",
+    "method": "Public Warp toolkit accessor and repeated GPU probe",
+    "outcome": "partial",
+    "question": "Does replacing the obsolete Warp accessor complete the numerical runtime checks?",
+    "finding": "The structured probe passed after using wp.get_cuda_toolkit_version(). Subsequent visual review found red/blue channels reversed in diagnostic unpacking. Corrected packed RGB extraction and a red-object assertion were required before treating camera colors as validated.",
+    "evidence": [
+      "outputs/physics-probe-5890808/runtime.json",
+      "outputs/physics-probe-5890808/actual-scene-camera.png",
+      "docs/09-physics-runtime.md"
+    ]
+  },
+  {
+    "id": "5890835",
+    "stage": "First physical controller",
+    "method": "Native CPU MuJoCo integration with bounded quaternion pose-PD and GPU EGL rendering",
+    "outcome": "failed",
+    "question": "Will a statically conditioned guard and pose-PD alone support the human?",
+    "finding": "No. Standing and jab fell despite a free unactuated root and bounded effort. Jab maximum sole drift was 0.238997 m; the standing pelvis reached 0.080265 m from an initial 0.986150 m. This motivated contact-aware inverse statics and balance feedback rather than pose playback or hidden root assistance.",
+    "evidence": [
+      "outputs/physical-5890835/jab/jab_metrics.json",
+      "outputs/physical-5890835/jab/standing_metrics.json",
+      "outputs/physical-5890835/jab/jab.mp4",
+      "outputs/physical-5890835/jab/standing.mp4"
+    ]
+  },
+  {
+    "id": "5890856",
+    "stage": "GPU physics and camera acceptance",
+    "method": "Actual MuJoCo-Warp integration and raycast cameras through pinned mjlab; corrected RGB unpacking",
+    "outcome": "passed",
+    "question": "Do training math, dynamics, physical motor transmission and Task 08 camera geometry work together?",
+    "finding": "Passed five Torch updates, a 512-element Warp kernel, 16 settling sphere worlds, human/G1 RGB-depth-ID rendering, and four physical-human worlds with torque response. Task 08 camera geometry was verified. Near-contact glove occlusion was 93.0%, median depth 0.0204 m and only 4.76% of pixels in the accepted 0.1–3 m range; perception/policy performance remains unvalidated.",
+    "evidence": [
+      "outputs/physics-probe-5890856/runtime.json",
+      "outputs/physics-probe-5890856/actual-scene-camera.png",
+      "outputs/physics-probe-5890856/task08-camera.png",
+      "outputs/physics-probe-5890856/task08-camera-metrics.json"
+    ]
+  },
+  {
+    "id": "5890857",
+    "stage": "Balance feedforward",
+    "method": "Native CPU MuJoCo physics with quaternion PD, planted-support conditioning and contact-aware balance feedforward",
+    "outcome": "partial",
+    "question": "Does adding support-aware torque computation resolve the initial falls across all families?",
+    "finding": "Jab and cross remained upright with 8.43 mm and 26.10 mm maximum sole drift. Left hook remained upright but slipped 0.253 m; right hook fell with 3.37 m drift. These initial records did not yet include the later explicit contact gate. The controller helped but did not establish a four-family physical solution.",
+    "evidence": [
+      "outputs/physical-5890857/report.json",
+      "outputs/physical-5890857/jab/jab_metrics.json",
+      "outputs/physical-5890857/left_hook/left_hook_metrics.json",
+      "outputs/physical-5890857/right_hook/right_hook_metrics.json",
+      "outputs/physical-5890857/right_hook/right_hook.mp4"
+    ]
+  },
+  {
+    "id": "5890875",
+    "stage": "Slower physical tracking",
+    "method": "Native CPU MuJoCo physics, support-conditioned/re-aimed reference and 0.6x source playback",
+    "outcome": "partial",
+    "question": "Does slowing the motion improve executed contact and support?",
+    "finding": "Jab contacted at 0.138893 m with 3.63 mm drift. Cross missed at 0.203737 m; left hook missed at 0.339482 m with 59.39 mm drift; right hook fell. The conditioned jab became the first matched native/Warp controller input.",
+    "evidence": [
+      "outputs/physical-5890875/jab/jab_metrics.json",
+      "outputs/physical-5890875/cross/cross_metrics.json",
+      "outputs/physical-5890875/left_hook/left_hook_metrics.json",
+      "outputs/physical-5890875/right_hook/right_hook_metrics.json",
+      "outputs/physical-5890875/jab/jab.mp4"
+    ]
+  },
+  {
+    "id": "5890904",
+    "stage": "Contact-reference visualization",
+    "method": "Native MuJoCo kinematic playback and NVIDIA EGL rendering on allocated V100",
+    "outcome": "passed",
+    "question": "Do the contacting reference paths render correctly beside G1?",
+    "finding": "Four contact-directed base references rendered and all videos fully decoded; job completed in 15 s. Videos deliberately retain kinematic lower-body motion and visible hovering. A GPU rendering job does not make these dynamically supported trajectories.",
+    "evidence": [
+      "outputs/contact-videos-5890904/preview/overview.png",
+      "outputs/contact-videos-5890904/preview/jab/jab.mp4",
+      "outputs/contact-videos-5890904/media-validation.json",
+      "outputs/contact-videos-5890904/gpu_runtime.json"
+    ]
+  },
+  {
+    "id": "5890905",
+    "stage": "Controlled Warp execution",
+    "method": "Actual GPU MuJoCo-Warp physics with a synchronous CPU quaternion controller writing only bounded torques",
+    "outcome": "passed",
+    "question": "Does the successful slow jab execute on the pinned GPU physics backend without pose overwrite?",
+    "finding": "At 0.6x speed, Warp jab minimum distance was 0.138935 m, maximum foot drift 3.65 mm and double support 99.84%. Native comparison contacted at 0.138893 m. Maximum root-position backend difference was 0.118 mm. Five-second standing also passed. No root actuator force or state overwrite after reset; not a high-throughput GPU-resident controller.",
+    "evidence": [
+      "outputs/warp-tracking-5890905/report.json",
+      "outputs/warp-tracking-5890905/jab_warp_rollout.npz",
+      "outputs/warp-tracking-5890905/jab_native_rollout.npz"
+    ]
+  },
+  {
+    "id": "5890920",
+    "stage": "Full-speed sensitivity",
+    "method": "Matched native and actual GPU MuJoCo-Warp physics at source playback speed",
+    "outcome": "partial",
+    "question": "Does the same slow-jab controller also hit at full source speed?",
+    "finding": "Both backends remained upright and torque-bounded, but the punch missed at 0.162581 m; foot drift rose to 8.80 mm and torque reached its norm cap. The recorded control status passed while contact_goal_achieved was false. Tracking, not backend compatibility, limited this attempt.",
+    "evidence": [
+      "outputs/warp-tracking-5890920/report.json",
+      "outputs/warp-tracking-5890920/jab_warp_rollout.npz",
+      "docs/09-physics-runtime.md"
+    ]
+  },
+  {
+    "id": "5890924",
+    "stage": "Cross and left-hook acceptance",
+    "method": "Native CPU MuJoCo physics; smoothed/re-aimed planted references, 0.3x speed and gain scale 1.5",
+    "outcome": "passed",
+    "question": "Can difficult families pass contact and support after conditioning and slowing?",
+    "finding": "Cross contacted at 0.137540 m with 7.80 mm maximum sole drift; left hook at 0.116591 m with 5.50 mm drift. Both passed isolated-punch/support gates with unchanged effort limits. These are slowed deterministic cases, not full-speed or cross-family generalization.",
+    "evidence": [
+      "outputs/physical-5890924/cross/cross_metrics.json",
+      "outputs/physical-5890924/left_hook/left_hook_metrics.json",
+      "outputs/physical-review/cross/cross.mp4",
+      "outputs/physical-review/left_hook/left_hook.mp4"
+    ]
+  },
+  {
+    "id": "5890952",
+    "stage": "Improved full-speed jab",
+    "method": "Native CPU MuJoCo physics; four-frame Gaussian smoothing, 0.10 m reference aiming and gain scale 1.5",
+    "outcome": "passed",
+    "question": "Can reference/controller changes recover contact at source speed without increasing strength?",
+    "finding": "Yes for one jab. Executed minimum center distance was 0.112658 m; first interpolated contact 0.801475 s from cycle start; sole drift 5.05 mm; double support 99.786%. Torque-vector limits were unchanged and root assistance absent. G1 was fixed and head events analytic, without impact response.",
+    "evidence": [
+      "outputs/physical-5890952/jab/jab_metrics.json",
+      "outputs/physical-review/jab/jab.mp4",
+      "outputs/physical-review/jab/jab.png",
+      "outputs/physical-review/jab/reference-audit.json"
+    ]
+  },
+  {
+    "id": "5890953",
+    "stage": "Shared timestep test",
+    "method": "Native CPU MuJoCo physical tracking at 5 ms, 0.6x reference speed and reduced gain scale 0.6",
+    "outcome": "failed",
+    "question": "Can the human controller run at the accepted G1 plant's 5 ms timestep?",
+    "finding": "This lower-gain 5 ms attempt fell, with 1.014 m sole drift and a 0.159821 m miss. Earlier 5 ms divergence and this retest leave a real timing gap: demonstrated old-body tracking uses 2 ms physics, while shared-plant integration requires an explicit clock decision and G1 revalidation.",
+    "evidence": [
+      "outputs/physical-5890953/jab/jab_metrics.json",
+      "outputs/physical-5890953/jab/jab.mp4",
+      "docs/13-physical-pilot-and-next-gates.md"
+    ]
+  },
+  {
+    "id": "cycle-bank-admission-audit",
+    "stage": "Plan commitment and recovery",
+    "method": "Immutable boundary-only reference player and dimensional endpoint-to-start state comparisons",
+    "outcome": "diagnostic",
+    "question": "Can the geometrically contacting clips simply be concatenated into continuous punches?",
+    "finding": "No. All 16 base-family endpoint-to-start pairs failed guard admission, including same-family repeats. Jab-to-jab root mismatch was 42.85 mm and maximum joint-speed mismatch 3.88956 rad/s. The adapter freezes launch plans and rejects mid-cycle reselection; reference completion enters waiting_guard instead of teleporting or launching automatically.",
+    "evidence": [
+      "outputs/contact-targeting/cycle-bank-audit.json",
+      "docs/12-cycle-bank.md",
+      "src/human_punching/cycle_bank.py"
+    ]
+  },
+  {
+    "id": "5890969",
+    "stage": "Continuous physical recovery",
+    "method": "Native CPU MuJoCo physics; two 0.6x jabs, target bridges and measured guard admission with one reset",
+    "outcome": "passed",
+    "question": "Can a physical human recover and launch a second jab without resetting its state?",
+    "finding": "Two jabs completed over 9.79 s / 4,895 physics steps. Contact minima were 0.110467 and 0.110762 m; sole drift 6.698 mm; double support 99.9796%; no saturation or root/external force. Second launch at 4.898 s followed at least 0.10 s measured guard dwell. No intermediate state overwrites; only one deterministic same-family sequence was validated.",
+    "evidence": [
+      "outputs/physical-sequence-5890969/metrics.json",
+      "outputs/physical-sequence-5890969/validation.json",
+      "outputs/physical-sequence-5890969/two_jabs.mp4",
+      "outputs/physical-sequence-5890969/two_jabs.png"
+    ]
+  },
+  {
+    "id": "5891006",
+    "stage": "Right-hook recovery",
+    "method": "Native CPU MuJoCo physics; 12 cm forward stance offset, deeper aim, 0.3x speed and gain scale 3",
+    "outcome": "passed",
+    "question": "Was the remaining right-hook failure an unreachable reference or an executed tracking deficit?",
+    "finding": "Earlier references already contacted but the executed glove lagged, implicating shoulder tracking and post-IK derivative spikes. Revised stance/aim and gains produced 0.113157 m contact with 5.13 mm sole drift, unchanged effort caps and passed support/contact gates. This differs from the gain/conditioning used for the other families.",
+    "evidence": [
+      "outputs/physical-5891006/right_hook/right_hook_metrics.json",
+      "outputs/physical-review/right_hook/right_hook.mp4",
+      "outputs/physical-review/right_hook/reference-audit.json",
+      "docs/13-physical-pilot-and-next-gates.md"
+    ]
+  },
+  {
+    "id": "5891019",
+    "stage": "Full-speed Warp confirmation",
+    "method": "Actual GPU MuJoCo-Warp integration with CPU bounded-torque feedback, matched against native MuJoCo",
+    "outcome": "passed",
+    "question": "Does the improved full-speed native jab transfer to actual GPU physics beside fixed G1?",
+    "finding": "Warp contact distance was 0.112658289 m, first contact 0.801474686 s, sole drift 5.05448 mm and double support 99.7859%. Root actuation was zero. Native/Warp maximum root-position difference was 0.686 micrometres for this nominal rollout. Contact was sampled every 2 ms; no impact response or robustness guarantee follows.",
+    "evidence": [
+      "outputs/warp-tracking-5891019/report.json",
+      "outputs/warp-tracking-5891019/jab_warp_rollout.npz",
+      "outputs/warp-tracking-5891019/jab_native_rollout.npz",
+      "outputs/warp-tracking-5891019/slurm-accounting.txt"
+    ]
+  },
+  {
+    "id": "classical-review-validation",
+    "stage": "Classical milestone packaging",
+    "method": "Independent final-reference/executed-FK audits, full video decoding and regression checks",
+    "outcome": "passed",
+    "question": "Are the accepted old-body physical demonstrations and their evidence internally consistent?",
+    "finding": "Four isolated family cases plus the continuous two-jab case were collected with exact source jobs and speed factors. All five review videos fully decoded; final reference/executed cone audits passed recorded tolerances. Historical suite reported 71 tests plus 4 subtests and Ruff passing. The gallery uses native CPU physics and GPU rendering, distinct from the separate Warp comparison.",
+    "evidence": [
+      "outputs/physical-review/manifest.json",
+      "outputs/physical-review/validation.json",
+      "outputs/physical-review/overview.png",
+      "outputs/physical-review/slurm-accounting.txt"
+    ]
+  },
+  {
+    "id": "training-body-plan-reconciliation",
+    "stage": "Decision before learning",
+    "method": "Original Task 09 PDF reconciliation, model survey and measured-gap assessment",
+    "outcome": "diagnostic",
+    "question": "Should the diagnostic ball-joint mannequin become the final learned adversary body?",
+    "finding": "The original plan already named SMPL-X/SMPLSim primary and SOMA23 fallback. Its broad default articulation still required constraints, force accounting and retargeting. The existing 20-ball rig remained a useful classical baseline, not a validated anatomical training body. The recommended next milestone was a constrained scalar body, complete jab reference and learned physical imitation; detailed skin, muscles and a full framework stack were unnecessary.",
+    "evidence": [
+      "docs/14-human-model-for-learned-punching.md",
+      "docs/15-task09-body-plan-reconciliation.md"
+    ]
+  }
+]

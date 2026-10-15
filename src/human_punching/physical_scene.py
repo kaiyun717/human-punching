@@ -18,7 +18,6 @@ import mujoco
 import numpy as np
 
 from .g1_scene import PREFIX, _fmt
-from .motion import JOINT_NAMES
 
 PROJECT = Path(__file__).resolve().parents[2]
 
@@ -106,7 +105,11 @@ def attach_static_g1(
         for child in list(body):
             if child.tag in {"joint", "freejoint", "inertial"}:
                 body.remove(child)
-        for geom in body.findall("geom"):
+        for local_geom, geom in enumerate(body.findall("geom")):
+            # Preserve the source's resolved colors instead of inheriting the
+            # receiving human model's (blue) global geom defaults.
+            source_geom = int(source.body_geomadr[body_id]) + local_geom
+            geom.set("rgba", _fmt(source.geom_rgba[source_geom]))
             geom.set("contype", "0")
             geom.set("conaffinity", "0")
             # The static target contributes neither dynamic mass nor inferred
@@ -159,7 +162,7 @@ def attach_static_g1(
         "nq": combined.nq,
         "nv": combined.nv,
         "nu": combined.nu,
-        "human_mass_kg": float(sum(combined.body(name).mass[0] for name in JOINT_NAMES)),
+        "human_mass_kg": float(np.sum(human.body_mass)),
         "g1_body_names": [combined.body(index).name for index in robot_ids],
         "head_geom_name": "g1/head_collision",
         "head_center_w": data.geom_xpos[head_id].tolist(),

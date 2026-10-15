@@ -1,0 +1,137 @@
+[
+  {
+    "id": "scalar-body",
+    "stage": "Constrained training body",
+    "method": "SOMA23-derived scalar-joint body",
+    "outcome": "passed",
+    "question": "Can an available skeleton supply an explicitly constrained physical training body without requiring missing SMPL-X model files?",
+    "finding": "Exported 48 bounded scalar hinges and an unactuated free pelvis at native 1.7664 m height, with a declared 75 kg mass scenario, explicit motor limits and selected self-collisions. This is a primitive physical surrogate, not a calibrated musculoskeletal or skinned SOMA-X model.",
+    "evidence": "outputs/scalar-body/scalar_model.json"
+  },
+  {
+    "id": "5895225",
+    "stage": "GPU learning infrastructure",
+    "method": "Eight-world synthetic standing PPO smoke test",
+    "outcome": "diagnostic",
+    "question": "Can the scalar body step on the allocated GPU, perform a PPO update, save a checkpoint and run continuous evaluation?",
+    "finding": "One update and checkpoint/evaluation completed using actual GPU physics. Both one-second standing evaluations had zero falls. This established software plumbing, not a learned jab.",
+    "evidence": "outputs/jab-learning-5895225/comparison.json"
+  },
+  {
+    "id": "scalar-reference-v1",
+    "stage": "Scalar reference preparation",
+    "method": "Jacobian IK with post-update joint clipping",
+    "outcome": "failed",
+    "question": "Does clipping an unconstrained IK update enforce anatomical limits while preserving both glove and sole targets?",
+    "finding": "Knees jammed at limits. Maximum sole drift was 49.60 mm, glove target error 8.34 mm and joint speed 14.32 rad/s. The retained archive is a diagnostic, not the accepted training reference.",
+    "evidence": "outputs/scalar-reference/manifest.json"
+  },
+  {
+    "id": "scalar-reference-v2",
+    "stage": "Scalar reference preparation",
+    "method": "Bounded least-squares IK",
+    "outcome": "partial",
+    "question": "Can bounds inside the IK solve fix the feet without introducing another training artifact?",
+    "finding": "Sole drift improved to 0.254 mm and glove target error to 0.251 mm, but a subsequent audit found approximately 0.14 rad joint-coordinate changes at guard boundaries. Small Cartesian error alone did not validate a smooth reference.",
+    "evidence": "outputs/scalar-reference-v2/manifest.json"
+  },
+  {
+    "id": "5895242",
+    "stage": "Pre-training reference audit",
+    "method": "Initial V2 jab training setup",
+    "outcome": "diagnostic",
+    "question": "Should training proceed after the guard-boundary joint discontinuity was discovered?",
+    "finding": "Cancelled during initialization, before PPO training, to repair the V2 reference. The linked run arguments retain the attempted configuration; the cancellation and reason are recorded in the learned-jab report.",
+    "evidence": "outputs/jab-learning-5895242/arguments.json"
+  },
+  {
+    "id": "scalar-reference-v3",
+    "stage": "Scalar reference preparation",
+    "method": "Bounded IK with an unbiased initial solve and smooth guard padding",
+    "outcome": "passed",
+    "question": "Can the full guard–jab–guard reference be smooth and geometrically feasible on the exact training model?",
+    "finding": "Removed the initial seed-pose bias and boundary spikes. Accepted 4.9889 s reference at 0.6× source speed: 0.250 mm sole drift, 0.291 mm maximum glove target error, 3.043 rad/s maximum joint speed and exact final guard return. This validates geometry, not physical execution.",
+    "evidence": "outputs/scalar-reference-v3/manifest.json"
+  },
+  {
+    "id": "5895250-2ms",
+    "stage": "Unlearned physical baseline",
+    "method": "Native 2 ms reference PD plus inverse-statics feedforward",
+    "outcome": "failed",
+    "question": "Do bounded reference motor torques stabilize an extended guard followed by the jab?",
+    "finding": "Forward pelvis drift grew while feet remained planted; the body fell at approximately 3.736 s in the extended guard protocol. Entry into the head envelope during a fall was rejected. Recorded root actuation and external applied forces stayed zero.",
+    "evidence": "outputs/scalar-native-5895250/diagnosis.json"
+  },
+  {
+    "id": "5895250-5ms",
+    "stage": "Physics-clock compatibility",
+    "method": "Native 5 ms reference PD with the tested gains",
+    "outcome": "failed",
+    "question": "Does this explicit PD configuration transfer directly to the G1-compatible 5 ms physical clock?",
+    "finding": "Rapid joint oscillation and torque saturation preceded a fall at approximately 1.11 s; a joint reached 19.78 rad/s within the first 0.1 s. This controller configuration was unstable at 5 ms; it does not establish that every possible 5 ms controller must fail.",
+    "evidence": "outputs/scalar-native-5895250/diagnosis.json"
+  },
+  {
+    "id": "5895253",
+    "stage": "Primary learned jab",
+    "method": "Reference-conditioned PPO without optional online balance feedback",
+    "outcome": "passed",
+    "question": "Can learned joint-target residuals supply the balance and tracking corrections missing from reference PD?",
+    "finding": "Trained 128 worlds for 200 updates: 1,638,400 transitions and 444.3 s training after startup/baseline. The initial 128-world guard-start evaluation had zero falls and 99.22% any-cycle contact; the baseline had 100% falls. Strict full-cycle acceptance was subsequently established on a separate frozen matched bank.",
+    "evidence": "outputs/jab-learning-5895253/comparison.json"
+  },
+  {
+    "id": "5895265",
+    "stage": "Intermediate learned checkpoint",
+    "method": "Checkpoint-50 guard-start continuous evaluation",
+    "outcome": "failed",
+    "question": "Did the improving training reward already imply a successful complete punch cycle?",
+    "finding": "All 16 worlds fell. Raw any-cycle contact was 62.5%, illustrating that contact during unsuccessful motion and rising training reward do not establish balanced punch-and-return execution.",
+    "evidence": "outputs/jab-learning-5895265/metrics.json"
+  },
+  {
+    "id": "5895270-5895274",
+    "stage": "Classical balance workaround",
+    "method": "Matched V3 native trials with and without joint-only root-error feedback",
+    "outcome": "partial",
+    "question": "Can an explicit bounded balance correction remove the need for learned feedback?",
+    "finding": "The helper reduced three-second quiet-guard root drift from 180.7 mm to 7.4 mm and delayed the fall from 3.57 s to 7.66 s. Neither controller completed the extended guard–jab–recovery protocol. Computed corrections remained joint torques, with no external root assistance.",
+    "evidence": "outputs/scalar-balance-native-5895270/matched_v3_comparison.json"
+  },
+  {
+    "id": "5895277",
+    "stage": "Secondary learned controller",
+    "method": "256-world PPO with optional online balance feedback",
+    "outcome": "diagnostic",
+    "question": "What happens when the approximate classical balance helper is included with the learned residual at the same experience budget?",
+    "finding": "Intentionally stopped after checkpoint 100 was saved and loaded successfully, giving the same 1,638,400 transitions as the primary run. This deliberate budget stop was not a failed training job; fixed-bank evaluation followed separately.",
+    "evidence": "outputs/jab-learning-5895277/intentional_stop.json"
+  },
+  {
+    "id": "5895279",
+    "stage": "Matched independent acceptance",
+    "method": "Zero-residual controller on the frozen 32-trial guard bank",
+    "outcome": "failed",
+    "question": "Can the unlearned controller pass every declared pilot gate from the exact same starts used for learned evaluation?",
+    "finding": "Passed 0/32 complete cycles; all 32 fell and none recovered the supported quiet guard. Twelve reached the attack-window contact predicate, which was insufficient for acceptance. Torque bounds and zero external/root-actuation checks passed in all 32.",
+    "evidence": "outputs/jab-learning-5895279/independent/summary.json"
+  },
+  {
+    "id": "5895280",
+    "stage": "Matched independent acceptance",
+    "method": "Primary PPO-200 checkpoint on the same frozen 32-trial guard bank",
+    "outcome": "passed",
+    "question": "Does actual learned physics complete guard–jab–supported quiet guard without resets or hidden forces?",
+    "finding": "Passed every pilot gate in 32/32 trials, compared with 0/32 for the matched baseline. Closest attack distances were 0.0980–0.12986 m, worst sole drift 5.89 mm and minimum recovered guard dwell 1.800 s. This remains one slowed jab, one body, one target and small initial perturbations.",
+    "evidence": "outputs/jab-learning-5895280/independent/summary.json"
+  },
+  {
+    "id": "5895286",
+    "stage": "Secondary independent acceptance",
+    "method": "Balance-feedback PPO checkpoint on the frozen 32-trial bank",
+    "outcome": "passed",
+    "question": "Does the exploratory controller variant also pass the unchanged pilot gates?",
+    "finding": "Passed every frozen gate in 32/32 trials at the matched 1,638,400-transition budget. The primary selected policy remains the original checkpoint without the optional online balance helper. One shared small bank and one seed do not establish that either controller is generally superior.",
+    "evidence": "outputs/jab-learning-5895286/independent/summary.json"
+  }
+]
