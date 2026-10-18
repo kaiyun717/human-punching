@@ -1,0 +1,101 @@
+{
+  "schema": "human_punching_migration_inventory_v1",
+  "snapshot_date": "2026-10-15",
+  "description": "Selected migration inputs only; excludes machine caches and exhaustive historical outputs. No transfer was performed.",
+  "source_commit_at_audit": "091dd5bc5d69d739235c3faa8a559852cd1f8fa8",
+  "mjlab_source_pin": "8ee51fbcf806a7419189f706d9e394cbeb7790fa",
+  "tracked_file_count_before_handoff_docs": 135,
+  "selected_project_inputs": [
+    {
+      "path": "outputs/four-punch-milestone",
+      "file_count": 1266,
+      "bytes": 493569726,
+      "ignored": true
+    },
+    {
+      "path": ".cache/deps/mjlab-8ee51fbc",
+      "file_count": 513,
+      "bytes": 62168556,
+      "ignored": true
+    },
+    {
+      "path": "outputs/master-report/master-report-standalone.html",
+      "file_count": 1,
+      "bytes": 60777066,
+      "ignored": true,
+      "sha256": "232fd9c23a98e013923456ea4b66412e16d4dd8ae43977ef31311b96c8ca666a"
+    },
+    {
+      "path": "outputs/master-report/manifest.json",
+      "file_count": 1,
+      "bytes": 15033,
+      "ignored": true,
+      "sha256": "947bcf47bb80e06c800f065ce85a5c878acd5922cb90ef145eb1af8ab75f1fe2"
+    },
+    {
+      "path": "outputs/scalar-body",
+      "file_count": 2,
+      "bytes": 44109,
+      "ignored": true
+    },
+    {
+      "path": "outputs/scalar-four-reference-v1",
+      "file_count": 13,
+      "bytes": 1618115,
+      "ignored": true
+    },
+    {
+      "path": "outputs/scalar-hook-retime-v1",
+      "file_count": 7,
+      "bytes": 877153,
+      "ignored": true
+    },
+    {
+      "path": "assets/vendor/protomotions",
+      "file_count": 6,
+      "bytes": 43832,
+      "ignored": false
+    },
+    {
+      "path": "docs/figures/task09",
+      "file_count": 7,
+      "bytes": 1028977,
+      "ignored": false,
+      "git_status_at_handoff": "new untracked documentation assets; no staging performed"
+    }
+  ],
+  "selected_raw_motion_inputs": [
+    {
+      "path": "DuoBox/fbx_export_joints/000_ma_jab_liu_defense_joints.npy",
+      "bytes": 3544713,
+      "sha256": "7ed040b3b727baa108b5090872fab864d684ff1152031a746da07b6b260e17a3"
+    },
+    {
+      "path": "DuoBox/fbx_export_joints/003_ma_cross_liu_defense_joints.npy",
+      "bytes": 3976137,
+      "sha256": "4295973d6348916cd820d8e3de1ff091af6eaf25b40b5d4c81ad4f2e6282f39f"
+    },
+    {
+      "path": "DuoBox/fbx_export_joints/006_ma_leadhook_liu_shanbi_joints.npy",
+      "bytes": 6915465,
+      "sha256": "790fb445dd9dd002756f9902f29730e69a40de8259a8c6add7bf4bd3f48de23b"
+    },
+    {
+      "path": "DuoBox/fbx_export_joints/007_ma_rearhook_liu_shanbi_joints.npy",
+      "bytes": 5967945,
+      "sha256": "86e378bfbd31779fa65ceac9d4d26d3d9bc0c3aedca74eebe0b027f9b4dfcfb3"
+    }
+  ],
+  "unavailable_inputs": [
+    "Accepted robust_sav G1 nominal/protagonist checkpoint files",
+    "G1 learned normalizer/export payloads",
+    "G1 settled-state/snapshot bank payloads",
+    "main.bib and ieeeconf.cls alongside the research log"
+  ],
+  "research_log_input": {
+    "path_relative_to_HumanBox": "main_mjlab.tex",
+    "bytes": 301668,
+    "sha256": "21516242aefd112c7ad242d70541c258497ef18b8a8706d880e99f556e277b94",
+    "in_human_punching_git_repository": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "snapshot": "2026-10-15",
+  "purpose": "Unmodified copies of selected evidence figures for Task09 LaTeX; safe to track as documentation assets",
+  "total_bytes": 1027216,
+  "figures": {
+    "5ms-controller-comparison.png": {
+      "source_relative_to_human_punching": "outputs/control-5ms-5931597/comparison.png",
+      "bytes": 257771,
+      "sha256": "d53a8b4a5e6a6689b3e6de8569dfdab0b6c36df57eb40bff53e32c20644fd048"
+    },
+    "hook-retiming-demand.png": {
+      "source_relative_to_human_punching": "outputs/reference-dynamics-5931826/retiming-demand.png",
+      "bytes": 188093,
+      "sha256": "76a43fbecd48d4d2234797640208df95e735cf04d077926be6962d0a1f64341f"
+    },
+    "jab-contact.png": {
+      "source_relative_to_human_punching": "outputs/four-punch-milestone/jab/media/jab-render-5931851/jab-closest.png",
+      "bytes": 143303,
+      "sha256": "6caf27198ad766e7a7d9f0bf19d54f31918559e41ff5eee694704731ff73dbb5"
+    },
+    "cross-contact.png": {
+      "source_relative_to_human_punching": "outputs/four-punch-milestone/cross/media/jab-render-5931928/cross-closest.png",
+      "bytes": 145403,
+      "sha256": "c4bb762f7020c1752c0e13b6759fca915c4423c99b5d54ef28cb6bf81203e3cc"
+    },
+    "left-hook-contact.png": {
+      "source_relative_to_human_punching": "outputs/four-punch-milestone/left_hook/media/jab-render-5931955/left_hook-closest.png",
+      "bytes": 146519,
+      "sha256": "5e577cfac48229df5b0b77aef3a5e80a244ed1517d4a753a905f162bbca3bfa7"
+    },
+    "right-hook-contact.png": {
+      "source_relative_to_human_punching": "outputs/four-punch-milestone/right_hook/media/jab-render-5931931/right_hook-closest.png",
+      "bytes": 146127,
+      "sha256": "d7e87fc6904b013432869489efef2fc99c2384df139cb5c5a0f91d05b350a833"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # human-punching
 
+**[Developer handoff and next phases](docs/26-project-handoff.md)** · **[Server migration and Git/artifact guide](docs/27-server-migration.md)** · **[Task 09 LaTeX figures](docs/task09-latex-figures.md)**
+
 **[Open the HTML master report](docs/master-report.html)** · **[Standalone HTML with embedded videos and images](outputs/master-report/master-report-standalone.html)**
 
 The report traces the complete project progression, including failed experiments, fixes, embedded historical reports and the four learned punches at 5 ms. The standalone edition embeds its selected videos and images for viewing without the project folders. [Report guide and rebuild commands](docs/master-report-guide.md).
