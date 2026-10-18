@@ -1,0 +1,217 @@
+<mujoco model="HumanPunching_SOMA23_constrained">
+  <compiler coordinate="local" angle="degree" inertiafromgeom="true" inertiagrouprange="3 3" fusestatic="false" />
+  <default>
+    <joint damping="0" armature="0.02" stiffness="0" limited="true" />
+    <geom conaffinity="1" condim="3" contype="2" margin="0" rgba="0.40 0.72 0.93 1" friction="0.9 0.02 0.002" solref="0.015 1" solimp="0.9 0.95 0.001" />
+  </default>
+  <asset>
+    <material name="geom" rgba="0.40 0.72 0.93 1" />
+    <material name="glove" rgba="0.72 0.10 0.08 1" />
+  </asset>
+  <worldbody>
+    <light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1" />
+    <body name="Hips" pos="0 0 0.9881" quat="0.7071067811865476 0 0 0.7071067811865475">
+      <freejoint name="Hips" />
+      <body name="Spine1" pos="0.0000 0.0005 0.0500">
+        <body name="Spine2" pos="0.0000 0.0003 0.0713">
+          <body name="Chest" pos="0.0000 0.0082 0.0755">
+            <body name="Neck1" pos="-0.0018 0.0055 0.2631">
+              <body name="Neck2" pos="0.0000 -0.0230 0.0771">
+                <body name="Head" pos="0.0000 -0.0195 0.0613">
+                  <geom name="physical/Head" group="3" mass="4.700557103064067" material="geom" contype="2" conaffinity="1" type="ellipsoid" size=".075 .083 .11" pos="0 .015 .07" />
+                </body>
+                <geom name="physical/Neck2" group="3" mass="0.5222841225626741" material="geom" contype="2" conaffinity="1" type="capsule" size=".037" fromto="0 0 0 0 -.012 .05" />
+              </body>
+              <joint name="Neck1_x" type="hinge" axis="1 0 0" range="-35 45" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="Neck1_y" type="hinge" axis="0 1 0" range="-30 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="Neck1_z" type="hinge" axis="0 0 1" range="-65 65" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <geom name="physical/Neck1" group="3" mass="0.5222841225626741" material="geom" contype="2" conaffinity="1" type="capsule" size=".037" fromto="0 0 0 0 -.012 .05" />
+            </body>
+            <body name="RightShoulder" pos="-0.0138 -0.0521 0.2318">
+              <body name="RightArm" pos="-0.1504 0.0555 0.0000">
+                <body name="RightForeArm" pos="-0.2874 0.0000 0.0000">
+                  <body name="RightHand" pos="-0.2713 0.0000 0.0000">
+                    <joint name="RightHand_x" type="hinge" axis="1 0 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <joint name="RightHand_y" type="hinge" axis="0 1 0" range="-65 65" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <joint name="RightHand_z" type="hinge" axis="0 0 1" range="-35 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <site name="RightHand_center" pos="-0.065 0 0" size=".004" rgba="0 1 0 0" group="4" />
+                    <geom name="visual/RightHand_cuff" type="box" size=".026 .042 .036" pos="-0.002 0 0" rgba="0.12 0.20 0.30 1" group="0" mass="0" contype="0" conaffinity="0" />
+                    <geom name="physical/RightHand" group="3" mass="0.887883008356546" material="glove" contype="2" conaffinity="1" type="sphere" size=".08" pos="-0.065 0 0" />
+                  </body>
+                  <joint name="RightForeArm_z" type="hinge" axis="0 0 1" range="0 155" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                  <joint name="RightForeArm_x" type="hinge" axis="1 0 0" range="-80 80" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                  <geom name="physical/RightForeArm" group="3" mass="1.3579387186629528" material="geom" contype="2" conaffinity="1" type="capsule" size="0.032" fromto="-0.040695 0 0 -0.230605 0 0" />
+                </body>
+                <joint name="RightArm_x" type="hinge" axis="1 0 0" range="-110 110" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <joint name="RightArm_y" type="hinge" axis="0 1 0" range="-110 110" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <joint name="RightArm_z" type="hinge" axis="0 0 1" range="-135 135" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <geom name="physical/RightArm" group="3" mass="2.298050139275766" material="geom" contype="2" conaffinity="1" type="capsule" size="0.04" fromto="-0.04311 0 0 -0.24429 0 0" />
+              </body>
+              <joint name="RightShoulder_x" type="hinge" axis="1 0 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="RightShoulder_y" type="hinge" axis="0 1 0" range="-30 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="RightShoulder_z" type="hinge" axis="0 0 1" range="-30 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <geom name="physical/RightShoulder" group="3" mass="0.5222841225626741" material="geom" contype="2" conaffinity="1" type="capsule" size="0.035" fromto="-0.02256 0.008325 0 -0.12784 0.047175 0" />
+            </body>
+            <body name="LeftShoulder" pos="0.0162 -0.0511 0.2324">
+              <body name="LeftArm" pos="0.1492 0.0550 0.0000">
+                <body name="LeftForeArm" pos="0.2874 0.0000 0.0000">
+                  <body name="LeftHand" pos="0.2709 0.0000 0.0000">
+                    <joint name="LeftHand_x" type="hinge" axis="1 0 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <joint name="LeftHand_y" type="hinge" axis="0 1 0" range="-65 65" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <joint name="LeftHand_z" type="hinge" axis="0 0 1" range="-35 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                    <site name="LeftHand_center" pos="0.065 0 0" size=".004" rgba="0 1 0 0" group="4" />
+                    <geom name="visual/LeftHand_cuff" type="box" size=".026 .042 .036" pos="0.002 0 0" rgba="0.12 0.20 0.30 1" group="0" mass="0" contype="0" conaffinity="0" />
+                    <geom name="physical/LeftHand" group="3" mass="0.887883008356546" material="glove" contype="2" conaffinity="1" type="sphere" size=".08" pos="0.065 0 0" />
+                  </body>
+                  <joint name="LeftForeArm_z" type="hinge" axis="0 0 1" range="-155 0" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                  <joint name="LeftForeArm_x" type="hinge" axis="1 0 0" range="-80 80" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                  <geom name="physical/LeftForeArm" group="3" mass="1.3579387186629528" material="geom" contype="2" conaffinity="1" type="capsule" size="0.032" fromto="0.040635 0 0 0.230265 0 0" />
+                </body>
+                <joint name="LeftArm_x" type="hinge" axis="1 0 0" range="-110 110" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <joint name="LeftArm_y" type="hinge" axis="0 1 0" range="-110 110" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <joint name="LeftArm_z" type="hinge" axis="0 0 1" range="-135 135" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+                <geom name="physical/LeftArm" group="3" mass="2.298050139275766" material="geom" contype="2" conaffinity="1" type="capsule" size="0.04" fromto="0.04311 0 0 0.24429 0 0" />
+              </body>
+              <joint name="LeftShoulder_x" type="hinge" axis="1 0 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="LeftShoulder_y" type="hinge" axis="0 1 0" range="-30 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <joint name="LeftShoulder_z" type="hinge" axis="0 0 1" range="-30 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+              <geom name="physical/LeftShoulder" group="3" mass="0.5222841225626741" material="geom" contype="2" conaffinity="1" type="capsule" size="0.035" fromto="0.02238 0.00825 0 0.12682 0.04675 0" />
+            </body>
+            <joint name="Chest_x" type="hinge" axis="1 0 0" range="-25 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="Chest_y" type="hinge" axis="0 1 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="Chest_z" type="hinge" axis="0 0 1" range="-35 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <geom name="physical/Chest" group="3" mass="12.534818941504179" material="geom" contype="2" conaffinity="1" type="ellipsoid" size=".15 .095 .13" pos="0 -.03 .12" />
+          </body>
+          <joint name="Spine2_x" type="hinge" axis="1 0 0" range="-20 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+          <joint name="Spine2_y" type="hinge" axis="0 1 0" range="-20 20" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+          <joint name="Spine2_z" type="hinge" axis="0 0 1" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+          <geom name="physical/Spine2" group="3" mass="5.222841225626741" material="geom" contype="2" conaffinity="1" type="ellipsoid" size=".12 .085 .075" pos="0 -.025 .035" />
+        </body>
+        <joint name="Spine1_x" type="hinge" axis="1 0 0" range="-20 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="Spine1_y" type="hinge" axis="0 1 0" range="-20 20" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="Spine1_z" type="hinge" axis="0 0 1" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <geom name="physical/Spine1" group="3" mass="4.178272980501393" material="geom" contype="2" conaffinity="1" type="ellipsoid" size=".12 .085 .075" pos="0 -.025 .035" />
+      </body>
+      <body name="RightLeg" pos="-0.1005 -0.0262 -0.0830">
+        <body name="RightShin" pos="0.0000 0.0081 -0.4336">
+          <body name="RightFoot" pos="0.0000 0.0348 -0.4212">
+            <body name="RightToeBase" pos="0.0000 -0.1328 -0.0508">
+                      </body>
+            <joint name="RightFoot_x" type="hinge" axis="1 0 0" range="-40 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="RightFoot_y" type="hinge" axis="0 1 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="RightFoot_z" type="hinge" axis="0 0 1" range="-15 15" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <site name="RightFoot_sole" pos="0 -.065 -.05" size=".005" group="4" rgba="0 1 0 0" />
+            <site name="RightFoot_sole_0" pos="-0.048 -0.185 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="RightFoot_sole_1" pos="0.048 -0.185 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="RightFoot_sole_2" pos="-0.048 0.055 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="RightFoot_sole_3" pos="0.048 0.055 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <geom name="physical/RightFoot" group="3" mass="1.149025069637883" material="geom" contype="2" conaffinity="1" type="box" size=".052 .125 .025" pos="0 -.065 -.025" />
+          </body>
+          <joint name="RightShin_x" type="hinge" axis="1 0 0" range="0 155" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+          <geom name="physical/RightShin" group="3" mass="3.8649025069637886" material="geom" contype="2" conaffinity="1" type="capsule" size=".043" fromto="0 0.00348 -0.04212 0 0.03132 -0.37908" />
+        </body>
+        <joint name="RightLeg_x" type="hinge" axis="1 0 0" range="-120 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="RightLeg_y" type="hinge" axis="0 1 0" range="-45 45" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="RightLeg_z" type="hinge" axis="0 0 1" range="-45 45" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <geom name="physical/RightLeg" group="3" mass="8.356545961002785" material="geom" contype="2" conaffinity="1" type="capsule" size=".059" fromto="0 0.00081 -0.04336 0 0.00729 -0.39024" />
+      </body>
+      <body name="LeftLeg" pos="0.1004 -0.0260 -0.0843">
+        <body name="LeftShin" pos="0.0000 0.0080 -0.4322">
+          <body name="LeftFoot" pos="0.0000 0.0348 -0.4216">
+            <body name="LeftToeBase" pos="0.0000 -0.1323 -0.0506">
+                      </body>
+            <joint name="LeftFoot_x" type="hinge" axis="1 0 0" range="-40 30" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="LeftFoot_y" type="hinge" axis="0 1 0" range="-25 25" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <joint name="LeftFoot_z" type="hinge" axis="0 0 1" range="-15 15" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+            <site name="LeftFoot_sole" pos="0 -.065 -.05" size=".005" group="4" rgba="0 1 0 0" />
+            <site name="LeftFoot_sole_0" pos="-0.048 -0.185 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="LeftFoot_sole_1" pos="0.048 -0.185 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="LeftFoot_sole_2" pos="-0.048 0.055 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <site name="LeftFoot_sole_3" pos="0.048 0.055 -.05" size=".003" group="4" rgba="0 1 0 0" />
+            <geom name="physical/LeftFoot" group="3" mass="1.149025069637883" material="geom" contype="2" conaffinity="1" type="box" size=".052 .125 .025" pos="0 -.065 -.025" />
+          </body>
+          <joint name="LeftShin_x" type="hinge" axis="1 0 0" range="0 155" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+          <geom name="physical/LeftShin" group="3" mass="3.8649025069637886" material="geom" contype="2" conaffinity="1" type="capsule" size=".043" fromto="0 0.00348 -0.04216 0 0.03132 -0.37944" />
+        </body>
+        <joint name="LeftLeg_x" type="hinge" axis="1 0 0" range="-120 35" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="LeftLeg_y" type="hinge" axis="0 1 0" range="-45 45" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <joint name="LeftLeg_z" type="hinge" axis="0 0 1" range="-45 45" limited="true" damping="0" stiffness="0" armature="0.02" frictionloss="0" />
+        <geom name="physical/LeftLeg" group="3" mass="8.356545961002785" material="geom" contype="2" conaffinity="1" type="capsule" size=".059" fromto="0 0.0008 -0.04322 0 0.0072 -0.38898" />
+      </body>
+      <geom name="physical/Hips" group="3" mass="10.445682451253482" material="geom" contype="2" conaffinity="1" type="ellipsoid" size=".13 .085 .085" pos="0 -.02 -.015" />
+    </body>
+    <geom name="floor" type="plane" size="6 6 .1" contype="1" conaffinity="2" group="0" mass="0" rgba="0.22 0.25 0.30 1" friction="0.9 0.02 0.002" />
+    <camera name="scalar_observer" pos="3 -4 2.1" xyaxes="0.8 0.6 0 -0.15 0.20 0.968" fovy="45" />
+  </worldbody>
+  <actuator>
+    <motor name="Spine1_x" joint="Spine1_x" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Spine1_y" joint="Spine1_y" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Spine1_z" joint="Spine1_z" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Spine2_x" joint="Spine2_x" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Spine2_y" joint="Spine2_y" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Spine2_z" joint="Spine2_z" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="Chest_x" joint="Chest_x" gear="1" ctrllimited="true" ctrlrange="-120.0 120.0" forcelimited="true" forcerange="-120.0 120.0" />
+    <motor name="Chest_y" joint="Chest_y" gear="1" ctrllimited="true" ctrlrange="-120.0 120.0" forcelimited="true" forcerange="-120.0 120.0" />
+    <motor name="Chest_z" joint="Chest_z" gear="1" ctrllimited="true" ctrlrange="-120.0 120.0" forcelimited="true" forcerange="-120.0 120.0" />
+    <motor name="Neck1_x" joint="Neck1_x" gear="1" ctrllimited="true" ctrlrange="-20.0 20.0" forcelimited="true" forcerange="-20.0 20.0" />
+    <motor name="Neck1_y" joint="Neck1_y" gear="1" ctrllimited="true" ctrlrange="-20.0 20.0" forcelimited="true" forcerange="-20.0 20.0" />
+    <motor name="Neck1_z" joint="Neck1_z" gear="1" ctrllimited="true" ctrlrange="-20.0 20.0" forcelimited="true" forcerange="-20.0 20.0" />
+    <motor name="RightShoulder_x" joint="RightShoulder_x" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="RightShoulder_y" joint="RightShoulder_y" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="RightShoulder_z" joint="RightShoulder_z" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="RightArm_x" joint="RightArm_x" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="RightArm_y" joint="RightArm_y" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="RightArm_z" joint="RightArm_z" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="RightForeArm_z" joint="RightForeArm_z" gear="1" ctrllimited="true" ctrlrange="-60.0 60.0" forcelimited="true" forcerange="-60.0 60.0" />
+    <motor name="RightForeArm_x" joint="RightForeArm_x" gear="1" ctrllimited="true" ctrlrange="-60.0 60.0" forcelimited="true" forcerange="-60.0 60.0" />
+    <motor name="RightHand_x" joint="RightHand_x" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="RightHand_y" joint="RightHand_y" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="RightHand_z" joint="RightHand_z" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="LeftShoulder_x" joint="LeftShoulder_x" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="LeftShoulder_y" joint="LeftShoulder_y" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="LeftShoulder_z" joint="LeftShoulder_z" gear="1" ctrllimited="true" ctrlrange="-35.0 35.0" forcelimited="true" forcerange="-35.0 35.0" />
+    <motor name="LeftArm_x" joint="LeftArm_x" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="LeftArm_y" joint="LeftArm_y" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="LeftArm_z" joint="LeftArm_z" gear="1" ctrllimited="true" ctrlrange="-100.0 100.0" forcelimited="true" forcerange="-100.0 100.0" />
+    <motor name="LeftForeArm_z" joint="LeftForeArm_z" gear="1" ctrllimited="true" ctrlrange="-60.0 60.0" forcelimited="true" forcerange="-60.0 60.0" />
+    <motor name="LeftForeArm_x" joint="LeftForeArm_x" gear="1" ctrllimited="true" ctrlrange="-60.0 60.0" forcelimited="true" forcerange="-60.0 60.0" />
+    <motor name="LeftHand_x" joint="LeftHand_x" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="LeftHand_y" joint="LeftHand_y" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="LeftHand_z" joint="LeftHand_z" gear="1" ctrllimited="true" ctrlrange="-15.0 15.0" forcelimited="true" forcerange="-15.0 15.0" />
+    <motor name="RightLeg_x" joint="RightLeg_x" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="RightLeg_y" joint="RightLeg_y" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="RightLeg_z" joint="RightLeg_z" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="RightShin_x" joint="RightShin_x" gear="1" ctrllimited="true" ctrlrange="-150.0 150.0" forcelimited="true" forcerange="-150.0 150.0" />
+    <motor name="RightFoot_x" joint="RightFoot_x" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+    <motor name="RightFoot_y" joint="RightFoot_y" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+    <motor name="RightFoot_z" joint="RightFoot_z" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+    <motor name="LeftLeg_x" joint="LeftLeg_x" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="LeftLeg_y" joint="LeftLeg_y" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="LeftLeg_z" joint="LeftLeg_z" gear="1" ctrllimited="true" ctrlrange="-200.0 200.0" forcelimited="true" forcerange="-200.0 200.0" />
+    <motor name="LeftShin_x" joint="LeftShin_x" gear="1" ctrllimited="true" ctrlrange="-150.0 150.0" forcelimited="true" forcerange="-150.0 150.0" />
+    <motor name="LeftFoot_x" joint="LeftFoot_x" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+    <motor name="LeftFoot_y" joint="LeftFoot_y" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+    <motor name="LeftFoot_z" joint="LeftFoot_z" gear="1" ctrllimited="true" ctrlrange="-90.0 90.0" forcelimited="true" forcerange="-90.0 90.0" />
+  </actuator>
+  <contact>
+    <pair geom1="physical/LeftHand" geom2="physical/Head" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftHand" geom2="physical/Chest" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftHand" geom2="physical/Spine2" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftHand" geom2="physical/Hips" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftHand" geom2="physical/RightForeArm" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/RightHand" geom2="physical/Head" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/RightHand" geom2="physical/Chest" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/RightHand" geom2="physical/Spine2" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/RightHand" geom2="physical/Hips" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/RightHand" geom2="physical/LeftForeArm" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftHand" geom2="physical/RightHand" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftShin" geom2="physical/RightShin" condim="3" friction="0.8 0.8 .02 .002 .002" />
+    <pair geom1="physical/LeftFoot" geom2="physical/RightFoot" condim="3" friction="0.8 0.8 .02 .002 .002" />
+  </contact>
+  <sensor />
+  <size njmax="700" nconmax="700" />
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="implicitfast" cone="elliptic" iterations="60" tolerance="1e-9" />
+  <visual>
+    <global offwidth="1280" offheight="720" />
+  </visual>
+</mujoco>

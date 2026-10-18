@@ -1,0 +1,25 @@
+{
+  "video": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/jab-render-5931955/left_hook-rollout.mp4",
+  "closest_still": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/jab-render-5931955/left_hook-closest.png",
+  "final_still": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/jab-render-5931955/left_hook-final-state.png",
+  "video_frames": 447,
+  "fps": 30,
+  "label": "LEARNED LEFT HOOK POLICY \u2014 RECORDED PHYSICS",
+  "clock_label": "5 ms physics | 20 ms actions (50 Hz)",
+  "recorded_physics_timestep_s": 0.005,
+  "recorded_policy_timestep_s": 0.02,
+  "rendering_only": true,
+  "physics_state_interpolation": false,
+  "model_xml": "outputs/scalar-body-with-g1/physical_scene.xml",
+  "playback_speeds": [
+    1.0,
+    0.5
+  ],
+  "visual_overrides": [
+    "Enable human body geom group 3",
+    "Hide G1 collision overlays",
+    "Red glove RGBA",
+    "Brighter headlight"
+  ],
+  "source_xml_modified": false
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "scalar_punch_reference_v2",
+  "punch": "cross",
+  "active_hand": "right",
+  "active_hand_index": 1,
+  "model": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/scalar-body/human.xml",
+  "model_sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+  "source_model": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/physical-5890924/model/human_physical.xml",
+  "source_archive": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/physical-5890924/cross/reference.npz",
+  "source_sha256": "1f19d314665e186c32f61535b4beb356c27ae115a590375c3433a081b45530c8",
+  "source_kind": "conditioned, head-directed DuoBox cross; not raw untouched capture",
+  "source_conditioning": {
+    "foot_position_max_error_m": 4.909449928680815e-06,
+    "com_horizontal_max_error_m": 8.681537102208938e-06,
+    "change_norm_max": 0.01974049108604599,
+    "sole_target_positions": [
+      [
+        0.11573469335448633,
+        0.31862007906272305,
+        0.0005
+      ],
+      [
+        -0.03898999551289761,
+        -0.2980383394616012,
+        0.0005
+      ]
+    ],
+    "method": "planted double support, root/leg IK and soft COM objective",
+    "smoothing_sigma_frames": 4.0,
+    "toe_preprocessing": "Both ToeBase rotations set to identity",
+    "reaimed_after_support": true
+  },
+  "scalar_conditioning": {
+    "leg_posture_weight": 0.0,
+    "desired_glove_separation_m": 0.17,
+    "inactive_glove_target_shift_max_m": 7.269755571933432e-05,
+    "gaussian_pose_smoothing_sigma_s": 0.025,
+    "support_reprojected_after_smoothing": true,
+    "smoothing_joint_change_max_rad": 0.10560382410276825
+  },
+  "source_capture_candidate": {
+    "filename": "003_ma_cross_liu_defense_joints.npy",
+    "actor": "ma",
+    "first_frame": 223,
+    "last_frame": 367,
+    "active_hand_index": 12,
+    "anatomical_hand": "right",
+    "original_named_drill": "cross",
+    "source_sha256": "4295973d6348916cd820d8e3de1ff091af6eaf25b40b5d4c81ad4f2e6282f39f",
+    "candidate_id": "cr_003_ma_00223_00367",
+    "outward_completion_frame": 292
+  },
+  "method": "bounded compiled-model IK, both glove poses, stationary soles, return blend",
+  "solver": "bounded variable least squares in MuJoCo tangent coordinates",
+  "reference_pelvis_lowering_m": 0.055,
+  "joint_limit_violation_max_rad": 0.0,
+  "endpoint_configuration_max_difference": 0.0,
+  "joint_step_max_rad": 0.17637234748714492,
+  "boundary_joint_step_max_rad": {
+    "launch": 0.05013124523507022,
+    "return": 0.01254895794618148,
+    "guard": 0.0037037022704718425
+  },
+  "frames": 229,
+  "fps": 60.0,
+  "source_speed": 1.0,
+  "duration_s": 3.8000000000000003,
+  "initial_hold_s": 0.5,
+  "launch_time_s": 0.5,
+  "launch_annotation": "explicit source-playback start after inserted quiet guard; no prescribed TTC",
+  "return_start_s": 2.2,
+  "attack_window_s": [
+    0.5,
+    2.2
+  ],
+  "attack_window_annotation": "source playback including source recovery; excludes inserted final return and guard",
+  "phase_labels": {
+    "0": "initial_guard",
+    "1": "source_playback",
+    "2": "return_blend",
+    "3": "final_guard"
+  },
+  "attack_window_reference_s": [
+    0.5,
+    1.2999999999999998
+  ],
+  "attack_window_semantics": "derived: inserted launch through closest active-glove approach plus 150ms follow-through; not capture-reviewed",
+  "attack_window_reviewed": false,
+  "closest_active_glove_time_s": 1.15,
+  "guard_hold_start_s": 3.2,
+  "head_center": [
+    0.8539635,
+    0.2,
+    1.2314907452582464
+  ],
+  "minimum_glove_head_distance_m": [
+    0.608206073762889,
+    0.12763469411394604
+  ],
+  "first_contact_time_s": 1.095273578966018,
+  "active_first_contact_time_s": 1.095273578966018,
+  "contact_delay_from_playback_launch_s": 0.595273578966018,
+  "glove_target_max_error_m": 0.02559821784491703,
+  "sole_height_range_m": [
+    0.0003288033373582272,
+    0.00042812883986041717
+  ],
+  "sole_drift_max_m": 8.366549490410765e-05,
+  "selected_self_penetration_max_m": -0.0,
+  "joint_velocity_max_rad_s": 10.48441454624018,
+  "joint_acceleration_max_rad_s2": 168.5911340866691,
+  "glove_velocity_max_m_s": [
+    1.4149451098647141,
+    2.6467557059912843
+  ],
+  "root_external_assistance": "not applicable: offline kinematic reference",
+  "physical_execution_validated": false
+}

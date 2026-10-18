@@ -1,0 +1,7 @@
+{
+  "model": "outputs/punch-5ms-5931934/model/human_runtime.xml",
+  "reference": "outputs/scalar-hook-retime-v1/left_hook/left_hook.npz",
+  "rollout": "outputs/punch-5ms-5931934/rollout_00.npz",
+  "method": "Forward kinematics of every recorded physics state; reference interpolated on the same clock. No dynamics replay, trajectory editing, or smoothing.",
+  "attack_window_reviewed": false
+}

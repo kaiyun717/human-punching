@@ -1,0 +1,8 @@
+{
+  "video": "outputs/jab-render-5931947/cross-rollout.mp4",
+  "full_decode_exit_code": 0,
+  "stderr": "",
+  "bytes": 1990396,
+  "recorded_rollout": "outputs/punch-5ms-5931916/rollout_00.npz",
+  "kind": "zero residual native PD/feedforward baseline; fixed G1 visual/analytic target"
+}

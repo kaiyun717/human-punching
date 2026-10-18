@@ -1,0 +1,7 @@
+{
+  "model": "outputs/punch-5ms-5931806/model/human_runtime.xml",
+  "reference": "outputs/scalar-four-reference-v1/jab/jab.npz",
+  "rollout": "outputs/punch-5ms-5931806/rollout_00.npz",
+  "method": "Forward kinematics of every recorded physics state; reference interpolated on the same clock. No dynamics replay, trajectory editing, or smoothing.",
+  "attack_window_reviewed": false
+}

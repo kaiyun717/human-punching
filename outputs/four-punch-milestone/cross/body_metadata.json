@@ -1,0 +1,1254 @@
+{
+  "xml_path": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/scalar-body/human.xml",
+  "asset": "SOMA23-constrained-48",
+  "source_revision": "7a8417a9f55b1586b0d6e8f46578c5bc9d7ce1f1",
+  "source_xml_sha256": "0b3b4cc6967d0ebe24dd54b87a8a4b3fe1c05d44a53a8f435e2b854f3189a1b3",
+  "xml_sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+  "mass_kg": 75.0,
+  "native_scale": true,
+  "standing_height_m": 1.7664,
+  "timestep_s": 0.005,
+  "nq": 55,
+  "nv": 54,
+  "nu": 48,
+  "root_body": "Hips",
+  "root_joint": "Hips",
+  "root_actuated": false,
+  "neutral_qpos": [
+    0.0,
+    0.0,
+    0.9881,
+    0.7071067811865476,
+    0.0,
+    0.0,
+    0.7071067811865475,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "neutral_pose": "standing T pose, world forward +X",
+  "canonical_axes": "+Z up, -Y forward, +X left; root neutral quaternion +90deg Z",
+  "body_map": {
+    "Hips": 1,
+    "Spine1": 2,
+    "Spine2": 3,
+    "Chest": 4,
+    "Neck1": 5,
+    "Neck2": 6,
+    "Head": 7,
+    "RightShoulder": 8,
+    "RightArm": 9,
+    "RightForeArm": 10,
+    "RightHand": 11,
+    "LeftShoulder": 12,
+    "LeftArm": 13,
+    "LeftForeArm": 14,
+    "LeftHand": 15,
+    "RightLeg": 16,
+    "RightShin": 17,
+    "RightFoot": 18,
+    "RightToeBase": 19,
+    "LeftLeg": 20,
+    "LeftShin": 21,
+    "LeftFoot": 22,
+    "LeftToeBase": 23
+  },
+  "site_map": {
+    "LeftHand_center": 1,
+    "LeftFoot_sole": 7,
+    "LeftFoot_sole_0": 8,
+    "LeftFoot_sole_1": 9,
+    "LeftFoot_sole_2": 10,
+    "LeftFoot_sole_3": 11,
+    "RightHand_center": 0,
+    "RightFoot_sole": 2,
+    "RightFoot_sole_0": 3,
+    "RightFoot_sole_1": 4,
+    "RightFoot_sole_2": 5,
+    "RightFoot_sole_3": 6
+  },
+  "joint_names": [
+    "Spine1_x",
+    "Spine1_y",
+    "Spine1_z",
+    "Spine2_x",
+    "Spine2_y",
+    "Spine2_z",
+    "Chest_x",
+    "Chest_y",
+    "Chest_z",
+    "Neck1_x",
+    "Neck1_y",
+    "Neck1_z",
+    "RightShoulder_x",
+    "RightShoulder_y",
+    "RightShoulder_z",
+    "RightArm_x",
+    "RightArm_y",
+    "RightArm_z",
+    "RightForeArm_z",
+    "RightForeArm_x",
+    "RightHand_x",
+    "RightHand_y",
+    "RightHand_z",
+    "LeftShoulder_x",
+    "LeftShoulder_y",
+    "LeftShoulder_z",
+    "LeftArm_x",
+    "LeftArm_y",
+    "LeftArm_z",
+    "LeftForeArm_z",
+    "LeftForeArm_x",
+    "LeftHand_x",
+    "LeftHand_y",
+    "LeftHand_z",
+    "RightLeg_x",
+    "RightLeg_y",
+    "RightLeg_z",
+    "RightShin_x",
+    "RightFoot_x",
+    "RightFoot_y",
+    "RightFoot_z",
+    "LeftLeg_x",
+    "LeftLeg_y",
+    "LeftLeg_z",
+    "LeftShin_x",
+    "LeftFoot_x",
+    "LeftFoot_y",
+    "LeftFoot_z"
+  ],
+  "joints": [
+    {
+      "name": "Spine1_x",
+      "body": "Spine1",
+      "axis": "x",
+      "range_deg": [
+        -20,
+        25
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Spine1_y",
+      "body": "Spine1",
+      "axis": "y",
+      "range_deg": [
+        -20,
+        20
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Spine1_z",
+      "body": "Spine1",
+      "axis": "z",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Spine2_x",
+      "body": "Spine2",
+      "axis": "x",
+      "range_deg": [
+        -20,
+        25
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Spine2_y",
+      "body": "Spine2",
+      "axis": "y",
+      "range_deg": [
+        -20,
+        20
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Spine2_z",
+      "body": "Spine2",
+      "axis": "z",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 100.0,
+      "kp": 220.0,
+      "kd": 18.0
+    },
+    {
+      "name": "Chest_x",
+      "body": "Chest",
+      "axis": "x",
+      "range_deg": [
+        -25,
+        35
+      ],
+      "effort_nm": 120.0,
+      "kp": 240.0,
+      "kd": 20.0
+    },
+    {
+      "name": "Chest_y",
+      "body": "Chest",
+      "axis": "y",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 120.0,
+      "kp": 240.0,
+      "kd": 20.0
+    },
+    {
+      "name": "Chest_z",
+      "body": "Chest",
+      "axis": "z",
+      "range_deg": [
+        -35,
+        35
+      ],
+      "effort_nm": 120.0,
+      "kp": 240.0,
+      "kd": 20.0
+    },
+    {
+      "name": "Neck1_x",
+      "body": "Neck1",
+      "axis": "x",
+      "range_deg": [
+        -35,
+        45
+      ],
+      "effort_nm": 20.0,
+      "kp": 45.0,
+      "kd": 4.0
+    },
+    {
+      "name": "Neck1_y",
+      "body": "Neck1",
+      "axis": "y",
+      "range_deg": [
+        -30,
+        30
+      ],
+      "effort_nm": 20.0,
+      "kp": 45.0,
+      "kd": 4.0
+    },
+    {
+      "name": "Neck1_z",
+      "body": "Neck1",
+      "axis": "z",
+      "range_deg": [
+        -65,
+        65
+      ],
+      "effort_nm": 20.0,
+      "kp": 45.0,
+      "kd": 4.0
+    },
+    {
+      "name": "RightShoulder_x",
+      "body": "RightShoulder",
+      "axis": "x",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "RightShoulder_y",
+      "body": "RightShoulder",
+      "axis": "y",
+      "range_deg": [
+        -30,
+        30
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "RightShoulder_z",
+      "body": "RightShoulder",
+      "axis": "z",
+      "range_deg": [
+        -30,
+        30
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "RightArm_x",
+      "body": "RightArm",
+      "axis": "x",
+      "range_deg": [
+        -110,
+        110
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "RightArm_y",
+      "body": "RightArm",
+      "axis": "y",
+      "range_deg": [
+        -110,
+        110
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "RightArm_z",
+      "body": "RightArm",
+      "axis": "z",
+      "range_deg": [
+        -135,
+        135
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "RightForeArm_z",
+      "body": "RightForeArm",
+      "axis": "z",
+      "range_deg": [
+        0,
+        155
+      ],
+      "effort_nm": 60.0,
+      "kp": 110.0,
+      "kd": 9.0
+    },
+    {
+      "name": "RightForeArm_x",
+      "body": "RightForeArm",
+      "axis": "x",
+      "range_deg": [
+        -80,
+        80
+      ],
+      "effort_nm": 60.0,
+      "kp": 110.0,
+      "kd": 9.0
+    },
+    {
+      "name": "RightHand_x",
+      "body": "RightHand",
+      "axis": "x",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "RightHand_y",
+      "body": "RightHand",
+      "axis": "y",
+      "range_deg": [
+        -65,
+        65
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "RightHand_z",
+      "body": "RightHand",
+      "axis": "z",
+      "range_deg": [
+        -35,
+        35
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "LeftShoulder_x",
+      "body": "LeftShoulder",
+      "axis": "x",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "LeftShoulder_y",
+      "body": "LeftShoulder",
+      "axis": "y",
+      "range_deg": [
+        -30,
+        30
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "LeftShoulder_z",
+      "body": "LeftShoulder",
+      "axis": "z",
+      "range_deg": [
+        -30,
+        30
+      ],
+      "effort_nm": 35.0,
+      "kp": 80.0,
+      "kd": 7.0
+    },
+    {
+      "name": "LeftArm_x",
+      "body": "LeftArm",
+      "axis": "x",
+      "range_deg": [
+        -110,
+        110
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "LeftArm_y",
+      "body": "LeftArm",
+      "axis": "y",
+      "range_deg": [
+        -110,
+        110
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "LeftArm_z",
+      "body": "LeftArm",
+      "axis": "z",
+      "range_deg": [
+        -135,
+        135
+      ],
+      "effort_nm": 100.0,
+      "kp": 150.0,
+      "kd": 12.0
+    },
+    {
+      "name": "LeftForeArm_z",
+      "body": "LeftForeArm",
+      "axis": "z",
+      "range_deg": [
+        -155,
+        0
+      ],
+      "effort_nm": 60.0,
+      "kp": 110.0,
+      "kd": 9.0
+    },
+    {
+      "name": "LeftForeArm_x",
+      "body": "LeftForeArm",
+      "axis": "x",
+      "range_deg": [
+        -80,
+        80
+      ],
+      "effort_nm": 60.0,
+      "kp": 110.0,
+      "kd": 9.0
+    },
+    {
+      "name": "LeftHand_x",
+      "body": "LeftHand",
+      "axis": "x",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "LeftHand_y",
+      "body": "LeftHand",
+      "axis": "y",
+      "range_deg": [
+        -65,
+        65
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "LeftHand_z",
+      "body": "LeftHand",
+      "axis": "z",
+      "range_deg": [
+        -35,
+        35
+      ],
+      "effort_nm": 15.0,
+      "kp": 40.0,
+      "kd": 3.0
+    },
+    {
+      "name": "RightLeg_x",
+      "body": "RightLeg",
+      "axis": "x",
+      "range_deg": [
+        -120,
+        35
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "RightLeg_y",
+      "body": "RightLeg",
+      "axis": "y",
+      "range_deg": [
+        -45,
+        45
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "RightLeg_z",
+      "body": "RightLeg",
+      "axis": "z",
+      "range_deg": [
+        -45,
+        45
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "RightShin_x",
+      "body": "RightShin",
+      "axis": "x",
+      "range_deg": [
+        0,
+        155
+      ],
+      "effort_nm": 150.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "RightFoot_x",
+      "body": "RightFoot",
+      "axis": "x",
+      "range_deg": [
+        -40,
+        30
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    },
+    {
+      "name": "RightFoot_y",
+      "body": "RightFoot",
+      "axis": "y",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    },
+    {
+      "name": "RightFoot_z",
+      "body": "RightFoot",
+      "axis": "z",
+      "range_deg": [
+        -15,
+        15
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    },
+    {
+      "name": "LeftLeg_x",
+      "body": "LeftLeg",
+      "axis": "x",
+      "range_deg": [
+        -120,
+        35
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "LeftLeg_y",
+      "body": "LeftLeg",
+      "axis": "y",
+      "range_deg": [
+        -45,
+        45
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "LeftLeg_z",
+      "body": "LeftLeg",
+      "axis": "z",
+      "range_deg": [
+        -45,
+        45
+      ],
+      "effort_nm": 200.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "LeftShin_x",
+      "body": "LeftShin",
+      "axis": "x",
+      "range_deg": [
+        0,
+        155
+      ],
+      "effort_nm": 150.0,
+      "kp": 350.0,
+      "kd": 25.0
+    },
+    {
+      "name": "LeftFoot_x",
+      "body": "LeftFoot",
+      "axis": "x",
+      "range_deg": [
+        -40,
+        30
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    },
+    {
+      "name": "LeftFoot_y",
+      "body": "LeftFoot",
+      "axis": "y",
+      "range_deg": [
+        -25,
+        25
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    },
+    {
+      "name": "LeftFoot_z",
+      "body": "LeftFoot",
+      "axis": "z",
+      "range_deg": [
+        -15,
+        15
+      ],
+      "effort_nm": 90.0,
+      "kp": 220.0,
+      "kd": 15.0
+    }
+  ],
+  "kp": [
+    220.0,
+    220.0,
+    220.0,
+    220.0,
+    220.0,
+    220.0,
+    240.0,
+    240.0,
+    240.0,
+    45.0,
+    45.0,
+    45.0,
+    80.0,
+    80.0,
+    80.0,
+    150.0,
+    150.0,
+    150.0,
+    110.0,
+    110.0,
+    40.0,
+    40.0,
+    40.0,
+    80.0,
+    80.0,
+    80.0,
+    150.0,
+    150.0,
+    150.0,
+    110.0,
+    110.0,
+    40.0,
+    40.0,
+    40.0,
+    350.0,
+    350.0,
+    350.0,
+    350.0,
+    220.0,
+    220.0,
+    220.0,
+    350.0,
+    350.0,
+    350.0,
+    350.0,
+    220.0,
+    220.0,
+    220.0
+  ],
+  "kd": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    20.0,
+    20.0,
+    20.0,
+    4.0,
+    4.0,
+    4.0,
+    7.0,
+    7.0,
+    7.0,
+    12.0,
+    12.0,
+    12.0,
+    9.0,
+    9.0,
+    3.0,
+    3.0,
+    3.0,
+    7.0,
+    7.0,
+    7.0,
+    12.0,
+    12.0,
+    12.0,
+    9.0,
+    9.0,
+    3.0,
+    3.0,
+    3.0,
+    25.0,
+    25.0,
+    25.0,
+    25.0,
+    15.0,
+    15.0,
+    15.0,
+    25.0,
+    25.0,
+    25.0,
+    25.0,
+    15.0,
+    15.0,
+    15.0
+  ],
+  "effort": [
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    120.0,
+    120.0,
+    120.0,
+    20.0,
+    20.0,
+    20.0,
+    35.0,
+    35.0,
+    35.0,
+    100.0,
+    100.0,
+    100.0,
+    60.0,
+    60.0,
+    15.0,
+    15.0,
+    15.0,
+    35.0,
+    35.0,
+    35.0,
+    100.0,
+    100.0,
+    100.0,
+    60.0,
+    60.0,
+    15.0,
+    15.0,
+    15.0,
+    200.0,
+    200.0,
+    200.0,
+    150.0,
+    90.0,
+    90.0,
+    90.0,
+    200.0,
+    200.0,
+    200.0,
+    150.0,
+    90.0,
+    90.0,
+    90.0
+  ],
+  "joint_limits_rad": [
+    [
+      -0.3490658503988659,
+      0.4363323129985824
+    ],
+    [
+      -0.3490658503988659,
+      0.3490658503988659
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.3490658503988659,
+      0.4363323129985824
+    ],
+    [
+      -0.3490658503988659,
+      0.3490658503988659
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.4363323129985824,
+      0.6108652381980153
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.6108652381980153,
+      0.6108652381980153
+    ],
+    [
+      -0.6108652381980153,
+      0.7853981633974483
+    ],
+    [
+      -0.5235987755982988,
+      0.5235987755982988
+    ],
+    [
+      -1.1344640137963142,
+      1.1344640137963142
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.5235987755982988,
+      0.5235987755982988
+    ],
+    [
+      -0.5235987755982988,
+      0.5235987755982988
+    ],
+    [
+      -1.9198621771937625,
+      1.9198621771937625
+    ],
+    [
+      -1.9198621771937625,
+      1.9198621771937625
+    ],
+    [
+      -2.356194490192345,
+      2.356194490192345
+    ],
+    [
+      0.0,
+      2.705260340591211
+    ],
+    [
+      -1.3962634015954636,
+      1.3962634015954636
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -1.1344640137963142,
+      1.1344640137963142
+    ],
+    [
+      -0.6108652381980153,
+      0.6108652381980153
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.5235987755982988,
+      0.5235987755982988
+    ],
+    [
+      -0.5235987755982988,
+      0.5235987755982988
+    ],
+    [
+      -1.9198621771937625,
+      1.9198621771937625
+    ],
+    [
+      -1.9198621771937625,
+      1.9198621771937625
+    ],
+    [
+      -2.356194490192345,
+      2.356194490192345
+    ],
+    [
+      -2.705260340591211,
+      0.0
+    ],
+    [
+      -1.3962634015954636,
+      1.3962634015954636
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -1.1344640137963142,
+      1.1344640137963142
+    ],
+    [
+      -0.6108652381980153,
+      0.6108652381980153
+    ],
+    [
+      -2.0943951023931953,
+      0.6108652381980153
+    ],
+    [
+      -0.7853981633974483,
+      0.7853981633974483
+    ],
+    [
+      -0.7853981633974483,
+      0.7853981633974483
+    ],
+    [
+      0.0,
+      2.705260340591211
+    ],
+    [
+      -0.6981317007977318,
+      0.5235987755982988
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.2617993877991494,
+      0.2617993877991494
+    ],
+    [
+      -2.0943951023931953,
+      0.6108652381980153
+    ],
+    [
+      -0.7853981633974483,
+      0.7853981633974483
+    ],
+    [
+      -0.7853981633974483,
+      0.7853981633974483
+    ],
+    [
+      0.0,
+      2.705260340591211
+    ],
+    [
+      -0.6981317007977318,
+      0.5235987755982988
+    ],
+    [
+      -0.4363323129985824,
+      0.4363323129985824
+    ],
+    [
+      -0.2617993877991494,
+      0.2617993877991494
+    ]
+  ],
+  "qpos_addresses": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54
+  ],
+  "dof_addresses": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53
+  ],
+  "passive_stiffness": 0,
+  "passive_damping": 0,
+  "actuator_gear": 1,
+  "self_collision_pairs": [
+    [
+      "LeftHand",
+      "Head"
+    ],
+    [
+      "LeftHand",
+      "Chest"
+    ],
+    [
+      "LeftHand",
+      "Spine2"
+    ],
+    [
+      "LeftHand",
+      "Hips"
+    ],
+    [
+      "LeftHand",
+      "RightForeArm"
+    ],
+    [
+      "RightHand",
+      "Head"
+    ],
+    [
+      "RightHand",
+      "Chest"
+    ],
+    [
+      "RightHand",
+      "Spine2"
+    ],
+    [
+      "RightHand",
+      "Hips"
+    ],
+    [
+      "RightHand",
+      "LeftForeArm"
+    ],
+    [
+      "LeftHand",
+      "RightHand"
+    ],
+    [
+      "LeftShin",
+      "RightShin"
+    ],
+    [
+      "LeftFoot",
+      "RightFoot"
+    ]
+  ],
+  "human_floor_contact": true,
+  "glove_radius_m": 0.08,
+  "sole_height_difference_m": 0.00030000000000002247,
+  "calibrated_human_biomechanics": false,
+  "limitations": [
+    "Engineering joint limits, segment masses and effort caps; not person calibrated",
+    "Selected self-collision pairs, not all body-part pairs",
+    "Rigid fixed feet and fists; neck/head motion reduced to Neck1",
+    "Native skeleton retained but primitive collision/visual envelopes replaced"
+  ]
+}

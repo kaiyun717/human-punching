@@ -1,0 +1,84 @@
+{
+  "schema": "scalar_punch_retimed_reference_v1",
+  "punch": "left_hook",
+  "base_reference": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/scalar-four-reference-v1/left_hook/left_hook.npz",
+  "base_reference_sha256": "33fbff03445b202f48073371d7b3b00be6076232467450080b70fd374c761371",
+  "model": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/outputs/scalar-body/human.xml",
+  "model_sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+  "nominal_source_speed": 1.0,
+  "source_speed_semantics": "Nonuniform phase warp; 250ms borrowed from initial guard to lengthen the high-load swing; no uniform source-playback speed",
+  "source_timing_modified": true,
+  "timing_kind": "nonuniform_pchip_phase_warp",
+  "phase_warp_knots_old_new_s": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.5,
+      0.25
+    ],
+    [
+      0.95,
+      0.7
+    ],
+    [
+      1.05,
+      0.8
+    ],
+    [
+      1.35,
+      1.35
+    ],
+    [
+      1.55,
+      1.65
+    ],
+    [
+      2.35,
+      2.35
+    ],
+    [
+      3.35,
+      3.35
+    ],
+    [
+      3.95,
+      3.95
+    ]
+  ],
+  "duration_s": 3.95,
+  "launch_time_s": 0.25,
+  "return_start_s": 2.35,
+  "guard_hold_start_s": 3.35,
+  "local_source_speed_min_max": [
+    0.47051459538957185,
+    1.3770491803278686
+  ],
+  "active_first_contact_time_s": 1.3544082901230126,
+  "contact_delay_from_playback_launch_s": 1.1044082901230126,
+  "attack_window_reference_s": [
+    0.25,
+    1.5333333333333332
+  ],
+  "attack_window_reviewed": false,
+  "minimum_glove_head_distance_m": [
+    0.10753872386109566,
+    0.5319126244669115
+  ],
+  "active_hand": "Left",
+  "active_hand_index": 0,
+  "joint_limit_violation_max_rad": 0.0,
+  "joint_velocity_max_rad_s": 8.170391389876835,
+  "joint_acceleration_max_rad_s2": 102.64642960028108,
+  "endpoint_configuration_max_difference": 0.0,
+  "sole_drift_max_m": 0.0008024015441312907,
+  "sole_height_range_m": [
+    6.108394039409243e-05,
+    0.00043917194077913724
+  ],
+  "selected_self_penetration_max_m": -0.0,
+  "physical_execution_validated": false,
+  "derivative_method": "MuJoCo tangent-space central differences on new clock, then numerical derivative; includes warp velocity and acceleration",
+  "path_limitation": "Configuration-space interpolation preserves the sampled geometric path approximately; FK/support/contact are re-audited"
+}

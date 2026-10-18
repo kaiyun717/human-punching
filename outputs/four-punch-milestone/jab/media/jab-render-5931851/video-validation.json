@@ -1,0 +1,8 @@
+{
+  "video": "outputs/jab-render-5931851/jab-rollout.mp4",
+  "full_decode_exit_code": 0,
+  "stderr": "",
+  "bytes": 2095905,
+  "recorded_rollout": "outputs/punch-5ms-5931806/rollout_00.npz",
+  "kind": "learned residual PPO physics; fixed G1 is visual and analytic target only"
+}

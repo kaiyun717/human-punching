@@ -1,0 +1,10 @@
+{
+  "reviewer": "independent validation agent",
+  "scope": "Visual inspection of named still images plus independent complete FFmpeg video decode. No claim that every video frame was manually reviewed.",
+  "reviewed_images": [
+    "cross-closest.png",
+    "cross-final-state.png"
+  ],
+  "findings": "Readable family/controller labels and 5 ms / 20 ms clocks; plain blue human and fixed G1 visible; learned contact and recovered guard shown.",
+  "physics_state_interpolation": false
+}

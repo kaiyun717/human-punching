@@ -1,0 +1,8 @@
+{
+  "video": "outputs/jab-render-5931949/left_hook-rollout.mp4",
+  "full_decode_exit_code": 0,
+  "stderr": "",
+  "bytes": 1646997,
+  "recorded_rollout": "outputs/punch-5ms-5931935/rollout_00.npz",
+  "kind": "zero residual native PD/feedforward baseline; fixed G1 visual/analytic target"
+}

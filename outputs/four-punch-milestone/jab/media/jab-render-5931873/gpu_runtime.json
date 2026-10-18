@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "timestamp_utc": "2026-10-15T07:59:34.509159+00:00",
+  "hostname": "d-9-6-2",
+  "pid": 525526,
+  "python": "3.12.3",
+  "python_executable": "/home/gridsan/kyun/Azizan_Lab/HumanBox/human-punching/.venv/bin/python",
+  "environment": {
+    "SLURM_JOB_ID": "5931873",
+    "SLURM_JOB_GPUS": "0",
+    "SLURM_STEP_GPUS": null,
+    "SLURM_JOB_PARTITION": "xeon-g6-volta",
+    "CUDA_VISIBLE_DEVICES": "GPU-7e7365b7-739d-e7bd-107c-4686d0d9d43b",
+    "CUDA_DEVICE_ORDER": null,
+    "MUJOCO_GL": "egl",
+    "MUJOCO_EGL_DEVICE_ID": null
+  },
+  "cuda_devices": [
+    {
+      "logical_ordinal": 0,
+      "handle": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "pci_bus_id": "0000:86:00.0",
+      "uuid": "GPU-7e7365b7-739d-e7bd-107c-4686d0d9d43b",
+      "compute_capability": "7.0"
+    }
+  ],
+  "target_cuda_device": {
+    "logical_ordinal": 0,
+    "handle": 0,
+    "name": "Tesla V100-PCIE-32GB",
+    "pci_bus_id": "0000:86:00.0",
+    "uuid": "GPU-7e7365b7-739d-e7bd-107c-4686d0d9d43b",
+    "compute_capability": "7.0"
+  },
+  "mujoco_version": "3.11.0",
+  "egl_devices": [
+    {
+      "index": 0,
+      "extensions": [
+        "EGL_NV_device_cuda",
+        "EGL_EXT_device_drm",
+        "EGL_EXT_device_drm_render_node",
+        "EGL_EXT_device_query_name",
+        "EGL_EXT_device_persistent_id"
+      ],
+      "drm_render_node": null,
+      "drm_device": null,
+      "cuda_handle": 0,
+      "mapping_method": "EGL_NV_device_cuda handle to CUDA PCI address",
+      "pci_bus_ids": [
+        "0000:86:00.0"
+      ]
+    },
+    {
+      "index": 1,
+      "extensions": [
+        "EGL_NV_device_cuda",
+        "EGL_EXT_device_drm",
+        "EGL_EXT_device_drm_render_node",
+        "EGL_EXT_device_query_name",
+        "EGL_EXT_device_persistent_id"
+      ],
+      "drm_render_node": null,
+      "drm_device": null,
+      "mapping_error": "EGL_CUDA_DEVICE_NV query failed",
+      "pci_bus_ids": []
+    },
+    {
+      "index": 2,
+      "extensions": [
+        "EGL_MESA_device_software",
+        "EGL_EXT_device_drm_render_node"
+      ],
+      "drm_render_node": null,
+      "pci_bus_ids": []
+    }
+  ],
+  "mujoco_egl_device_id": 0,
+  "opengl": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "Tesla V100-PCIE-32GB/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 580.178.04"
+  },
+  "egl_display_matches_selected_device": true,
+  "frame": {
+    "shape": [
+      120,
+      160,
+      3
+    ],
+    "dtype": "uint8",
+    "minimum": 0,
+    "maximum": 179,
+    "standard_deviation": 23.950021277293725,
+    "finite": true
+  }
+}

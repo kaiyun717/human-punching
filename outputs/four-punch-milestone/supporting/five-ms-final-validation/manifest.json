@@ -1,0 +1,1065 @@
+{
+  "schema": "human_punching.final_validation.v1",
+  "created_utc": "2026-10-15T08:18:49.041932+00:00",
+  "status": "four_families_pass_fresh64",
+  "artifact_paths_relative_to": "human-punching project root",
+  "physics_timestep_s": 0.005,
+  "policy_timestep_s": 0.02,
+  "policy_frequency_hz": 50,
+  "analytic_contact_center_distance_m": 0.14,
+  "analytic_safe_center_distance_m": 0.16,
+  "test_scope": "Four separate learned residual policies, each evaluated for one fixed-reference guard-to-punch-to-guard episode against an analytic fixed head target. Fresh test arrays generated after checkpoint selection; trial 0 nominal anchor plus 63 new small guard perturbations.",
+  "limitations": [
+    "No moving-target or dynamically reacting G1 validation. G1 rendering is visual; thresholds are analytic center distance, not impact response.",
+    "Hook motion clocks are nonuniformly conditioned; archive playback 1 is not uniform pristine-source 1x.",
+    "No claim of unseen-motion generalization, arbitrary-rate commands, learned switching or indefinite repeated cycles.",
+    "Force bounds certify the compiled and recorded simulator actuator outputs; this is not human-strength or impact-biomechanics validation.",
+    "First-contact interpolation uses 5 ms FK samples and does not create sub-tick physical measurement resolution."
+  ],
+  "families": {
+    "jab": {
+      "checkpoint": {
+        "path": "outputs/punch-5ms-5931736/checkpoint_00100.pt",
+        "sha256": "bafa080cb9025e8b70eeb7697e7efb4e4eb9981b104cdd25044a5b58c28978c0",
+        "bytes": 4026897
+      },
+      "source_model": {
+        "path": "outputs/scalar-body/human.xml",
+        "sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+        "bytes": 24828
+      },
+      "runtime_model": {
+        "path": "outputs/punch-5ms-5931806/model/human_runtime.xml",
+        "sha256": "e98fe0b17d3ccc235ac9e88e8b8d1c5b28d848e14a3db0255175436f12393bca",
+        "bytes": 31829
+      },
+      "reference": {
+        "path": "outputs/scalar-four-reference-v1/jab/jab.npz",
+        "sha256": "6f045112585abf4c3604252d8baad422d401050b2e70f0f39da86e031ff9bc42",
+        "bytes": 361787
+      },
+      "controller_schema": {
+        "path": "outputs/punch-5ms-5931806/controller_schema.json",
+        "sha256": "bf509e98c2d0f69d96daf1638507918dd60f0913c6dbfee737651dcdf76e4461",
+        "bytes": 5754
+      },
+      "selection_record": {
+        "path": "outputs/five-ms-test-banks/jab-source1/selection.json",
+        "sha256": "6c96a7df84cbfe4ace25556065311830b2a33d6f6f3d592b74ccddfcab649ab5",
+        "bytes": 810
+      },
+      "fresh_bank": {
+        "path": "outputs/five-ms-test-banks/jab-source1/guard_trials.npz",
+        "sha256": "9cda98c7c32d3a8d05b3e316a584d2ca303b434a2e08f16d3fb9655ca0582cfa",
+        "bytes": 50431
+      },
+      "fresh_bank_manifest": {
+        "path": "outputs/five-ms-test-banks/jab-source1/manifest.json",
+        "sha256": "e4c35d5495c98b76c8b0268b5ae7565d7647b59b4b1ae3431e2ef2f9d7ab39a7",
+        "bytes": 3086
+      },
+      "paired_comparison": {
+        "path": "outputs/five-ms-test-banks/jab-source1/paired-results.json",
+        "sha256": "c248e6d7ba8553232fe2aa67de23e0c6d17cd26279ad2e8ede37751c57ead48a",
+        "bytes": 1142
+      },
+      "learned_run": "outputs/punch-5ms-5931806",
+      "zero_residual_baseline_run": "outputs/punch-5ms-5931807",
+      "learned_summary": {
+        "path": "outputs/punch-5ms-5931806/independent/summary.json",
+        "sha256": "a2b0f32b6ace2b96e8712254833ce7cf0c77b637f92582b2cd0442327d94dd6e",
+        "bytes": 410601
+      },
+      "zero_residual_summary": {
+        "path": "outputs/punch-5ms-5931807/independent/summary.json",
+        "sha256": "b160944060292334197d239f45cf5b823de06b1981e8dbb4ae9f172408110f6b",
+        "bytes": 418620
+      },
+      "pass_count": 64,
+      "trial_count": 64,
+      "gate_pass_counts": {
+        "one_guard_reset_and_every_physics_step_recorded": 64,
+        "starts_from_reference_guard": 64,
+        "no_fall": 64,
+        "sole_drift": 64,
+        "joint_limits": 64,
+        "bounded_recorded_control": 64,
+        "bounded_recorded_joint_torque": 64,
+        "no_external_forces": 64,
+        "unactuated_root": 64,
+        "attack_window_contact": 64,
+        "guard_recovered_with_recorded_support": 64,
+        "reference_glove_tracking": 64,
+        "recorded_actuator_force_matches_joint_torque": 64,
+        "recorded_controller_matches_compiled_actuator": 64,
+        "recorded_runtime_model_hash_matches": 64,
+        "active_hand_attack_contact": 64,
+        "required_physics_timestep": 64,
+        "required_policy_update_interval": 64
+      },
+      "precision_target_pass_counts": {
+        "active_glove_rms_target_met": 64,
+        "contact_timing_target_met": 64
+      },
+      "metric_ranges": {
+        "sole_drift_max_m": {
+          "minimum": 0.005473191167453786,
+          "maximum": 0.011474460835364634,
+          "mean": 0.0081270847714584,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "guard_recovered_dwell_s": {
+          "minimum": 1.835,
+          "maximum": 1.855,
+          "mean": 1.8494531250000001,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "joint_limit_violation_max_rad": {
+          "minimum": 0.0007190602799976298,
+          "maximum": 0.003862639047774119,
+          "mean": 0.0020945468885922858,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "actual_joint_torque_max_nm": {
+          "minimum": 100.0,
+          "maximum": 100.0,
+          "mean": 100.0,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "active_glove_position_rms_m": {
+          "minimum": 0.0038091257029288055,
+          "maximum": 0.0057793245268237805,
+          "mean": 0.004481002222880261,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "attack_active_glove_position_rms_m": {
+          "minimum": 0.004980317783702262,
+          "maximum": 0.007316986029614348,
+          "mean": 0.00571957952192673,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "signed_interpolated_contact_error_s": {
+          "minimum": -0.0044337367194722255,
+          "maximum": -0.0011135324781081923,
+          "mean": -0.0026722592313408386,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "absolute_interpolated_contact_error_s": {
+          "minimum": 0.0011135324781081923,
+          "maximum": 0.0044337367194722255,
+          "mean": 0.0026722592313408386,
+          "measured_trials": 64,
+          "missing_trials": 0
+        }
+      },
+      "baseline_pass_count": 0,
+      "baseline_no_fall_count": 0,
+      "baseline_attack_contact_count": 27,
+      "timing": {
+        "archive_playback_speed": 1.0,
+        "effective_uniform_source_speed": 1.0,
+        "metadata": {},
+        "attack_window_reference_s": [
+          0.5,
+          1.3833333333333333
+        ],
+        "attack_window_capture_reviewed": false
+      },
+      "nominal_plot": {
+        "path": "outputs/punch-5ms-5931806/independent/nominal-plots/trial-evidence.png",
+        "sha256": "c91d9aebb3624db006084c586c6ad8a078abf72d073d7cffe0119f16a79b10fd",
+        "bytes": 256409
+      },
+      "nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931806/independent/nominal-plots/trial-evidence.svg",
+        "sha256": "03e11099bdd86d829ef8a66b72103bd292cf694e6b26885c8f69f3c82fa63bf5",
+        "bytes": 145005
+      },
+      "plot_provenance": {
+        "path": "outputs/punch-5ms-5931806/independent/nominal-plots/plot-provenance.json",
+        "sha256": "ae09ead1f632aabdd98abda1ada3c7aca842a9c5a617f63ab24b23c40294e256",
+        "bytes": 385
+      },
+      "baseline_nominal_plot": {
+        "path": "outputs/punch-5ms-5931807/independent/baseline-nominal-plots/trial-evidence.png",
+        "sha256": "b8100af7391a3e2b247a05d58607d5b3e0e15d1f6036c4c1ad4664b4068fbee9",
+        "bytes": 253631
+      },
+      "baseline_nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931807/independent/baseline-nominal-plots/trial-evidence.svg",
+        "sha256": "43c9b43be76837579ff6849e1304304ec2a75ee2099c68dfd76245116909e927",
+        "bytes": 131011
+      },
+      "baseline_plot_provenance": {
+        "path": "outputs/punch-5ms-5931807/independent/baseline-nominal-plots/plot-provenance.json",
+        "sha256": "11ab8a796feff339aaf5049b30b613ee0541bd82c173ca4f8486a24d024470d6",
+        "bytes": 385
+      },
+      "media": {
+        "learned": {
+          "directory": "outputs/jab-render-5931851",
+          "video": {
+            "path": "outputs/jab-render-5931851/jab-rollout.mp4",
+            "sha256": "90a00fb12f4f559c740370dd0d6e75d0edc6e3e4cd15e7a1a4179d85152d7157",
+            "bytes": 2095905
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931851/jab-closest.png",
+            "sha256": "6caf27198ad766e7a7d9f0bf19d54f31918559e41ff5eee694704731ff73dbb5",
+            "bytes": 143303
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931851/jab-final-state.png",
+            "sha256": "bca7e3d077d40e1c0f101a7715c15ba266d134b28756d22a8e59304c54304753",
+            "bytes": 141174
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931851/video-validation.json",
+            "sha256": "053db09c4d2cd50cded017f785ef2d4d5eddcaa72b2614bb8656a63fabc96589",
+            "bytes": 279
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931851/visual-review.json",
+            "sha256": "260d53d6e060d532795de96f0cd87dbd74be565e9533757cd497d3f84f2ff230",
+            "bytes": 480
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931851/render.json",
+            "sha256": "0a90d40258cf7c2aa0888a60f66048a3ca1f6ad44d41940a13492742eade1615",
+            "bytes": 938
+          }
+        },
+        "zero_residual_baseline": {
+          "directory": "outputs/jab-render-5931873",
+          "video": {
+            "path": "outputs/jab-render-5931873/jab-rollout.mp4",
+            "sha256": "5a42f6644b621b8ce109e713bb774be1d5c90cf2941668c5ba0019873db584af",
+            "bytes": 1750851
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931873/jab-closest.png",
+            "sha256": "87ee72190d1d4a9b477befc0ebdc02e6ffe309285d87e411c26afa79cc81eab1",
+            "bytes": 92483
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931873/jab-final-state.png",
+            "sha256": "1416242ed08870f79a6457ae3203eef4d87e1428d9ddbca2e8aa41fe9ce37713",
+            "bytes": 81824
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931873/video-validation.json",
+            "sha256": "39478c3672f3451c8a4f4809a8c5e58ae5eedf0e2dd9ecf9a739dc6feaf97c79",
+            "bytes": 283
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931873/visual-review.json",
+            "sha256": "bfb4a6e3d92d8700136fe1ae439366129a0cc183277bac4d594be97f7e8a0b3e",
+            "bytes": 416
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931873/render.json",
+            "sha256": "e2c15e4a4a5d0156eb7685719ca34e0bd74b664f262a1671472a16584d8ebb04",
+            "bytes": 941
+          }
+        }
+      }
+    },
+    "cross": {
+      "checkpoint": {
+        "path": "outputs/punch-5ms-5931870/checkpoint_00100.pt",
+        "sha256": "61aa4d27f5a2ec815bedfc7326b120cfd8f3b0aa1e6bbd03e534476c33f11984",
+        "bytes": 4026961
+      },
+      "source_model": {
+        "path": "outputs/scalar-body/human.xml",
+        "sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+        "bytes": 24828
+      },
+      "runtime_model": {
+        "path": "outputs/punch-5ms-5931915/model/human_runtime.xml",
+        "sha256": "e98fe0b17d3ccc235ac9e88e8b8d1c5b28d848e14a3db0255175436f12393bca",
+        "bytes": 31829
+      },
+      "reference": {
+        "path": "outputs/scalar-four-reference-v1/cross/cross.npz",
+        "sha256": "18658a584de27ecea67fd2670b481a9c8d1b9ee85dce1c37feee9a7b94168633",
+        "bytes": 366907
+      },
+      "controller_schema": {
+        "path": "outputs/punch-5ms-5931915/controller_schema.json",
+        "sha256": "3aa4c25d20e7f31b6ee6f70b3935978c8a20457320a9e07b7a1684710932fbe9",
+        "bytes": 5754
+      },
+      "selection_record": {
+        "path": "outputs/five-ms-test-banks/cross-source1/selection.json",
+        "sha256": "af624379cb8eb9524f93a9d0567d9d0f929aca53c25f997778b6209189172a41",
+        "bytes": 776
+      },
+      "fresh_bank": {
+        "path": "outputs/five-ms-test-banks/cross-source1/guard_trials.npz",
+        "sha256": "a2a57133832a541288825d85919fb1c4860c7e283756794787abb7b44f9b1cad",
+        "bytes": 50903
+      },
+      "fresh_bank_manifest": {
+        "path": "outputs/five-ms-test-banks/cross-source1/manifest.json",
+        "sha256": "c845ac9228f188111804b6f09cfdb206b2e5e4f9d6282428ba82644feba09b1d",
+        "bytes": 2803
+      },
+      "paired_comparison": {
+        "path": "outputs/five-ms-test-banks/cross-source1/paired-results.json",
+        "sha256": "6a3d90b2784954a9d3462222d8266ef0b9aafdf94f4b65a693ff35da710fc425",
+        "bytes": 1073
+      },
+      "learned_run": "outputs/punch-5ms-5931915",
+      "zero_residual_baseline_run": "outputs/punch-5ms-5931916",
+      "learned_summary": {
+        "path": "outputs/punch-5ms-5931915/independent/summary.json",
+        "sha256": "4d5338e0cfaeeab7796c85f7979fb10fab3955334bf2fdac31c250a14518553d",
+        "bytes": 416221
+      },
+      "zero_residual_summary": {
+        "path": "outputs/punch-5ms-5931916/independent/summary.json",
+        "sha256": "82e16249e1e5d625d87b1e1d5325c37d2f4f8b3529e010053d70054eef6189a5",
+        "bytes": 418197
+      },
+      "pass_count": 64,
+      "trial_count": 64,
+      "gate_pass_counts": {
+        "one_guard_reset_and_every_physics_step_recorded": 64,
+        "starts_from_reference_guard": 64,
+        "no_fall": 64,
+        "sole_drift": 64,
+        "joint_limits": 64,
+        "bounded_recorded_control": 64,
+        "bounded_recorded_joint_torque": 64,
+        "no_external_forces": 64,
+        "unactuated_root": 64,
+        "attack_window_contact": 64,
+        "guard_recovered_with_recorded_support": 64,
+        "reference_glove_tracking": 64,
+        "recorded_actuator_force_matches_joint_torque": 64,
+        "recorded_controller_matches_compiled_actuator": 64,
+        "recorded_runtime_model_hash_matches": 64,
+        "active_hand_attack_contact": 64,
+        "required_physics_timestep": 64,
+        "required_policy_update_interval": 64
+      },
+      "precision_target_pass_counts": {
+        "active_glove_rms_target_met": 64,
+        "contact_timing_target_met": 64
+      },
+      "metric_ranges": {
+        "sole_drift_max_m": {
+          "minimum": 0.008501146474542035,
+          "maximum": 0.015317165405050282,
+          "mean": 0.013196014037961792,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "guard_recovered_dwell_s": {
+          "minimum": 1.7349999999999994,
+          "maximum": 1.7399999999999998,
+          "mean": 1.7359374999999995,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "joint_limit_violation_max_rad": {
+          "minimum": 0.0038445927494747956,
+          "maximum": 0.007154335357817454,
+          "mean": 0.004417848026197333,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "actual_joint_torque_max_nm": {
+          "minimum": 200.0,
+          "maximum": 200.0,
+          "mean": 200.0,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "active_glove_position_rms_m": {
+          "minimum": 0.00477392897875318,
+          "maximum": 0.005987206336090701,
+          "mean": 0.00516662769437525,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "attack_active_glove_position_rms_m": {
+          "minimum": 0.006916905966119638,
+          "maximum": 0.009059108486440535,
+          "mean": 0.007446955500441473,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "signed_interpolated_contact_error_s": {
+          "minimum": 0.002663405568974486,
+          "maximum": 0.009872145276724531,
+          "mean": 0.005933003723935629,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "absolute_interpolated_contact_error_s": {
+          "minimum": 0.002663405568974486,
+          "maximum": 0.009872145276724531,
+          "mean": 0.005933003723935629,
+          "measured_trials": 64,
+          "missing_trials": 0
+        }
+      },
+      "baseline_pass_count": 0,
+      "baseline_no_fall_count": 0,
+      "baseline_attack_contact_count": 0,
+      "timing": {
+        "archive_playback_speed": 1.0,
+        "effective_uniform_source_speed": 1.0,
+        "metadata": {},
+        "attack_window_reference_s": [
+          0.5,
+          1.2999999999999998
+        ],
+        "attack_window_capture_reviewed": false
+      },
+      "nominal_plot": {
+        "path": "outputs/punch-5ms-5931915/independent/nominal-plots/trial-evidence.png",
+        "sha256": "fa1add7ce6fb44317cbe401285455f017564f5c63baa33978654080dd5c48880",
+        "bytes": 245938
+      },
+      "nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931915/independent/nominal-plots/trial-evidence.svg",
+        "sha256": "7521a25cd3490e8dbbacd671bef7e869e4a365c47417e155376ec070aa9aaac0",
+        "bytes": 141053
+      },
+      "plot_provenance": {
+        "path": "outputs/punch-5ms-5931915/independent/nominal-plots/plot-provenance.json",
+        "sha256": "925d23e7820b9ae8c67fa37dd5c25278abd69cf83951bc9de59ed612160a1cf3",
+        "bytes": 389
+      },
+      "baseline_nominal_plot": {
+        "path": "outputs/punch-5ms-5931916/independent/baseline-nominal-plots/trial-evidence.png",
+        "sha256": "69a58f2aa7433ca75f0414a7aba89e3268815e50f14fe8af3474d453bbbd5b87",
+        "bytes": 253280
+      },
+      "baseline_nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931916/independent/baseline-nominal-plots/trial-evidence.svg",
+        "sha256": "b0eb9909c95143c3832e3746ca3a9bf5fb3258840033f87abbf1cbb8daa731e5",
+        "bytes": 132883
+      },
+      "baseline_plot_provenance": {
+        "path": "outputs/punch-5ms-5931916/independent/baseline-nominal-plots/plot-provenance.json",
+        "sha256": "1f3f10b900663f094fce9249f5a64e4608b21dd69474774cefe2a0fd28f61ecd",
+        "bytes": 389
+      },
+      "media": {
+        "learned": {
+          "directory": "outputs/jab-render-5931928",
+          "video": {
+            "path": "outputs/jab-render-5931928/cross-rollout.mp4",
+            "sha256": "344afb236a6b42ff0ebb42ab65abcf3c16ff7286c77ea3ed121839e30b2d88bd",
+            "bytes": 2192229
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931928/cross-closest.png",
+            "sha256": "c4bb762f7020c1752c0e13b6759fca915c4423c99b5d54ef28cb6bf81203e3cc",
+            "bytes": 145403
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931928/cross-final-state.png",
+            "sha256": "476f46264257eb2baf49798e491c28294e202fd05d8ae94b842a4c7780cbe0d8",
+            "bytes": 143906
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931928/video-validation.json",
+            "sha256": "da4e61085ff576d1138a71a1759f9c1746ebe34e0df352483dd5647ae77a143d",
+            "bytes": 269
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931928/visual-review.json",
+            "sha256": "6b004f2aeb96bb87e5e0231c18ccbce67dde9ba9d3ef47f5b5b5f3d4bc895f61",
+            "bytes": 484
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931928/render.json",
+            "sha256": "0a00298099fedc8fd67404cd999469e7cbda6216c2922701a6f251ee2294af67",
+            "bytes": 946
+          }
+        },
+        "zero_residual_baseline": {
+          "directory": "outputs/jab-render-5931947",
+          "video": {
+            "path": "outputs/jab-render-5931947/cross-rollout.mp4",
+            "sha256": "59a9a1661325c740f008033918f7ef5b8fbd861819fcee125dd5d6d514a3142a",
+            "bytes": 1990396
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931947/cross-closest.png",
+            "sha256": "6be592e883ad2a0e9e98b4f1061b597c751a35f368dfe446451f95ef68e39e73",
+            "bytes": 92497
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931947/cross-final-state.png",
+            "sha256": "d61db2a0ddde103ddcdbc196496f4c995912c771a2e526c51a459b5de9bcbd66",
+            "bytes": 75348
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931947/video-validation.json",
+            "sha256": "600613843301550bbe27bdbc1cb73728c6233ace2db8cc0e2930c6ba4faa2fd1",
+            "bytes": 285
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931947/visual-review.json",
+            "sha256": "9bff9e71a490dd26b0d48f170082d8bb2147f55b812ebc044c920e140302bf1d",
+            "bytes": 418
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931947/render.json",
+            "sha256": "187d3fd508d11d83d11fd2ed8d239cfad706cfffb4fbc8eda40c7797b483686f",
+            "bytes": 953
+          }
+        }
+      }
+    },
+    "left_hook": {
+      "checkpoint": {
+        "path": "outputs/punch-5ms-5931834/checkpoint_00300.pt",
+        "sha256": "c18c16a5a4ca1db13e9b7ed4b056ad9067db1cb72508e2685eac21c8a278c89c",
+        "bytes": 4026897
+      },
+      "source_model": {
+        "path": "outputs/scalar-body/human.xml",
+        "sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+        "bytes": 24828
+      },
+      "runtime_model": {
+        "path": "outputs/punch-5ms-5931934/model/human_runtime.xml",
+        "sha256": "e98fe0b17d3ccc235ac9e88e8b8d1c5b28d848e14a3db0255175436f12393bca",
+        "bytes": 31829
+      },
+      "reference": {
+        "path": "outputs/scalar-hook-retime-v1/left_hook/left_hook.npz",
+        "sha256": "79161f7176a579c7bc5769aaa060f76f02a4a851f54513acc3a0206acab3f8e8",
+        "bytes": 426565
+      },
+      "controller_schema": {
+        "path": "outputs/punch-5ms-5931934/controller_schema.json",
+        "sha256": "2f5756714ece0d5abe6f794ccee335d6e709716a1a4e5123196f8fcf465fdc57",
+        "bytes": 5754
+      },
+      "selection_record": {
+        "path": "outputs/five-ms-test-banks/left_hook-retime-final/selection.json",
+        "sha256": "4f15dee94f17463a70f8e6f87c3c28c092e449c8bf100e0e15c55fbc153b42cb",
+        "bytes": 928
+      },
+      "fresh_bank": {
+        "path": "outputs/five-ms-test-banks/left_hook-retime-final/guard_trials.npz",
+        "sha256": "f72eb57f32cd72ffaf566e57dba4622ede863307e999557c6b2f5f77b9e55faf",
+        "bytes": 50315
+      },
+      "fresh_bank_manifest": {
+        "path": "outputs/five-ms-test-banks/left_hook-retime-final/manifest.json",
+        "sha256": "fe0d3469f03748ab79fa692f53b701bf4a68232b57374df13bde88fc43851831",
+        "bytes": 3304
+      },
+      "paired_comparison": {
+        "path": "outputs/five-ms-test-banks/left_hook-retime-final/paired-results.json",
+        "sha256": "3fe48f3b91d91e7f0f491a5ef8d7a9b04720eea996bf5ae095822c750fa0cd8a",
+        "bytes": 1077
+      },
+      "learned_run": "outputs/punch-5ms-5931934",
+      "zero_residual_baseline_run": "outputs/punch-5ms-5931935",
+      "learned_summary": {
+        "path": "outputs/punch-5ms-5931934/independent/summary.json",
+        "sha256": "1c13baee4ee5813fca920b461d9ee9f3ba26fb410f559ea6a5b59fec93d6d313",
+        "bytes": 445739
+      },
+      "zero_residual_summary": {
+        "path": "outputs/punch-5ms-5931935/independent/summary.json",
+        "sha256": "7138dcbc0f6ffcea78b5bf8effe59a867c7c0271c57659cc7dafdb77bc58b853",
+        "bytes": 451535
+      },
+      "pass_count": 64,
+      "trial_count": 64,
+      "gate_pass_counts": {
+        "one_guard_reset_and_every_physics_step_recorded": 64,
+        "starts_from_reference_guard": 64,
+        "no_fall": 64,
+        "sole_drift": 64,
+        "joint_limits": 64,
+        "bounded_recorded_control": 64,
+        "bounded_recorded_joint_torque": 64,
+        "no_external_forces": 64,
+        "unactuated_root": 64,
+        "attack_window_contact": 64,
+        "guard_recovered_with_recorded_support": 64,
+        "reference_glove_tracking": 64,
+        "recorded_actuator_force_matches_joint_torque": 64,
+        "recorded_controller_matches_compiled_actuator": 64,
+        "recorded_runtime_model_hash_matches": 64,
+        "active_hand_attack_contact": 64,
+        "required_physics_timestep": 64,
+        "required_policy_update_interval": 64
+      },
+      "precision_target_pass_counts": {
+        "active_glove_rms_target_met": 64,
+        "contact_timing_target_met": 64
+      },
+      "metric_ranges": {
+        "sole_drift_max_m": {
+          "minimum": 0.0215583067971649,
+          "maximum": 0.02719338673209746,
+          "mean": 0.024616424318716267,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "guard_recovered_dwell_s": {
+          "minimum": 1.7350000000000003,
+          "maximum": 1.7400000000000002,
+          "mean": 1.7360156250000003,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "joint_limit_violation_max_rad": {
+          "minimum": 0.009131684568632337,
+          "maximum": 0.013091340330351087,
+          "mean": 0.011062605883194252,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "actual_joint_torque_max_nm": {
+          "minimum": 177.3211212158203,
+          "maximum": 184.27432250976562,
+          "mean": 180.80362606048584,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "active_glove_position_rms_m": {
+          "minimum": 0.00588922008733441,
+          "maximum": 0.008013768535344029,
+          "mean": 0.006530671765497119,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "attack_active_glove_position_rms_m": {
+          "minimum": 0.00852658291011244,
+          "maximum": 0.013005055848385296,
+          "mean": 0.009935262909803181,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "signed_interpolated_contact_error_s": {
+          "minimum": -0.008382240630477655,
+          "maximum": -0.0036858832403803277,
+          "mean": -0.005212756790171514,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "absolute_interpolated_contact_error_s": {
+          "minimum": 0.0036858832403803277,
+          "maximum": 0.008382240630477655,
+          "mean": 0.005212756790171514,
+          "measured_trials": 64,
+          "missing_trials": 0
+        }
+      },
+      "baseline_pass_count": 0,
+      "baseline_no_fall_count": 0,
+      "baseline_attack_contact_count": 0,
+      "timing": {
+        "archive_playback_speed": 1.0,
+        "effective_uniform_source_speed": null,
+        "metadata": {
+          "timing_kind": "nonuniform_pchip_phase_warp",
+          "timing_description": "Nonuniform phase warp; 250ms borrowed from initial guard to lengthen the high-load swing; no uniform source-playback speed",
+          "source_speed_kind": "nonuniform_local_rates",
+          "local_source_speed_min": 0.47051459538957185,
+          "local_source_speed_max": 1.3770491803278686,
+          "retiming_duration_ratio": 1.0,
+          "nominal_source_speed": 1.0,
+          "source_playback_duration_ratio": 1.135135135135135
+        },
+        "attack_window_reference_s": [
+          0.25,
+          1.5333333333333332
+        ],
+        "attack_window_capture_reviewed": false,
+        "derived_window_review": {
+          "path": "outputs/hook-window-review-5931886/summary.json",
+          "sha256": "9da9bad05caf36e232cb59f840dec77a9c2cfe3f8f04a0c3bacc48228169196b",
+          "bytes": 5602
+        }
+      },
+      "nominal_plot": {
+        "path": "outputs/punch-5ms-5931934/independent/nominal-plots/trial-evidence.png",
+        "sha256": "d9f0d2adfc11cbf8e2f7b248d90d2863b3eec48c0ee64418088670df55902bf1",
+        "bytes": 302821
+      },
+      "nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931934/independent/nominal-plots/trial-evidence.svg",
+        "sha256": "5c88151d8bbfc05106605acd453f0f9c8fdbd3e6ccd9ce8061ef056ecd4e40f3",
+        "bytes": 155129
+      },
+      "plot_provenance": {
+        "path": "outputs/punch-5ms-5931934/independent/nominal-plots/plot-provenance.json",
+        "sha256": "d04abb507abd03796a6b34e6b123ac332947ed1622b7b31e13a816da3f052731",
+        "bytes": 394
+      },
+      "baseline_nominal_plot": {
+        "path": "outputs/punch-5ms-5931935/independent/baseline-nominal-plots/trial-evidence.png",
+        "sha256": "7766ae23e8d4445bf80f3f366252ca6377d41d7171437c37eb6e905275c90dc9",
+        "bytes": 245451
+      },
+      "baseline_nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931935/independent/baseline-nominal-plots/trial-evidence.svg",
+        "sha256": "e9e179b79c1359bf3af922d9813a06b653f069a1849ba53c1928a7af8053146a",
+        "bytes": 130549
+      },
+      "baseline_plot_provenance": {
+        "path": "outputs/punch-5ms-5931935/independent/baseline-nominal-plots/plot-provenance.json",
+        "sha256": "af41feac1ce3a5195a3f19734d0e30f62ade1d683d0594034130b9054a92832a",
+        "bytes": 394
+      },
+      "media": {
+        "learned": {
+          "directory": "outputs/jab-render-5931955",
+          "video": {
+            "path": "outputs/jab-render-5931955/left_hook-rollout.mp4",
+            "sha256": "1c045785038bae84b986d7c28a0cc2e681b18690172fe739097790361c77f8dc",
+            "bytes": 2581106
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931955/left_hook-closest.png",
+            "sha256": "5e577cfac48229df5b0b77aef3a5e80a244ed1517d4a753a905f162bbca3bfa7",
+            "bytes": 146519
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931955/left_hook-final-state.png",
+            "sha256": "1c005820c4c0e40848c0069cc95751096a3e526be39347ae08820950db8da502",
+            "bytes": 145654
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931955/video-validation.json",
+            "sha256": "7f577547170a259f97c2e0502b1be741af3c8da6824de1c0cf3fa1cd2a26bdce",
+            "bytes": 273
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931955/visual-review.json",
+            "sha256": "6253bfbffa12f1ff4de007494b5d3839185076b0bde128f8807d08e62df25e8f",
+            "bytes": 492
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931955/render.json",
+            "sha256": "94354e9cdac787e7a45c40293b74a840af92b2ef72e9036b0ef526da61f3404d",
+            "bytes": 962
+          }
+        },
+        "zero_residual_baseline": {
+          "directory": "outputs/jab-render-5931949",
+          "video": {
+            "path": "outputs/jab-render-5931949/left_hook-rollout.mp4",
+            "sha256": "6bb487b3345caaa419683bb6aaf77e61c8aca47eedce3ee59907b8a093c36a37",
+            "bytes": 1646997
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931949/left_hook-closest.png",
+            "sha256": "737ea2925f540dfdf9ae16c17d8cd39810253a8a7ccd1a658cc2d580c11526df",
+            "bytes": 95931
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931949/left_hook-final-state.png",
+            "sha256": "4c8b5cce122b313adf73cb47673cc20fb5bcf7835116f00f6379f94bfb1be8d2",
+            "bytes": 84534
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931949/video-validation.json",
+            "sha256": "9ba24ecf79d4a2149abbdb1feee7ccdea4ff0c538ca4f9f202f82856811d6a86",
+            "bytes": 289
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931949/visual-review.json",
+            "sha256": "d2bb747fb07cd5960211d6686310a264b7cb992a5aee11371456417f955a28a3",
+            "bytes": 422
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931949/render.json",
+            "sha256": "640828ad1312145da8055c16de4fd5ce317273a08b3418556023405e4e965498",
+            "bytes": 969
+          }
+        }
+      }
+    },
+    "right_hook": {
+      "checkpoint": {
+        "path": "outputs/punch-5ms-5931884/checkpoint_00100.pt",
+        "sha256": "5f2882a96f564af097e6597abe7ce63b3e6c1b07b02cce4bcac3ad9658c83c9f",
+        "bytes": 4026961
+      },
+      "source_model": {
+        "path": "outputs/scalar-body/human.xml",
+        "sha256": "c5c1e602bed82c5ee8f1385eefa012a0eb95ed16a2253fa263c3f824522277ad",
+        "bytes": 24828
+      },
+      "runtime_model": {
+        "path": "outputs/punch-5ms-5931918/model/human_runtime.xml",
+        "sha256": "e98fe0b17d3ccc235ac9e88e8b8d1c5b28d848e14a3db0255175436f12393bca",
+        "bytes": 31829
+      },
+      "reference": {
+        "path": "outputs/scalar-hook-retime-v1/right_hook/right_hook.npz",
+        "sha256": "d372f8cd76009e8a307a2f5f68977539f97b393aa062578c25c854c59f72a771",
+        "bytes": 422122
+      },
+      "controller_schema": {
+        "path": "outputs/punch-5ms-5931918/controller_schema.json",
+        "sha256": "76a686f68dacae218f746062e106b70ad1e490225cef6cd52c57efdfe49e6976",
+        "bytes": 5754
+      },
+      "selection_record": {
+        "path": "outputs/five-ms-test-banks/right_hook-retime-final/selection.json",
+        "sha256": "080cd9b11d6a3c021efdb66fd8f5a76428fad9837dd6ed7f65b5ab33650f12af",
+        "bytes": 1001
+      },
+      "fresh_bank": {
+        "path": "outputs/five-ms-test-banks/right_hook-retime-final/guard_trials.npz",
+        "sha256": "a78ed66f0ff29b5abf2c5afcb4e7851786af9fe14f1bbef374ed2a9257c6def9",
+        "bytes": 50360
+      },
+      "fresh_bank_manifest": {
+        "path": "outputs/five-ms-test-banks/right_hook-retime-final/manifest.json",
+        "sha256": "9e1fce5c4621f1955e627d1ec5fb19bef95167c5abc85b8d664a427a4093fdff",
+        "bytes": 3308
+      },
+      "paired_comparison": {
+        "path": "outputs/five-ms-test-banks/right_hook-retime-final/paired-results.json",
+        "sha256": "f81a88bcd50755d2d9e80febce5bc60cda46bd8bac36f0f41f9545c0a64c7beb",
+        "bytes": 1078
+      },
+      "learned_run": "outputs/punch-5ms-5931918",
+      "zero_residual_baseline_run": "outputs/punch-5ms-5931919",
+      "learned_summary": {
+        "path": "outputs/punch-5ms-5931918/independent/summary.json",
+        "sha256": "f6846942d1bb3696b390ba4524d745955b61d0c04fd9d7e62b446e52a1a398f1",
+        "bytes": 441204
+      },
+      "zero_residual_summary": {
+        "path": "outputs/punch-5ms-5931919/independent/summary.json",
+        "sha256": "7a22d3587c50920fc1e5ff2ddd2ac4d0e8e5d5e93babfdc98ed0fae1d3a47100",
+        "bytes": 452095
+      },
+      "pass_count": 64,
+      "trial_count": 64,
+      "gate_pass_counts": {
+        "one_guard_reset_and_every_physics_step_recorded": 64,
+        "starts_from_reference_guard": 64,
+        "no_fall": 64,
+        "sole_drift": 64,
+        "joint_limits": 64,
+        "bounded_recorded_control": 64,
+        "bounded_recorded_joint_torque": 64,
+        "no_external_forces": 64,
+        "unactuated_root": 64,
+        "attack_window_contact": 64,
+        "guard_recovered_with_recorded_support": 64,
+        "reference_glove_tracking": 64,
+        "recorded_actuator_force_matches_joint_torque": 64,
+        "recorded_controller_matches_compiled_actuator": 64,
+        "recorded_runtime_model_hash_matches": 64,
+        "active_hand_attack_contact": 64,
+        "required_physics_timestep": 64,
+        "required_policy_update_interval": 64
+      },
+      "precision_target_pass_counts": {
+        "active_glove_rms_target_met": 64,
+        "contact_timing_target_met": 64
+      },
+      "metric_ranges": {
+        "sole_drift_max_m": {
+          "minimum": 0.011965237371048494,
+          "maximum": 0.015904270526892517,
+          "mean": 0.01360873527984182,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "guard_recovered_dwell_s": {
+          "minimum": 1.755,
+          "maximum": 1.7600000000000002,
+          "mean": 1.7555468749999996,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "joint_limit_violation_max_rad": {
+          "minimum": 0.00396021405921676,
+          "maximum": 0.009873457087630377,
+          "mean": 0.00580875687004021,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "actual_joint_torque_max_nm": {
+          "minimum": 147.52679443359375,
+          "maximum": 155.12120056152344,
+          "mean": 151.7141489982605,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "active_glove_position_rms_m": {
+          "minimum": 0.005351715396292514,
+          "maximum": 0.007210031192936192,
+          "mean": 0.0057806958339836284,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "attack_active_glove_position_rms_m": {
+          "minimum": 0.00600252437178527,
+          "maximum": 0.010080381571230769,
+          "mean": 0.007053702822130496,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "signed_interpolated_contact_error_s": {
+          "minimum": -0.0009324970442174951,
+          "maximum": 0.0004909078025907565,
+          "mean": -0.00022400869388216824,
+          "measured_trials": 64,
+          "missing_trials": 0
+        },
+        "absolute_interpolated_contact_error_s": {
+          "minimum": 4.368984837910261e-06,
+          "maximum": 0.0009324970442174951,
+          "mean": 0.0003186913886752997,
+          "measured_trials": 64,
+          "missing_trials": 0
+        }
+      },
+      "baseline_pass_count": 0,
+      "baseline_no_fall_count": 0,
+      "baseline_attack_contact_count": 0,
+      "timing": {
+        "archive_playback_speed": 1.0,
+        "effective_uniform_source_speed": null,
+        "metadata": {
+          "timing_kind": "nonuniform_pchip_phase_warp",
+          "timing_description": "Nonuniform phase warp; 250ms borrowed from initial guard to lengthen the high-load swing; no uniform source-playback speed",
+          "source_speed_kind": "nonuniform_local_rates",
+          "local_source_speed_min": 0.4912176585651659,
+          "local_source_speed_max": 1.3738928933498076,
+          "retiming_duration_ratio": 1.0,
+          "nominal_source_speed": 1.0,
+          "source_playback_duration_ratio": 1.1382488479262673
+        },
+        "attack_window_reference_s": [
+          0.25,
+          1.380709219858156
+        ],
+        "attack_window_capture_reviewed": false,
+        "derived_window_review": {
+          "path": "outputs/hook-window-review-5931886/summary.json",
+          "sha256": "9da9bad05caf36e232cb59f840dec77a9c2cfe3f8f04a0c3bacc48228169196b",
+          "bytes": 5602
+        }
+      },
+      "nominal_plot": {
+        "path": "outputs/punch-5ms-5931918/independent/nominal-plots/trial-evidence.png",
+        "sha256": "a88b5fb03ed3cc1cd991ea3fb2bc087056e4b03eacfa549fdb4a99e335879bb4",
+        "bytes": 288392
+      },
+      "nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931918/independent/nominal-plots/trial-evidence.svg",
+        "sha256": "3a0ffa690a7af9c6c5ab103dfe5cbe9064c05730a6d6e45f944cc30d96ade90b",
+        "bytes": 156561
+      },
+      "plot_provenance": {
+        "path": "outputs/punch-5ms-5931918/independent/nominal-plots/plot-provenance.json",
+        "sha256": "fc7b2a94ddf703f101c88fa52a3e656f8c26801c57ac9194b1c1bd3246fc7f0f",
+        "bytes": 396
+      },
+      "baseline_nominal_plot": {
+        "path": "outputs/punch-5ms-5931919/independent/baseline-nominal-plots/trial-evidence.png",
+        "sha256": "f8b2dd732adfd0f8deb9edbba75a0c2529d0755d8da5a48a74ec64bda47f6d74",
+        "bytes": 248745
+      },
+      "baseline_nominal_plot_svg": {
+        "path": "outputs/punch-5ms-5931919/independent/baseline-nominal-plots/trial-evidence.svg",
+        "sha256": "c898bb52844a6e5f2ee3e6668bb32dd2728cedeb47e43ca2c4e12ffd8e0a5077",
+        "bytes": 128158
+      },
+      "baseline_plot_provenance": {
+        "path": "outputs/punch-5ms-5931919/independent/baseline-nominal-plots/plot-provenance.json",
+        "sha256": "4b78004eb6c4b0508dfbc6276a04301c835c48e769d0913d95a90796725ef880",
+        "bytes": 396
+      },
+      "media": {
+        "learned": {
+          "directory": "outputs/jab-render-5931931",
+          "video": {
+            "path": "outputs/jab-render-5931931/right_hook-rollout.mp4",
+            "sha256": "9c34d254d43292e64027278e821aa8f176fb01710081ae9571c7d53293da8bf0",
+            "bytes": 2334850
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931931/right_hook-closest.png",
+            "sha256": "d7e87fc6904b013432869489efef2fc99c2384df139cb5c5a0f91d05b350a833",
+            "bytes": 146127
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931931/right_hook-final-state.png",
+            "sha256": "b13c8b7dcc60cdca7607b11fbfbefaf143fc1e69077b1e1f7599b28695fb8276",
+            "bytes": 142198
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931931/video-validation.json",
+            "sha256": "aa522806166a8a447de8f09f6185d236e784ad7587542840a9b5746036ad06a2",
+            "bytes": 274
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931931/visual-review.json",
+            "sha256": "e0335c4525a87debee187900cadc04d49a1034a083ad471a2b3156e3efe9b226",
+            "bytes": 494
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931931/render.json",
+            "sha256": "ed30b3c7eb6ad537c0c2b740c52fec6a8fd1c883c0517641a449ad8fd41a6e64",
+            "bytes": 966
+          }
+        },
+        "zero_residual_baseline": {
+          "directory": "outputs/jab-render-5931948",
+          "video": {
+            "path": "outputs/jab-render-5931948/right_hook-rollout.mp4",
+            "sha256": "4ba6c1b7e3b53a9a5ebb17d8338d7e17699bcf302eba05bef6eeb8c305c44b38",
+            "bytes": 1587883
+          },
+          "closest_image": {
+            "path": "outputs/jab-render-5931948/right_hook-closest.png",
+            "sha256": "c2948fbb8d9a96e5df6cb32d57fcf760988a46a803ae022d7b4ca92b33b6ce0a",
+            "bytes": 100383
+          },
+          "final_image": {
+            "path": "outputs/jab-render-5931948/right_hook-final-state.png",
+            "sha256": "20edf8b92d3752cae86dba2f6019cd92b2ecf69c89d4996747ab11e1c4dcf48d",
+            "bytes": 84383
+          },
+          "decode_validation": {
+            "path": "outputs/jab-render-5931948/video-validation.json",
+            "sha256": "ad98f418545c5cdac804c8586f7d9ed05c734143be704b72cdf8e4bf5a3a6c61",
+            "bytes": 290
+          },
+          "visual_review": {
+            "path": "outputs/jab-render-5931948/visual-review.json",
+            "sha256": "a82579113ffc5de11181764711df5f1a3d0f33890b892f15f204c5e4a4c069e7",
+            "bytes": 423
+          },
+          "render_manifest": {
+            "path": "outputs/jab-render-5931948/render.json",
+            "sha256": "7a1840e004b48bfdc38efe2b04f82f6a2bce9788352597f04c46634724a8ed9e",
+            "bytes": 973
+          }
+        }
+      }
+    }
+  }
+}
