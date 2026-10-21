@@ -14,6 +14,7 @@ test = ["pytest>=8", "ruff"]
 
 [project.scripts]
 human-punching = "human_punching.cli:main"
+human-punching-wbc = "human_punching.wbc.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

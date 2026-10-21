@@ -1,0 +1,19 @@
+# Task10 candidate pins: declaration-compatible, pending native qualification.
+# Source packages are exported at exact Git revisions by setup_wbc.py.
+--extra-index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://pypi.nvidia.com
+numpy==2.4.6
+mujoco==3.11.0
+mujoco-warp==3.11.0
+warp-lang==1.14.0
+torch==2.8.0+cu128
+rsl-rl-lib==5.5.0
+tensordict==0.14.2
+scipy==1.18.1
+onnx==1.23.0
+onnxscript==0.5.4
+torchrunx==0.3.4
+fastapi==0.143.0
+uvicorn==0.49.0
+pytest==9.1.1
+setuptools==78.1.0
