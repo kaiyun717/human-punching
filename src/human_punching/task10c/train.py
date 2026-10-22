@@ -279,4 +279,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if "--phase2" in os.sys.argv:
+        os.sys.argv.remove("--phase2")
+        from human_punching.task10c.runner import main as phase2_main
+        phase2_main()
+    else:
+        main()

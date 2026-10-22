@@ -179,6 +179,7 @@ def test_inference_collection_guard_buffers_allow_explicit_reset():
                            projected_gravity_b=torch.tensor([[0., 0, -1]]).expand(2, 3),
                            root_link_lin_vel_b=torch.zeros(2, 3))
     c = SimpleNamespace(robot=SimpleNamespace(data=data), state=state(2),
+                        cfg=SimpleNamespace(reward_scales={}, guard_speed_profile='gaussian'),
                         torso_index=0, reference_torso_index=0, site_ids=[0, 1],
                         reference=SimpleNamespace(recovery=0.8), guard_z=torch.ones(2),
                         glove_velocity=torch.zeros(2, 2, 3),

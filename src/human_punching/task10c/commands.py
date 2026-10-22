@@ -6,7 +6,7 @@ committed timing, complete recovery and unknown-history snippet initialization.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 from pathlib import Path
 
@@ -93,12 +93,22 @@ class PunchCommandCfg(CommandTermCfg):
     recovery_fraction: float = 0.2
     target_split: str = 'train'
     ttc_range: tuple[float, float] | None = None
+    target_fraction: float = 1.0
+    easy_fraction: float = 0.5
+    reward_scales: dict[str, float] = field(default_factory=lambda: {
+        'balance': 1.0, 'guard': 1.0, 'style': 1.0})
+    guard_speed_profile: str = 'gaussian'
     resampling_time_range: tuple[float, float] = (1e9, 1e9)
     debug_vis: bool = True
 
     def __post_init__(self):
         if self.family not in FAMILY_ACTIVE_HAND:
             raise ValueError(f'Unknown punch family: {self.family!r}')
+        if (set(self.reward_scales) - {'balance', 'guard', 'style'}
+                or any(not np.isfinite(value) or value < 0 for value in self.reward_scales.values())):
+            raise ValueError('Reward budget scales must be finite, nonnegative balance/guard/style values')
+        if self.guard_speed_profile not in ('gaussian', 'rational'):
+            raise ValueError('Guard speed profile must be gaussian or rational')
 
     def build(self, env):
         return PunchCommand(self, env)
@@ -139,6 +149,44 @@ class PunchCommand(CommandTerm):
         self.steps_seen = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.settled_duration = torch.zeros_like(self.horizon)
         self.first_settled_elapsed = torch.full_like(self.horizon, float('nan'))
+        self.evaluation_recipes = None
+        self.evaluation_recipe_ids = []
+        self.set_curriculum({'stage': 0, 'target_fraction': cfg.target_fraction,
+                             'ttc_range': cfg.ttc_range, 'easy_fraction': cfg.easy_fraction})
+
+    def set_curriculum(self, state):
+        """Change future resets only; active commands remain committed."""
+        from .targets import target_subset_indices
+        t0 = max(0.5, self.reference.strike_time)
+        initial_ttc = (max(0.5, 0.9 * t0), 1.1 * t0)
+        bounds = tuple(state.get('ttc_range') or initial_ttc)
+        fraction = float(state.get('target_fraction', 1.0))
+        easy_fraction = float(state.get('easy_fraction', 0.5))
+        if len(bounds) != 2 or not 0 < bounds[0] <= bounds[1] or not 0 <= easy_fraction <= 1:
+            raise ValueError('Invalid curriculum timing or easy-case fraction')
+        points = self.pool.points(self.cfg.target_split, self.cfg.family)
+        self.curriculum = {**state, 'ttc_range': list(bounds), 'target_fraction': fraction,
+                           'easy_fraction': easy_fraction}
+        self.target_candidates = torch.as_tensor(target_subset_indices(points, fraction), device=self.device)
+        self.easy_target_candidates = torch.as_tensor(target_subset_indices(points, min(0.25, fraction)), device=self.device)
+        self.initial_ttc_range = initial_ttc
+        self.cfg.ttc_range = bounds
+        self.cfg.target_fraction = fraction
+        self.cfg.easy_fraction = easy_fraction
+
+    def set_evaluation_recipes(self, recipes):
+        """Install deterministic guard-start recipes, mapped by environment index."""
+        rows = recipes['rows']
+        if not rows or recipes.get('split', self.cfg.target_split) != self.cfg.target_split:
+            raise ValueError('Evaluation recipes must match the nonempty target split')
+        indices = [int(row['target_index']) for row in rows]
+        requested = [float(row['requested_ttc']) for row in rows]
+        if any(i < 0 or i >= len(self.targets) for i in indices) or any(t <= 0 or not np.isfinite(t) for t in requested):
+            raise ValueError('Invalid evaluation target index or TTC')
+        self.evaluation_recipes = (
+            torch.tensor(indices, dtype=torch.long, device=self.device),
+            torch.tensor(requested, dtype=torch.float32, device=self.device))
+        self.evaluation_recipe_ids = [row['recipe_id'] for row in rows]
 
     @property
     def command(self):
@@ -157,17 +205,29 @@ class PunchCommand(CommandTerm):
 
     def _resample_command(self, env_ids):
         n = len(env_ids)
-        t0 = max(0.5, self.reference.strike_time)
-        bounds = self.cfg.ttc_range or (max(0.5, 0.9 * t0), 1.1 * t0)
-        requested = torch.empty(n, device=self.device).uniform_(*bounds)
-        known = torch.rand(n, device=self.device) >= self.cfg.recovery_fraction
+        if self.evaluation_recipes is not None:
+            target_indices, requests = self.evaluation_recipes
+            rows = env_ids % len(requests)
+            requested = requests[rows]
+            indices = target_indices[rows]
+            known = torch.ones(n, device=self.device, dtype=torch.bool)
+        else:
+            requested = torch.empty(n, device=self.device).uniform_(*self.cfg.ttc_range)
+            indices = self.target_candidates[torch.randint(len(self.target_candidates), (n,), device=self.device)]
+            easy = torch.rand(n, device=self.device) < self.cfg.easy_fraction
+            # Broader domains retain the original easy targets and their timing.
+            easy_requested = torch.empty(n, device=self.device).uniform_(*self.initial_ttc_range)
+            if self.cfg.ttc_range[0] <= self.initial_ttc_range[0] and self.cfg.ttc_range[1] >= self.initial_ttc_range[1]:
+                requested = torch.where(easy, easy_requested, requested)
+            easy_indices = self.easy_target_candidates[torch.randint(len(self.easy_target_candidates), (n,), device=self.device)]
+            indices = torch.where(easy, easy_indices, indices)
+            known = torch.rand(n, device=self.device) >= self.cfg.recovery_fraction
         horizon, zi, zg = scheduled_normalizers(requested, self.reference.recovery, self._env.step_dt)
         # Quantized command ages preserve the original attempt's actor grid.
         first_recovery_step = torch.floor((requested + 0.10) / self._env.step_dt).long() + 1
         last_recovery_step = torch.floor((requested + self.reference.recovery) / self._env.step_dt).long()
         sample_step = first_recovery_step + (torch.rand(n, device=self.device) * (last_recovery_step - first_recovery_step + 1)).long()
         elapsed = torch.where(known, torch.zeros_like(requested), sample_step * self._env.step_dt)
-        indices = torch.randint(len(self.targets), (n,), device=self.device)
         self.target_index[env_ids] = indices
         target = self.targets[indices] + self._env.scene.env_origins[env_ids]
         self.state.reset(env_ids, target, requested, elapsed, known)
@@ -215,6 +275,9 @@ class PunchCommand(CommandTerm):
         pass
 
     def accumulate(self, name, rate):
+        # Budget scaling occurs before both accounting and RewardManager's dt
+        # integration; the recorded component is the actual learner contribution.
+        rate = rate * self.cfg.reward_scales.get(name, 1.0)
         if not bool(torch.isfinite(rate).all()):
             raise FloatingPointError(f'Nonfinite {name} reward before RewardManager sanitization')
         if name not in self.component_totals:

@@ -22,6 +22,17 @@ SCHEMA = "task10c_snapshot_head_pool_v1"
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
+def target_subset_indices(points: np.ndarray, fraction: float) -> np.ndarray:
+    """Central real snapshots ranked by XY distance, without moving any point."""
+    points = np.asarray(points)
+    if points.ndim != 2 or points.shape[1] != 3 or not len(points):
+        raise ValueError('Expected nonempty target points [N,3]')
+    if not 0 < fraction <= 1:
+        raise ValueError('Target fraction must lie in (0,1]')
+    distances = np.linalg.norm(points[:, :2] - np.median(points[:, :2], axis=0), axis=1)
+    return np.argsort(distances, kind='stable')[:max(1, int(np.ceil(len(points) * fraction)))]
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:

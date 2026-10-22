@@ -36,7 +36,8 @@ def selected_reference_path(family):
 
 def make_env_cfg(family='jab', reference_path=None, target_pool_path=None,
                  num_envs=256, seed=10, recovery_fraction=0.2,
-                 target_split='train', ttc_range=None):
+                 target_split='train', ttc_range=None, target_fraction=1.0,
+                 easy_fraction=0.5, diagnostics_dir=None):
     if reference_path is None:
         reference_path = selected_reference_path(family)
     target_pool_path = target_pool_path or ROOT / 'outputs/task10c/setup/target_pool.npz'
@@ -49,14 +50,15 @@ def make_env_cfg(family='jab', reference_path=None, target_pool_path=None,
                        entities={'robot': get_h2_robot_cfg()}),
         sim=SimulationCfg(nconmax=128, njmax=600, mujoco=MujocoCfg(timestep=0.005),
                            nan_guard=NanGuardCfg(enabled=True, buffer_size=2,
-                             output_dir=str(ROOT / 'outputs/task10c/setup/numerical_diagnostics'))),
+                             output_dir=str(diagnostics_dir or ROOT / 'outputs/task10c/setup/numerical_diagnostics'))),
         viewer=ViewerConfig(distance=3.5, elevation=-10, azimuth=135),
         observations={'actor': group, 'critic': deepcopy(group)},
         actions={'joint_pos': JointPositionActionCfg(entity_name='robot', actuator_names=('.*',),
                     scale=H2_ACTION_SCALE, use_default_offset=True)},
         commands={'punch': PunchCommandCfg(reference_path=str(reference_path),
                     target_pool_path=str(target_pool_path), family=family,
-                    recovery_fraction=recovery_fraction, target_split=target_split, ttc_range=ttc_range)},
+                    recovery_fraction=recovery_fraction, target_split=target_split, ttc_range=ttc_range,
+                    target_fraction=target_fraction, easy_fraction=easy_fraction)},
         events={},
         rewards={name: RewardTermCfg(func=getattr(mdp, name), weight=1.0)
                  for name in ('encounter', 'interaction', 'style', 'balance', 'guard',

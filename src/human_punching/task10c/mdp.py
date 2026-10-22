@@ -109,6 +109,20 @@ def guard_errors(env):
     return error, speed
 
 
+def guard_speed_score(speed: torch.Tensor, profile: str = 'gaussian') -> torch.Tensor:
+    """Soft recovery-speed preference with the existing 0.5 m/s scale.
+
+    Rational decay retains useful reward contrast at larger observed speeds;
+    both profiles favor zero speed and leave diagnostic tolerances unchanged.
+    """
+    squared_speed = (speed / 0.5) ** 2
+    if profile == 'gaussian':
+        return torch.exp(-0.5 * squared_speed)
+    if profile == 'rational':
+        return 1.0 / (1.0 + squared_speed)
+    raise ValueError(f'Unknown guard speed profile: {profile!r}')
+
+
 def guard(env):
     c = command(env)
     error, speed = guard_errors(env)
@@ -119,7 +133,7 @@ def guard(env):
     desired_quat = quat_mul(quat_inv(ref_torso_quat), c.terminal['glove_quat_w'])
     orientation = (actual_quat * desired_quat).sum(-1).square().mean(-1).clamp(0, 1)
     upright = (-d.projected_gravity_b[:, 2]).clamp(0, 1)
-    quality = torch.exp(-0.5 * (error / 0.15) ** 2) * torch.exp(-0.5 * (speed / 0.5) ** 2)
+    quality = torch.exp(-0.5 * (error / 0.15) ** 2) * guard_speed_score(speed, c.cfg.guard_speed_profile)
     quality *= torch.exp(-0.5 * d.root_link_lin_vel_b.square().sum(-1)) * upright
     quality *= 0.8 + 0.2 * orientation
     value = 2 * guard_weight(c.state.elapsed, c.state.requested_ttc, c.reference.recovery) * quality / c.guard_z

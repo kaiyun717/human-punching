@@ -128,6 +128,10 @@ def physics_event_callback(env):
     command.glove_velocity.copy_((glove - command.previous_glove) / env.physics_dt)
     command.previous_glove.copy_(glove)
     command.state.observe(glove[:, command.active_index], glove[:, 1 - command.active_index])
-    # Refreshed post-step geometry and scoring share this same authoritative clock.
-    command.refresh_reference()
+    # The manager increments this global counter before each physics callback.
+    # Refresh the reference at the actor boundary, before reward computation;
+    # geometry and the first-encounter latch still update at every 5 ms tick.
+    # Resets do not change the global counter or the decimation boundaries.
+    if env._sim_step_counter % env.cfg.decimation == 0:
+        command.refresh_reference()
     return command.state.encountered.float()

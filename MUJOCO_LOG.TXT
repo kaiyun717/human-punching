@@ -97,3 +97,24 @@ timestep: parent has 0.002 (default), child has 0.005, keeping parent value
 WARNING Thu Oct 22 02:49:53 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
 timestep: parent has 0.002 (default), child has 0.005, keeping parent value
 
+WARNING Thu Oct 22 04:12:11 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 04:12:15 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 04:40:32 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 04:40:35 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 05:11:40 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 14:24:50 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+
+WARNING Thu Oct 22 14:33:27 2026: Attach conflict when attaching 'h2' to 'mjlab scene', policy is 'warning'
+timestep: parent has 0.002 (default), child has 0.005, keeping parent value
+

@@ -60,30 +60,47 @@ class PunchEnv(ManagerBasedRlEnv):
         if len(completed):
             error, speed = mdp.guard_errors(self)
             falls = mdp.fallen(self)
-            for idx in completed.tolist():
-                known = bool(c.state.history_known[idx])
-                hit = bool(c.state.encountered[idx]) if known else None
-                actual = _number(c.state.first_encounter_elapsed[idx]) if known else None
+            # Transfer a compact batch once, rather than synchronizing CUDA for
+            # every scalar of every finished episode at substantive PPO scale.
+            names = ('known', 'hit', 'actual', 'target_index', 'requested', 'start',
+                     'end', 'phase', 'horizon', 'steps', 'launch', 'overlap', 'inactive',
+                     'inactive_time', 'fall', 'complete', 'guard_error', 'guard_speed', 'settled')
+            values = (c.state.history_known, c.state.encountered, c.state.first_encounter_elapsed,
+                      c.target_index, c.state.requested_ttc, c.state.start_elapsed,
+                      c.state.elapsed, c.source_time, c.horizon, c.steps_seen, c.state.launch_time,
+                      c.state.launch_overlap, c.state.inactive_encountered, c.state.first_inactive_elapsed,
+                      falls, c.state.elapsed >= c.horizon - 1e-6, error, speed, c.first_settled_elapsed)
+            component_names = tuple(c.component_totals)
+            columns = torch.stack([v[completed].float() for v in values]
+                                  + [c.component_totals[n][completed] for n in component_names], dim=1).cpu().tolist()
+            targets = c.state.target_world[completed].cpu().tolist()
+            snapshot_ids = c.pool.snapshot_ids(c.cfg.target_split)
+            for idx, column, target in zip(completed.tolist(), columns, targets):
+                row = dict(zip(names, column))
+                known = bool(row['known'])
+                hit = bool(row['hit']) if known else None
+                actual = _number(row['actual']) if known else None
                 self.episode_records.append({
                     'family': c.cfg.family, 'environment': idx,
                     'reset_kind': 'full' if known else 'recovery_snippet',
-                    'snapshot_id': int(c.pool.snapshot_ids(c.cfg.target_split)[int(c.target_index[idx])]),
-                    'target_world': c.state.target_world[idx].cpu().tolist(),
-                    'requested_ttc_s': float(c.state.requested_ttc[idx]),
-                    'elapsed_start_s': float(c.state.start_elapsed[idx]),
-                    'elapsed_end_s': float(c.state.elapsed[idx]),
-                    'source_phase_end_s': float(c.source_time[idx]),
-                    'horizon_s': float(c.horizon[idx]), 'actor_steps': int(c.steps_seen[idx]),
+                    'snapshot_id': int(snapshot_ids[int(row['target_index'])]),
+                    'target_world': target,
+                    'requested_ttc_s': row['requested'],
+                    'elapsed_start_s': row['start'],
+                    'elapsed_end_s': row['end'],
+                    'source_phase_end_s': row['phase'],
+                    'horizon_s': row['horizon'], 'actor_steps': int(row['steps']),
                     'hit': hit, 'actual_ttc_s': actual,
-                    'launch_local_sim_time_s': float(c.state.launch_time[idx]),
-                    'first_encounter_local_sim_time_s': None if actual is None else actual + float(c.state.launch_time[idx]),
-                    'signed_timing_error_s': None if actual is None else actual - float(c.state.requested_ttc[idx]),
-                    'launch_overlap': bool(c.state.launch_overlap[idx]),
-                    'inactive_encounter': bool(c.state.inactive_encountered[idx]),
-                    'snippet_observed_encounter': bool(c.state.encountered[idx]) if not known else None,
-                    'fall': bool(falls[idx]), 'complete_horizon': bool(c.state.elapsed[idx] >= c.horizon[idx] - 1e-6),
-                    'guard_glove_error_m': float(error[idx]), 'guard_glove_speed_m_s': float(speed[idx]),
-                    'settled_guard_elapsed_s': _number(c.first_settled_elapsed[idx]),
-                    'raw_component_totals': {name: float(values[idx]) for name, values in c.component_totals.items()},
+                    'launch_local_sim_time_s': row['launch'],
+                    'first_encounter_local_sim_time_s': None if actual is None else actual + row['launch'],
+                    'signed_timing_error_s': None if actual is None else actual - row['requested'],
+                    'launch_overlap': bool(row['overlap']),
+                    'inactive_encounter': bool(row['inactive']),
+                    'first_inactive_elapsed_s': _number(row['inactive_time']) if known else None,
+                    'snippet_observed_encounter': bool(row['hit']) if not known else None,
+                    'fall': bool(row['fall']), 'complete_horizon': bool(row['complete']),
+                    'guard_glove_error_m': row['guard_error'], 'guard_glove_speed_m_s': row['guard_speed'],
+                    'settled_guard_elapsed_s': _number(row['settled']),
+                    'raw_component_totals': dict(zip(component_names, column[len(names):])),
                 })
         super()._reset_idx(env_ids)
