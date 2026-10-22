@@ -1,0 +1,24 @@
+{
+  "source": "https://github.com/wbc-mjlab/wbc-mjlab-extension-h2",
+  "revision": "3d9a05d951b49e803d9d2c3555aed29a4b1e4b2b",
+  "source_xml_sha256": "8611af9999b5ce064352c25f1edb23b44432ba2dcbff30b0ea38e98f5b00c0a4",
+  "changes": [
+    "Keep 31 joint selected model and source-derived Python actuator formulas",
+    "Remove seven competing ankle-roll foot capsules per side and six redundant final-foot spheres per side",
+    "Use final ankle-pitch sole boxes with condim 3 friction 0.6",
+    "Replace hand capsules with 0.08 m glove spheres at stated midpoint and named centers",
+    "Explicit self/ground collision masks and complete priorities"
+  ],
+  "glove_centers_m": {
+    "left": [
+      0.135,
+      -0.01,
+      0
+    ],
+    "right": [
+      0.135,
+      0.01,
+      0
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "source": "https://github.com/YanjieZe/GMR",
+  "revision": "bb1bbe40774794fceb2a7c579a3464a28e68c844",
+  "selection": "Selected GMR runtime; minimal package initialization avoids unrelated eager imports",
+  "sha256": {
+    "motion_retarget.py": "3a4f9fb0d13b204c8dcbb2ab62db59bce9de81b1f5911167aa73f079e0c90663",
+    "params.py": "3506cdd277375139770b0ced7108719145620a389a8dee85bc6c94c6bf135bef"
+  },
+  "local_compatibility_patch": {
+    "file": "motion_retarget.py",
+    "calls_changed": 4,
+    "change": "Pass existing self.ik_limits as limits= keyword; the sixth positional Mink argument is safety_break, not limits. All tested Mink releases share this API. Solver equations, tasks, integration and iterations remain unchanged.",
+    "local_sha256": "206915ba60f83587fde5efd27ed38cfb1257cfda33cdd9518cab6adc5e9d6f6c"
+  }
+}

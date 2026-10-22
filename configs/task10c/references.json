@@ -1,0 +1,6 @@
+{
+  "jab": "outputs/task10c/references/jab.npz",
+  "cross": "outputs/task10c/references/cross.npz",
+  "left_hook": "outputs/task10c/reference_correction/hooks_final/initial_guard_return/selected/left_hook.npz",
+  "right_hook": "outputs/task10c/reference_correction/hooks_final/right_compact_return/selected/right_hook.npz"
+}

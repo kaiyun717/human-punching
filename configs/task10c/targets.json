@@ -1,0 +1,43 @@
+{
+  "snapshot_bank": "/home/kaisyun/Azizan_Lab/HumanBox/robust_sav/constants/boxing/snapshots/v1_20260921",
+  "g1_asset_root": "/home/kaisyun/Azizan_Lab/HumanBox/mjlab/src/mjlab/asset_zoo/robots/unitree_g1",
+  "nominal_plant": "/home/kaisyun/Azizan_Lab/HumanBox/robust_sav/constants/boxing/stance/v1_20260921/nominal_plant.json",
+  "seed": 101003,
+  "counts": {
+    "train": 512,
+    "validation": 128,
+    "test": 128
+  },
+  "horizontal_radius": 0.1,
+  "vertical_half_width": 0.05,
+  "families": {
+    "jab": {
+      "g1_yaw": 3.141592653589793,
+      "head_center_xy": [
+        1.0604902156761198,
+        0.2593262217038597
+      ]
+    },
+    "cross": {
+      "g1_yaw": 3.141592653589793,
+      "head_center_xy": [
+        0.7927670949667786,
+        0.5278961106190829
+      ]
+    },
+    "left_hook": {
+      "g1_yaw": 3.141592653589793,
+      "head_center_xy": [
+        1.0811710061251398,
+        0.18248693101585728
+      ]
+    },
+    "right_hook": {
+      "g1_yaw": 3.141592653589793,
+      "head_center_xy": [
+        0.6570204161781494,
+        0.7030603837416475
+      ]
+    }
+  }
+}
