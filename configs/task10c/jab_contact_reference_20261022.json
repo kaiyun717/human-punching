@@ -1,0 +1,16 @@
+{
+  "schema": "task10c_jab_reference_experiment_v1",
+  "reference_path": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.npz",
+  "reference_sha256": "50887274783da7364d8b7ce39ee7f956c583174b0339ca602d65bfd71ff600e8",
+  "reference_metadata_sha256": "96bf91e8a60f66847adfaa9f56a0319410424a522db5c53fba64b3e5ec36a74d",
+  "clock_mode": "smooth_entry",
+  "ttc_anchor_time": 0.510,
+  "strike_center_time": 0.680,
+  "post_entry_duration": 0.910,
+  "easy_ttc_range": [0.555, 0.6783333333333333],
+  "ttc_range": [0.5, 0.9],
+  "easy_fraction": 0.5,
+  "target_fraction": 1.0,
+  "target_height_curriculum": false,
+  "terminal_hold_s": 0.4
+}

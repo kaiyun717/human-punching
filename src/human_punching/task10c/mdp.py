@@ -8,6 +8,10 @@ from __future__ import annotations
 import torch
 from mjlab.utils.lab_api.math import quat_apply_inverse, quat_inv, quat_mul
 from .events import guard_weight, interaction_weight
+from .imitation import (
+    H2_TRACKED_BODY_NAMES, command_excess_loss, imitation_rates,
+    named_joint_groups, whole_body_scores,
+)
 
 OBSERVATION_SCHEMA = (
     ('joint_position_rad', 31), ('joint_velocity_rad_s', 31),
@@ -28,6 +32,8 @@ def command(env):
 def observations(env):
     c = command(env)
     d = c.robot.data
+    # Launch registration has identity rotation: source orientation and world
+    # velocities are already in the registered scene frame in both controls.
     relative_orientation = quat_mul(quat_inv(d.root_link_quat_w), c.ref['root_quat_w'])
     orientation_sign = torch.where(relative_orientation[:, :1] < 0, -1.0, 1.0)
     temporal = torch.stack((c.state.requested_ttc, c.state.remaining,
@@ -68,7 +74,85 @@ def _relative_positions(position, anchor_position, anchor_quat):
                               position - anchor_position[:, None, :])
 
 
+def _whole_body_rates(env):
+    """Gather and score once per actor transition, then log six components.
+
+    The reference object is included in the cache key so an explicit reset or
+    reference refresh at the same global step cannot reuse stale scores.
+    """
+    c = command(env)
+    if (getattr(c, '_imitation_step', None) == env.common_step_counter
+            and getattr(c, '_imitation_reference', None) is c.ref):
+        return c._imitation_rates
+    if not hasattr(c, '_imitation_robot_ids'):
+        c._imitation_robot_ids = [c.robot.body_names.index(name) for name in H2_TRACKED_BODY_NAMES]
+        c._imitation_reference_ids = [c.reference.body_names.index(name) for name in H2_TRACKED_BODY_NAMES]
+    d = c.robot.data
+    actual_ids, reference_ids = c._imitation_robot_ids, c._imitation_reference_ids
+    scores = whole_body_scores(
+        d.body_link_pos_w[:, actual_ids], d.body_link_quat_w[:, actual_ids],
+        d.body_link_lin_vel_w[:, actual_ids], d.body_link_ang_vel_w[:, actual_ids],
+        c.ref['body_pos_w'][:, reference_ids] + c.reference_origin_w[:, None, :],
+        c.ref['body_quat_w'][:, reference_ids],
+        c.ref['body_lin_vel_w'][:, reference_ids], c.ref['body_ang_vel_w'][:, reference_ids],
+        imitation_frame=c.cfg.imitation_frame)
+    rates = imitation_rates(
+        scores, c.horizon,
+        guard_weight(c.state.elapsed, c.state.requested_ttc, c.reference.recovery),
+        c.guard_z, c.cfg.imitation_budget, c.cfg.recovery_budget)
+    update_hand_settling_diagnostic(env)
+    c._imitation_scores = scores
+    c._imitation_rates = rates
+    c._imitation_step = env.common_step_counter
+    c._imitation_reference = c.ref
+    return rates
+
+
+def anchor_height(env):
+    return command(env).accumulate('anchor_height', _whole_body_rates(env)['anchor_height'])
+
+
+def anchor_orientation(env):
+    return command(env).accumulate('anchor_orientation', _whole_body_rates(env)['anchor_orientation'])
+
+
+def body_position(env):
+    return command(env).accumulate('body_position', _whole_body_rates(env)['body_position'])
+
+
+def body_orientation(env):
+    return command(env).accumulate('body_orientation', _whole_body_rates(env)['body_orientation'])
+
+
+def body_linear_velocity(env):
+    return command(env).accumulate('body_linear_velocity', _whole_body_rates(env)['body_linear_velocity'])
+
+
+def body_angular_velocity(env):
+    return command(env).accumulate('body_angular_velocity', _whole_body_rates(env)['body_angular_velocity'])
+
+
+def command_excess(env):
+    """All-joint physical target excess against named native hard limits."""
+    c = command(env)
+    if not hasattr(c, '_command_excess_groups'):
+        c._command_excess_groups = named_joint_groups(c.robot.joint_names)
+        model = env.sim.mj_model
+        native_ids = [model.joint(f'{c.cfg.entity_name}/{name}').id for name in c.robot.joint_names]
+        limits = model.jnt_range[native_ids]
+        c._command_excess_hard_limits = torch.as_tensor(limits, device=env.device, dtype=torch.float32)
+        if not bool(torch.isfinite(c._command_excess_hard_limits).all()
+                    & (c._command_excess_hard_limits[:, 1] > c._command_excess_hard_limits[:, 0]).all()):
+            raise ValueError('Each named H2 command needs finite, ordered native hard limits')
+    # joint_pos_target is the actual physical PD target after the unchanged
+    # affine action map and encoder-bias subtraction, in entity joint order.
+    loss = command_excess_loss(c.robot.data.joint_pos_target,
+                              c._command_excess_hard_limits, c._command_excess_groups)
+    return c.accumulate('command_excess', -c.cfg.command_excess_weight * loss / c.horizon)
+
+
 def style(env):
+    """Historical six-origin surrogate, enabled only by legacy reward mode."""
     c = command(env)
     # Soft torso-relative limb style, with no global-root or exact-foot orientation loss.
     if not hasattr(c, 'style_robot_ids'):
@@ -89,6 +173,7 @@ def style(env):
 
 
 def balance(env):
+    """Historical upright/height surrogate, enabled only by legacy mode."""
     c = command(env)
     upright = (-c.robot.data.projected_gravity_b[:, 2]).clamp(0, 1)
     target_height = c.ref['root_pos_w'][:, 2]
@@ -123,7 +208,29 @@ def guard_speed_score(speed: torch.Tensor, profile: str = 'gaussian') -> torch.T
     raise ValueError(f'Unknown guard speed profile: {profile!r}')
 
 
+def update_hand_settling_diagnostic(env, error=None, speed=None):
+    """Preserve the old hand-settling statistic without a corrective reward.
+
+    This is intentionally only a diagnostic, not whole-body recovery success.
+    The global actor-step key makes repeated component/metric calls idempotent.
+    """
+    c = command(env)
+    if getattr(c, '_hand_settling_step', None) == env.common_step_counter:
+        return
+    if error is None or speed is None:
+        error, speed = guard_errors(env)
+    upright = (-c.robot.data.projected_gravity_b[:, 2]).clamp(0, 1)
+    after = c.state.elapsed > c.state.requested_ttc + 0.10
+    settled = after & (error <= 0.12) & (speed <= 0.30) & (upright >= 0.8)
+    # Keep the ordinary tensors mutable during resets outside inference_mode.
+    c.settled_duration.copy_(torch.where(settled, c.settled_duration + env.step_dt, 0.0))
+    newly_settled = (c.settled_duration >= 0.2 - 1e-6) & torch.isnan(c.first_settled_elapsed)
+    c.first_settled_elapsed[newly_settled] = c.state.elapsed[newly_settled]
+    c._hand_settling_step = env.common_step_counter
+
+
 def guard(env):
+    """Historical glove-only reward, enabled only by legacy reward mode."""
     c = command(env)
     error, speed = guard_errors(env)
     d = c.robot.data
@@ -137,13 +244,7 @@ def guard(env):
     quality *= torch.exp(-0.5 * d.root_link_lin_vel_b.square().sum(-1)) * upright
     quality *= 0.8 + 0.2 * orientation
     value = 2 * guard_weight(c.state.elapsed, c.state.requested_ttc, c.reference.recovery) * quality / c.guard_z
-    after = c.state.elapsed > c.state.requested_ttc + 0.10
-    settled = after & (error <= 0.12) & (speed <= 0.30) & (upright >= 0.8)
-    # Preserve the ordinary tensor allocated at command construction. RSL-RL
-    # collects under inference_mode, but explicit resets also run outside it.
-    c.settled_duration.copy_(torch.where(settled, c.settled_duration + env.step_dt, 0.0))
-    newly_settled = (c.settled_duration >= 0.2 - 1e-6) & torch.isnan(c.first_settled_elapsed)
-    c.first_settled_elapsed[newly_settled] = c.state.elapsed[newly_settled]
+    update_hand_settling_diagnostic(env, error, speed)
     return c.accumulate('guard', value)
 
 

@@ -18,6 +18,7 @@ from mjlab.viewer import ViewerConfig
 from . import mdp
 from .commands import PunchCommandCfg
 from .events import physics_event_callback
+from .imitation import IMITATION_WEIGHTS
 from .robot import get_h2_robot_cfg, H2_ACTION_SCALE
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -37,7 +38,24 @@ def selected_reference_path(family):
 def make_env_cfg(family='jab', reference_path=None, target_pool_path=None,
                  num_envs=256, seed=10, recovery_fraction=0.2,
                  target_split='train', ttc_range=None, target_fraction=1.0,
-                 easy_fraction=0.5, diagnostics_dir=None):
+                 easy_fraction=0.5, diagnostics_dir=None,
+                 reward_mode='whole_body', imitation_budget=7.0,
+                 recovery_budget=6.0, command_excess_weight=1.0,
+                 easy_ttc_range=None, clock_mode='legacy', ttc_anchor_time=None,
+                 post_entry_duration=None, imitation_frame='relative',
+                 task_rewards_enabled=True, fixed_target_snapshot_id=None):
+    if reward_mode == 'whole_body':
+        reward_names = ('encounter', 'interaction', *IMITATION_WEIGHTS, 'command_excess',
+                        'action_rate', 'effort', 'joint_margin')
+    elif reward_mode == 'legacy':
+        reward_names = ('encounter', 'interaction', 'style', 'balance', 'guard',
+                        'action_rate', 'effort', 'joint_margin')
+    else:
+        raise ValueError(f'Unknown reward mode: {reward_mode!r}')
+    if not task_rewards_enabled:
+        # Event observation/diagnostics still run at every physics substep. The
+        # remaining reward budgets are unchanged, with no removed-weight reuse.
+        reward_names = tuple(name for name in reward_names if name not in ('encounter', 'interaction'))
     if reference_path is None:
         reference_path = selected_reference_path(family)
     target_pool_path = target_pool_path or ROOT / 'outputs/task10c/setup/target_pool.npz'
@@ -58,11 +76,16 @@ def make_env_cfg(family='jab', reference_path=None, target_pool_path=None,
         commands={'punch': PunchCommandCfg(reference_path=str(reference_path),
                     target_pool_path=str(target_pool_path), family=family,
                     recovery_fraction=recovery_fraction, target_split=target_split, ttc_range=ttc_range,
-                    target_fraction=target_fraction, easy_fraction=easy_fraction)},
+                    target_fraction=target_fraction, easy_fraction=easy_fraction,
+                    easy_ttc_range=easy_ttc_range, clock_mode=clock_mode,
+                    ttc_anchor_time=ttc_anchor_time, post_entry_duration=post_entry_duration,
+                    reward_mode=reward_mode, imitation_budget=imitation_budget,
+                    recovery_budget=recovery_budget, command_excess_weight=command_excess_weight,
+                    imitation_frame=imitation_frame, task_rewards_enabled=task_rewards_enabled,
+                    fixed_target_snapshot_id=fixed_target_snapshot_id)},
         events={},
         rewards={name: RewardTermCfg(func=getattr(mdp, name), weight=1.0)
-                 for name in ('encounter', 'interaction', 'style', 'balance', 'guard',
-                              'action_rate', 'effort', 'joint_margin')},
+                 for name in reward_names},
         terminations={'complete': TerminationTermCfg(func=mdp.complete, time_out=False),
                        'fallen': TerminationTermCfg(func=mdp.fallen, time_out=False)},
         metrics={'encounter_refresh': MetricsTermCfg(func=physics_event_callback, per_substep=True, reduce='last')},

@@ -17,6 +17,7 @@ import math
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import time
 import uuid
@@ -28,9 +29,12 @@ from rsl_rl.utils.logger import Logger
 
 from .rl_cfg import runner_cfg
 from .train import ROOT, identity, json_write, state_equal
+from .evaluate import (LEGACY_JAB_SHA256, REFERENCE_EXPERIMENT_SCHEMA, NOMINAL_CONTROL_SCHEMA,
+                       reference_env_kwargs, resolve_reference_contract,
+                       validate_reference_resume)
 
 PHASE = "task10c_phase2_jab"
-JAB_SHA256 = "f4c710d2d6839d8b86486d141f68d307a268a999aed1ecdbe36b49713878f8f6"
+JAB_SHA256 = LEGACY_JAB_SHA256
 
 
 def resolve_reward_scales(parent: dict | None = None, **overrides) -> dict[str, float]:
@@ -58,7 +62,18 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_resume(infos: dict, reference_hash: str, target_hash: str, seed: int) -> None:
+def model_state_digest(module) -> str:
+    """Stable tensor identity, including observation normalizer buffers."""
+    digest = hashlib.sha256()
+    for name, value in sorted(module.state_dict().items()):
+        tensor = value.detach().cpu().contiguous()
+        digest.update(f"{name}:{tensor.dtype}:{tuple(tensor.shape)}".encode())
+        digest.update(tensor.numpy().tobytes())
+    return digest.hexdigest()
+
+
+def validate_resume(infos: dict, reference_hash: str, target_hash: str, seed: int,
+                    reference_contract: dict | None = None) -> None:
     """Reject setup/other-family weights before mutating any learner state."""
     if infos.get("phase") != PHASE or infos.get("family") != "jab" or not infos.get("lineage_id"):
         raise ValueError("Resume requires this Phase 2 fresh-jab lineage, never Phase 1/another family")
@@ -70,6 +85,8 @@ def validate_resume(infos: dict, reference_hash: str, target_hash: str, seed: in
         raise ValueError("Resume is missing its completed iteration count")
     if not isinstance(infos.get("curriculum"), dict):
         raise ValueError("Resume is missing its curriculum state")
+    if reference_contract is not None:
+        validate_reference_resume(infos, reference_contract)
 
 
 class BoundedStop(Exception):
@@ -118,7 +135,12 @@ class Phase2Runner(MjlabOnPolicyRunner):
         loaded = torch.load(path, weights_only=False, map_location="cpu")
         expected = self.task_metadata
         validate_resume(loaded.get("infos", {}), expected["reference_sha256"],
-                        expected["target_pool_sha256"], expected["seed"])
+                        expected["target_pool_sha256"], expected["seed"],
+                        expected.get("reference_contract"))
+        if loaded["infos"].get("reward_mode", "legacy") != expected.get("reward_mode", "legacy"):
+            raise ValueError("Reward correction requires a fresh lineage; cannot resume legacy targeting weights")
+        if loaded["infos"].get("reward_recipe", {}).get("version") != expected.get("reward_recipe", {}).get("version"):
+            raise ValueError("Resume reward recipe version changed")
         old_contract = loaded["infos"].get("observation_contract")
         if old_contract != expected.get("observation_contract"):
             raise ValueError("Resume observation/action contract changed")
@@ -229,6 +251,8 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--target-pool", type=Path, default=ROOT / "outputs/task10c/setup/target_pool.npz")
     parser.add_argument("--resume", type=Path)
+    parser.add_argument("--experiment-config", type=Path,
+                        help="Explicit approved jab reference/clock configuration; default preserves the old reference")
     parser.add_argument("--guard-bias", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--wall-seconds", type=float, default=20400,
                         help="Application budget including initialization; reserve time before Slurm ends")
@@ -242,12 +266,21 @@ def main() -> None:
     parser.add_argument("--curriculum-stage", type=int)
     parser.add_argument("--entropy-coef", type=float)
     parser.add_argument("--init-std", type=float)
+    parser.add_argument("--imitation-budget", type=float, help="Whole-attempt imitation budget; fresh default 7")
+    parser.add_argument("--recovery-budget", type=float, help="Additional whole-body recovery budget; fresh default 6")
+    parser.add_argument("--command-excess-weight", type=float, help="Summed-group command-excess cost; fresh default 1")
     parser.add_argument("--balance-scale", type=float, help="Balance episode-budget multiplier; fresh default 1")
     parser.add_argument("--guard-scale", type=float, help="Recovery episode-budget multiplier; fresh default 1")
     parser.add_argument("--style-scale", type=float, help="Style episode-budget multiplier; fresh default 1")
     parser.add_argument("--guard-speed-profile", choices=("gaussian", "rational"),
                         help="Soft speed reward profile; fresh default gaussian, resume inherits")
     args = parser.parse_args()
+    if any(value is not None for value in
+           (args.balance_scale, args.guard_scale, args.style_scale, args.guard_speed_profile)):
+        parser.error("Old style/balance/guard rewards are replaced; use the whole-body budget arguments")
+    for value in (args.imitation_budget, args.recovery_budget, args.command_excess_weight):
+        if value is not None and (not math.isfinite(value) or value < 0):
+            parser.error("Whole-body reward budgets and command cost must be finite and nonnegative")
     started = time.monotonic()
     if args.updates <= 0 or args.num_envs <= 0 or args.wall_seconds <= 0 or args.wall_seconds > 21600:
         parser.error("Positive exposure/budget required, with wall seconds <=21600")
@@ -284,43 +317,110 @@ def main() -> None:
     from .mdp import OBSERVATION_SCHEMA
     configure_torch_backends()
     torch.manual_seed(args.seed)
-    cfg = make_env_cfg(family="jab", target_pool_path=args.target_pool, num_envs=args.num_envs,
-                       seed=args.seed, recovery_fraction=0.2)
-    cfg.sim.nan_guard.output_dir = str(out / "numerical_diagnostics")
-    reference_path = Path(cfg.commands["punch"].reference_path)
-    if sha256(reference_path) != JAB_SHA256:
-        raise ValueError("Selected jab reference differs from the Phase 2 accepted input")
-    metadata = {**identity(), "phase": PHASE, "family": "jab", "seed": args.seed,
-                "lineage_id": str(uuid.uuid4()), "reference_sha256": sha256(reference_path),
-                "target_pool_sha256": sha256(args.target_pool), "argv": os.sys.argv,
-                "physics_dt": 0.005, "actor_dt": 0.02,
-                "initialization": "fresh_weights_normalizers_optimizer",
-                "resume_semantics": "learner/normalizer/optimizer/iteration/curriculum; fresh simulator episodes, not bitwise RNG resume"}
     resume_infos = None
     if args.resume:
         loaded = torch.load(args.resume, weights_only=False, map_location="cpu")
         resume_infos = loaded.get("infos", {})
-        validate_resume(resume_infos, metadata["reference_sha256"], metadata["target_pool_sha256"], args.seed)
+        del loaded
+    reference_contract = resolve_reference_contract(args.experiment_config, resume_infos)
+    nominal_control = reference_contract["schema"] == NOMINAL_CONTROL_SCHEMA
+    explicit_reference_experiment = reference_contract["schema"] in (
+        REFERENCE_EXPERIMENT_SCHEMA, NOMINAL_CONTROL_SCHEMA)
+    if explicit_reference_experiment:
+        if (args.ttc_min is not None
+                and [args.ttc_min, args.ttc_max] != reference_contract["ttc_range"]):
+            raise ValueError("TTC overrides contradict the explicit reference experiment")
+        if (args.target_fraction is not None
+                and args.target_fraction != reference_contract["target_fraction"]):
+            raise ValueError("Target-fraction override contradicts the explicit reference experiment")
+    cfg = make_env_cfg(family="jab", target_pool_path=args.target_pool, num_envs=args.num_envs,
+                       seed=args.seed, recovery_fraction=0.2, **reference_env_kwargs(reference_contract))
+    cfg.sim.nan_guard.output_dir = str(out / "numerical_diagnostics")
+    reference_path = Path(cfg.commands["punch"].reference_path)
+    metadata = {**identity(), "phase": PHASE, "family": "jab", "seed": args.seed,
+                "lineage_id": str(uuid.uuid4()), "reference_sha256": sha256(reference_path),
+                "reference_path": str(reference_path),
+                "reference_metadata_path": str(reference_path.with_suffix(".json")),
+                "reference_metadata_sha256": reference_contract["reference_metadata_sha256"],
+                "reference_contract": deepcopy(reference_contract),
+                "target_pool_sha256": sha256(args.target_pool), "argv": os.sys.argv,
+                "physics_dt": 0.005, "actor_dt": 0.02,
+                "initialization": "fresh_weights_normalizers_optimizer",
+                "resume_semantics": "learner/normalizer/optimizer/iteration/curriculum; fresh simulator episodes, not bitwise RNG resume"}
+    if args.experiment_config:
+        metadata["experiment_config"] = str(args.experiment_config.resolve())
+        metadata["experiment_config_sha256"] = sha256(args.experiment_config)
+    elif resume_infos and resume_infos.get("experiment_config"):
+        metadata["experiment_config"] = resume_infos["experiment_config"]
+        metadata["experiment_config_sha256"] = resume_infos["experiment_config_sha256"]
+    if args.resume:
+        validate_resume(resume_infos, metadata["reference_sha256"], metadata["target_pool_sha256"],
+                        args.seed, reference_contract)
+        if resume_infos.get("reward_mode", "legacy") != "whole_body":
+            raise ValueError("The corrected objective starts fresh; legacy checkpoints remain targeting baselines")
+        if resume_infos.get("reward_recipe", {}).get("version") != "tasknpoint_h2_whole_body_v1":
+            raise ValueError("Resume requires the corrected whole-body reward recipe version")
         metadata.update(lineage_id=resume_infos["lineage_id"], initialization="phase2_lineage_resume",
                         resume_checkpoint=str(args.resume.resolve()), resume_checkpoint_sha256=sha256(args.resume))
-        del loaded
-    reward_scales = resolve_reward_scales(resume_infos.get("reward_scales") if resume_infos else None,
-                                         balance=args.balance_scale, guard=args.guard_scale, style=args.style_scale)
+    # The six imitation terms carry their own explicit budgets. Legacy terms
+    # remain available only for evaluation of preserved old checkpoints.
+    reward_scales = {}
     cfg.commands["punch"].reward_scales = reward_scales.copy()
     metadata["reward_scales"] = reward_scales.copy()
     guard_speed_profile = resolve_guard_speed_profile(
         resume_infos.get("guard_speed_profile") if resume_infos else None, args.guard_speed_profile)
     cfg.commands["punch"].guard_speed_profile = guard_speed_profile
     metadata["guard_speed_profile"] = guard_speed_profile
+    metadata["reward_mode"] = "whole_body"
+    from .imitation import H2_TRACKED_BODY_NAMES, IMITATION_WEIGHTS, IMITATION_STDS
+    for key, default in (("imitation_budget", 7.0), ("recovery_budget", 6.0),
+                         ("command_excess_weight", 1.0)):
+        override = getattr(args, key)
+        value = float(override if override is not None else
+                      resume_infos.get(key, default) if resume_infos else default)
+        if not math.isfinite(value) or value < 0:
+            raise ValueError(f"Invalid inherited reward parameter: {key}")
+        setattr(cfg.commands["punch"], key, value)
+        metadata[key] = value
+    metadata["reward_recipe"] = {
+        "version": "tasknpoint_h2_whole_body_v1",
+        "tasknpoint_commit": "b8faaf284e0cef8021b94e2219492dbd54efba0c",
+        "tracked_body_names": H2_TRACKED_BODY_NAMES,
+        "relative_weights": IMITATION_WEIGHTS, "widths": IMITATION_STDS,
+        "command_excess_scale_rad": 0.3, "command_excess_smooth_l1_beta": 1.0,
+        "command_aggregation": "sum of head/waist/left-leg/right-leg/left-arm/right-arm means; all 31 commands",
+        "anchor_position": "height only; full soft quaternion anchor orientation",
+        "pose_alignment": "current pelvis XY, reference pelvis Z, yaw(robot pelvis * inverse(reference pelvis))",
+        "velocity_coordinates": "world body-link velocities, no root subtraction or yaw alignment",
+        "intentional_omissions": ["global anchor XY reward", "TaskNPoint self-collision reward penalty",
+                                  "imitation-error terminations", "old style/balance/glove-guard rewards"],
+        "retained": "physical collisions/fall termination; fixed-default actions, gains and torque limits",
+        "budgets_status": "configurable initial engineering weights, not validated constants",
+    }
+    if nominal_control:
+        metadata["reward_recipe"].update(
+            pose_alignment=("current pelvis XY, reference pelvis Z, yaw(robot pelvis * inverse(reference pelvis))"
+                            if reference_contract["imitation_frame"] == "relative" else
+                            "fixed launch registration: scene origin translation and identity rotation; retain source root trajectory"),
+            task_rewards_enabled=False,
+            omitted_task_rewards=["encounter", "interaction"],
+            removed_budget_redistributed=False)
+        metadata["checkpoint_comparison"] = (
+            "primary comparison at matched final exposure; retain intermediate panels for strike/recovery video review; "
+            "no hit/standing/terminal-based automatic best selection")
     metadata["reward_component_totals_semantics"] = "scaled reward rates integrated once over actor dt; RewardManager weights remain 1"
     if resume_infos:
         metadata["parent_reward_scales"] = resolve_reward_scales(resume_infos.get("reward_scales"))
         metadata["parent_guard_speed_profile"] = resolve_guard_speed_profile(resume_infos.get("guard_speed_profile"))
-    ref_metadata = json.loads(reference_path.with_suffix(".json").read_text())
-    nominal_ttc = max(0.5, ref_metadata["strike_time_s"])
     curriculum = deepcopy(resume_infos["curriculum"]) if resume_infos else {
-        "stage": 0, "target_fraction": 0.25, "ttc_range": [max(0.5, 0.9 * nominal_ttc), 1.1 * nominal_ttc],
-        "easy_fraction": 0.5}
+        "stage": 0, "target_fraction": reference_contract["target_fraction"],
+        "ttc_range": list(reference_contract["ttc_range"]),
+        "easy_fraction": reference_contract["easy_fraction"]}
+    if explicit_reference_experiment:
+        for key in ("target_fraction", "ttc_range", "easy_fraction"):
+            if curriculum[key] != reference_contract[key]:
+                raise ValueError(f"Resumed curriculum contradicts the reference experiment: {key}")
+        curriculum["easy_ttc_range"] = list(reference_contract["easy_ttc_range"])
     for key, value in (("target_fraction", args.target_fraction), ("stage", args.curriculum_stage)):
         if value is not None:
             curriculum[key] = value
@@ -328,6 +428,7 @@ def main() -> None:
         curriculum["ttc_range"] = [args.ttc_min, args.ttc_max]
     cfg.commands["punch"].target_fraction = curriculum["target_fraction"]
     cfg.commands["punch"].ttc_range = tuple(curriculum["ttc_range"])
+    cfg.commands["punch"].easy_fraction = curriculum["easy_fraction"]
     # New invocations inherit established PPO hyperparameters. Older Phase 2
     # checkpoints predate this metadata field and used the original runner_cfg.
     agent_cfg = (deepcopy(resume_infos["agent_config"])
@@ -355,6 +456,8 @@ def main() -> None:
     metadata["source_diff_sha256"] = sha256(out / "source.diff")
     json_write(out / "config.json", {"arguments": vars(args), "agent": agent_cfg,
                                     "environment": asdict(cfg), "curriculum": curriculum,
+                                    "reference_contract": reference_contract,
+                                    "reward_recipe": metadata["reward_recipe"],
                                     "reward_scales": reward_scales, "guard_speed_profile": guard_speed_profile})
     env = PunchEnv(cfg, device="cuda:0")
     wrapped = RslRlVecEnvWrapper(env)
@@ -401,31 +504,48 @@ def main() -> None:
 
     def evaluate_current():
         nonlocal eval_env, latest_eval, last_eval_iteration
-        from .evaluate import create_recipes, evaluate_policy, make_evaluation_env
+        from .evaluate import create_recipes, create_nominal_control_recipes, evaluate_policy, make_evaluation_env
         with torch.random.fork_rng(devices=[torch.cuda.current_device()]):
             if eval_env is None:
-                eval_env = make_evaluation_env(cfg, split="validation", num_envs=args.eval_attempts,
+                eval_env = make_evaluation_env(cfg, split="train" if nominal_control else "validation", num_envs=args.eval_attempts,
                                                output=out / "development")
             recipe_path = out / "development_recipes.json"
             if recipe_path.exists():
                 recipes = json.loads(recipe_path.read_text())
             else:
-                recipes = create_recipes(args.target_pool, "validation", args.eval_attempts,
-                                         args.seed + 10000, tuple(curriculum["ttc_range"]),
-                                         target_fraction=curriculum["target_fraction"])
+                recipes = (create_nominal_control_recipes(args.target_pool, args.eval_attempts, args.seed + 10000)
+                           if nominal_control else create_recipes(
+                               args.target_pool, "validation", args.eval_attempts,
+                               args.seed + 10000, tuple(curriculum["ttc_range"]),
+                               target_fraction=curriculum["target_fraction"]))
                 json_write(recipe_path, recipes)
             destination = out / "development" / f"update_{runner.completed_iterations:06d}"
             latest_eval = evaluate_policy(eval_env, runner.get_inference_policy(), recipes, destination,
                                           video_count=args.eval_videos)
+            latest_eval["reference_contract"] = deepcopy(reference_contract)
+            if nominal_control:
+                latest_eval["selection_score"] = None
+                latest_eval["selection_rule"] = metadata["checkpoint_comparison"]
+            json_write(destination / "summary.json", latest_eval)
+            if nominal_control:
+                from .nominal_control_analysis import analyze_evaluation
+                latest_eval["nominal_motion_analysis"] = analyze_evaluation(
+                    destination, render=runner.completed_iterations > 0)
+                json_write(destination / "summary.json", latest_eval)
         runner.alg.train_mode()
-        score = float(latest_eval["selection_score"])
-        if not math.isfinite(score):
-            raise FloatingPointError("Nonfinite development selection score")
-        if runner.best_score is None or score > runner.best_score:
-            runner.best_score, runner.best_iteration = score, runner.completed_iterations
-            runner.best_checkpoint = str(out / "best.pt")
-            runner.save(str(out / "best.pt"), {"selection_evaluation": str(destination)})
+        if not nominal_control:
+            score = float(latest_eval["selection_score"])
+            if not math.isfinite(score):
+                raise FloatingPointError("Nonfinite development selection score")
+            if runner.best_score is None or score > runner.best_score:
+                runner.best_score, runner.best_iteration = score, runner.completed_iterations
+                runner.best_checkpoint = str(out / "best.pt")
+                runner.save(str(out / "best.pt"), {"selection_evaluation": str(destination)})
         runner.save(str(out / "latest.pt"))
+        if explicit_reference_experiment:
+            # Retain the policy actually evaluated for later whole-body video
+            # review; rolling latest/best semantics and scoring are unchanged.
+            shutil.copy2(out / "latest.pt", destination / "checkpoint.pt")
         last_eval_iteration = runner.completed_iterations
 
     def after_update(values):
@@ -465,6 +585,8 @@ def main() -> None:
         "completed_iterations": runner.completed_iterations,
         "optimizer_state_entries": len(runner.alg.optimizer.state),
         "initial_checkpoint_sha256": sha256(out / "latest.pt"), "guard_bias_requested": args.guard_bias,
+        "actor_and_normalizer_sha256": model_state_digest(runner.alg.actor),
+        "critic_and_normalizer_sha256": model_state_digest(runner.alg.critic),
     })
     try:
         evaluate_current()
@@ -488,7 +610,11 @@ def main() -> None:
             "new_transitions": runner.total_transitions - initial_transitions, "total_transitions": runner.total_transitions,
             "num_envs": args.num_envs, "rollout_steps": agent_cfg["num_steps_per_env"],
             "elapsed_seconds": time.monotonic() - started, "curriculum": runner.curriculum,
+            "reference_contract": reference_contract,
             "reward_scales": reward_scales,
+            "reward_mode": metadata["reward_mode"], "reward_recipe": metadata["reward_recipe"],
+            "imitation_budget": metadata["imitation_budget"], "recovery_budget": metadata["recovery_budget"],
+            "command_excess_weight": metadata["command_excess_weight"],
             "guard_speed_profile": guard_speed_profile,
             "reset_counts": command.reset_counts, "transition_counts": command.transition_counts,
             "episode_records": stream.count, "component_totals": stream.totals,
@@ -497,7 +623,8 @@ def main() -> None:
             "latest_development_evaluation": latest_eval, "checkpoint_check": parity,
             "actor_changed_after_updates": any(not torch.equal(value, dict(runner.alg.actor.named_parameters())[key].detach().cpu())
                                                for key, value in initial_parameters.items()),
-            "heldout_evaluation": "not run by training; separate frozen-policy evaluation required"}
+            "heldout_evaluation": ("not applicable: fixed training command diagnostic; no held-out claim"
+                                   if nominal_control else "not run by training; separate frozen-policy evaluation required")}
         json_write(out / "summary.json", summary)
         print(json.dumps(summary, indent=2), flush=True)
     except BaseException as error:

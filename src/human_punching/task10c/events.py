@@ -4,8 +4,34 @@ from __future__ import annotations
 import torch
 
 
-def reference_clock(elapsed, requested_ttc, strike_time, end_time, recovery):
-    """Return source seconds and ds/dt, including a zero-velocity terminal hold."""
+def reference_clock(elapsed, requested_ttc, strike_time, end_time, recovery, *, mode='legacy'):
+    """Return source seconds and ds/dt, including a zero-velocity terminal hold.
+
+    ``smooth_entry`` interprets ``strike_time`` as the selected source entry
+    anchor. Approach remains linear; a cubic Hermite recovery shares its rate
+    at entry and reaches the reference end with zero rate. It is monotone when
+    ``strike_time / requested_ttc <= 3 * (end_time - strike_time) / recovery``;
+    the command validates this against its TTC range before collection.
+    """
+    if mode == 'smooth_entry':
+        attack_rate = strike_time / requested_ttc
+        fraction = ((elapsed - requested_ttc) / recovery).clamp(0.0, 1.0)
+        remaining_source = end_time - strike_time
+        phase = (strike_time + remaining_source * fraction.square() * (3 - 2 * fraction)
+                 + recovery * attack_rate * fraction * (1 - fraction).square())
+        rate = ((6 * remaining_source / recovery) * fraction * (1 - fraction)
+                + attack_rate * (1 - fraction) * (1 - 3 * fraction))
+        attack = elapsed <= requested_ttc
+        hold = elapsed >= requested_ttc + recovery
+        phase = torch.where(attack, elapsed * attack_rate, phase)
+        phase = torch.where(hold, torch.full_like(phase, end_time), phase)
+        rate = torch.where(hold, torch.zeros_like(rate), torch.where(attack, attack_rate, rate))
+        # Extension at another source time (e.g. .68) must be read through this
+        # nonlinear clock; it is not requested_ttc + (.68 - entry_anchor).
+        return phase.clamp(0.0, end_time), rate
+    if mode != 'legacy':
+        raise ValueError(f'Unknown reference clock mode: {mode!r}')
+    # Preserve the previous clock for existing references and experiments.
     attack = elapsed <= requested_ttc
     hold = elapsed >= requested_ttc + recovery - 1e-6
     attack_rate = strike_time / requested_ttc

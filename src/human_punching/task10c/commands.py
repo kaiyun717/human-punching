@@ -21,7 +21,8 @@ FAMILY_ACTIVE_HAND = {'jab': 'left', 'cross': 'right', 'left_hook': 'left', 'rig
 
 
 class TorchReference:
-    def __init__(self, path, device, joint_names, family=None):
+    def __init__(self, path, device, joint_names, family=None, *, clock_mode='legacy',
+                 ttc_anchor_time=None, post_entry_duration=None):
         path = Path(path)
         self.metadata = json.loads(path.with_suffix('.json').read_text())
         if family is not None:
@@ -51,6 +52,20 @@ class TorchReference:
         self.recovery = max(0.6, float(self.metadata.get('recovery_duration_s', self.end_time - self.strike_time)))
         if not 0 < self.strike_time < self.end_time:
             raise ValueError('Strike annotation must lie strictly inside reference')
+        self.clock_mode = clock_mode
+        self.ttc_anchor_time = self.strike_time if ttc_anchor_time is None else float(ttc_anchor_time)
+        if post_entry_duration is not None:
+            self.recovery = float(post_entry_duration)
+        if clock_mode not in ('legacy', 'smooth_entry'):
+            raise ValueError('Unknown reference clock mode')
+        if (not 0 < self.ttc_anchor_time < self.end_time
+                or not np.isfinite(self.recovery) or self.recovery <= 0.1):
+            raise ValueError('Invalid reference encounter anchor or post-entry duration')
+        if clock_mode == 'smooth_entry':
+            nominal_entry = self.metadata.get('nominal_first_entry_s')
+            if (ttc_anchor_time is None or post_entry_duration is None or nominal_entry is None
+                    or not np.isclose(self.ttc_anchor_time, nominal_entry, atol=1e-8, rtol=0)):
+                raise ValueError('Smooth entry clock requires an explicit measured first-entry anchor and duration')
 
     def sample(self, source_time, rate):
         hi = torch.searchsorted(self.time, source_time.contiguous(), right=True).clamp(1, len(self.time) - 1)
@@ -95,20 +110,53 @@ class PunchCommandCfg(CommandTermCfg):
     ttc_range: tuple[float, float] | None = None
     target_fraction: float = 1.0
     easy_fraction: float = 0.5
+    easy_ttc_range: tuple[float, float] | None = None
+    clock_mode: str = 'legacy'
+    ttc_anchor_time: float | None = None
+    post_entry_duration: float | None = None
     reward_scales: dict[str, float] = field(default_factory=lambda: {
         'balance': 1.0, 'guard': 1.0, 'style': 1.0})
     guard_speed_profile: str = 'gaussian'
+    reward_mode: str = 'whole_body'
+    imitation_budget: float = 7.0
+    recovery_budget: float = 6.0
+    command_excess_weight: float = 1.0
+    imitation_frame: str = 'relative'
+    task_rewards_enabled: bool = True
+    fixed_target_snapshot_id: int | None = None
     resampling_time_range: tuple[float, float] = (1e9, 1e9)
     debug_vis: bool = True
 
     def __post_init__(self):
         if self.family not in FAMILY_ACTIVE_HAND:
             raise ValueError(f'Unknown punch family: {self.family!r}')
+        if self.clock_mode not in ('legacy', 'smooth_entry'):
+            raise ValueError('Unknown reference clock mode')
+        if self.easy_ttc_range is not None and (len(self.easy_ttc_range) != 2
+                or not all(np.isfinite(x) for x in self.easy_ttc_range)
+                or not 0 < self.easy_ttc_range[0] <= self.easy_ttc_range[1]):
+            raise ValueError('Explicit easy TTC range must be positive, finite and ordered')
         if (set(self.reward_scales) - {'balance', 'guard', 'style'}
                 or any(not np.isfinite(value) or value < 0 for value in self.reward_scales.values())):
             raise ValueError('Reward budget scales must be finite, nonnegative balance/guard/style values')
         if self.guard_speed_profile not in ('gaussian', 'rational'):
             raise ValueError('Guard speed profile must be gaussian or rational')
+        if self.reward_mode not in ('whole_body', 'legacy'):
+            raise ValueError('Reward mode must be whole_body or legacy')
+        if self.imitation_frame not in ('relative', 'launch_registered'):
+            raise ValueError('Imitation frame must be relative or launch_registered')
+        if self.imitation_frame == 'launch_registered' and self.reward_mode != 'whole_body':
+            raise ValueError('Launch registration requires the six-term whole-body reward')
+        if not isinstance(self.task_rewards_enabled, bool):
+            raise ValueError('task_rewards_enabled must be a boolean')
+        if (self.fixed_target_snapshot_id is not None
+                and (isinstance(self.fixed_target_snapshot_id, bool)
+                     or not isinstance(self.fixed_target_snapshot_id, int)
+                     or self.fixed_target_snapshot_id < 0)):
+            raise ValueError('Fixed target snapshot ID must be a nonnegative integer')
+        if any(not np.isfinite(value) or value < 0 for value in
+               (self.imitation_budget, self.recovery_budget, self.command_excess_weight)):
+            raise ValueError('Whole-body reward budgets and command cost must be finite and nonnegative')
 
     def build(self, env):
         return PunchCommand(self, env)
@@ -120,11 +168,24 @@ class PunchCommand(CommandTerm):
         from .robot import GLOVE_SITE_NAMES
         from .targets import TargetPool
         self.robot = env.scene[cfg.entity_name]
-        self.reference = TorchReference(cfg.reference_path, self.device, self.robot.joint_names, family=cfg.family)
+        # Registration is the existing scene translation with identity rotation.
+        # Plane origins are fixed for the scene lifetime. Capture a separate copy
+        # so neither reset nor imitation ever derives placement from a learned
+        # pelvis. The source root trajectory itself remains intact in both arms.
+        self.reference_origin_w = env.scene.env_origins.clone()
+        self.reference = TorchReference(cfg.reference_path, self.device, self.robot.joint_names, family=cfg.family,
+                                        clock_mode=cfg.clock_mode, ttc_anchor_time=cfg.ttc_anchor_time,
+                                        post_entry_duration=cfg.post_entry_duration)
         self.pool = TargetPool.load(cfg.target_pool_path)
         self.targets = torch.as_tensor(self.pool.points(cfg.target_split, cfg.family), dtype=torch.float32, device=self.device)
         if self.targets.ndim != 2 or self.targets.shape[1] != 3 or len(self.targets) == 0:
             raise ValueError('Target pool must supply nonempty [N,3] real snapshot points')
+        self.fixed_target_index = None
+        if cfg.fixed_target_snapshot_id is not None:
+            matches = np.flatnonzero(self.pool.snapshot_ids(cfg.target_split) == cfg.fixed_target_snapshot_id)
+            if len(matches) != 1:
+                raise ValueError('Fixed target snapshot must exist exactly once in the selected cached split')
+            self.fixed_target_index = int(matches[0])
         self.site_ids = self.robot.find_sites(GLOVE_SITE_NAMES, preserve_order=True)[0]
         self.active_index = 0 if FAMILY_ACTIVE_HAND[cfg.family] == 'left' else 1
         self.root_index = self.reference.body_names.index('pelvis')
@@ -158,7 +219,7 @@ class PunchCommand(CommandTerm):
         """Change future resets only; active commands remain committed."""
         from .targets import target_subset_indices
         t0 = max(0.5, self.reference.strike_time)
-        initial_ttc = (max(0.5, 0.9 * t0), 1.1 * t0)
+        initial_ttc = tuple(self.cfg.easy_ttc_range or (max(0.5, 0.9 * t0), 1.1 * t0))
         bounds = tuple(state.get('ttc_range') or initial_ttc)
         fraction = float(state.get('target_fraction', 1.0))
         easy_fraction = float(state.get('easy_fraction', 0.5))
@@ -166,9 +227,18 @@ class PunchCommand(CommandTerm):
             raise ValueError('Invalid curriculum timing or easy-case fraction')
         points = self.pool.points(self.cfg.target_split, self.cfg.family)
         self.curriculum = {**state, 'ttc_range': list(bounds), 'target_fraction': fraction,
-                           'easy_fraction': easy_fraction}
+                           'easy_fraction': easy_fraction, 'easy_ttc_range': list(initial_ttc)}
+        if (self.reference.clock_mode == 'smooth_entry'
+                and self.reference.ttc_anchor_time / bounds[0]
+                > 3 * (self.reference.end_time - self.reference.ttc_anchor_time) / self.reference.recovery):
+            raise ValueError('Requested TTC is outside the monotone Hermite clock domain')
         self.target_candidates = torch.as_tensor(target_subset_indices(points, fraction), device=self.device)
         self.easy_target_candidates = torch.as_tensor(target_subset_indices(points, min(0.25, fraction)), device=self.device)
+        if self.fixed_target_index is not None:
+            # Select the real cached point, without changing its coordinates or
+            # the full/easy RNG branches and the full/snippet reset mixture.
+            self.target_candidates = torch.tensor([self.fixed_target_index], device=self.device)
+            self.easy_target_candidates = self.target_candidates.clone()
         self.initial_ttc_range = initial_ttc
         self.cfg.ttc_range = bounds
         self.cfg.target_fraction = fraction
@@ -183,6 +253,13 @@ class PunchCommand(CommandTerm):
         requested = [float(row['requested_ttc']) for row in rows]
         if any(i < 0 or i >= len(self.targets) for i in indices) or any(t <= 0 or not np.isfinite(t) for t in requested):
             raise ValueError('Invalid evaluation target index or TTC')
+        if self.fixed_target_index is not None and any(i != self.fixed_target_index for i in indices):
+            raise ValueError('Evaluation recipes must preserve the configured fixed snapshot')
+        if (self.reference.clock_mode == 'smooth_entry'
+                and any(self.reference.ttc_anchor_time / t
+                        > 3 * (self.reference.end_time - self.reference.ttc_anchor_time) / self.reference.recovery
+                        for t in requested)):
+            raise ValueError('Evaluation TTC is outside the monotone Hermite clock domain')
         self.evaluation_recipes = (
             torch.tensor(indices, dtype=torch.long, device=self.device),
             torch.tensor(requested, dtype=torch.float32, device=self.device))
@@ -199,8 +276,8 @@ class PunchCommand(CommandTerm):
 
     def refresh_reference(self):
         self.source_time, self.source_rate = reference_clock(
-            self.state.elapsed, self.state.requested_ttc, self.reference.strike_time,
-            self.reference.end_time, self.reference.recovery)
+            self.state.elapsed, self.state.requested_ttc, self.reference.ttc_anchor_time,
+            self.reference.end_time, self.reference.recovery, mode=self.reference.clock_mode)
         self.ref = self.reference.sample(self.source_time, self.source_rate)
 
     def _resample_command(self, env_ids):
@@ -233,7 +310,7 @@ class PunchCommand(CommandTerm):
         self.state.reset(env_ids, target, requested, elapsed, known)
         self.horizon[env_ids], self.interaction_z[env_ids], self.guard_z[env_ids] = horizon, zi, zg
         self.refresh_reference()
-        root_pos = self.ref['root_pos_w'][env_ids] + self._env.scene.env_origins[env_ids]
+        root_pos = self.ref['root_pos_w'][env_ids] + self.reference_origin_w[env_ids]
         root_quat = self.ref['root_quat_w'][env_ids]
         root_vel = torch.cat((self.ref['body_lin_vel_w'][env_ids, self.root_index],
                               self.ref['body_ang_vel_w'][env_ids, self.root_index]), dim=-1)
