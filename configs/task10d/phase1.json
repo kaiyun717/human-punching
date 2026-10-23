@@ -1,0 +1,23 @@
+{
+  "schema": "task10d_phase1_v1",
+  "reference": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.npz",
+  "reference_sha256": "50887274783da7364d8b7ce39ee7f956c583174b0339ca602d65bfd71ff600e8",
+  "nominal_snapshot_id": 53874,
+  "snapshot_ids": [53874, 62759, 43012],
+  "requested_ttc_s": 0.7,
+  "terminal_hold_s": 0.4,
+  "physics_dt_s": 0.005,
+  "control_dt_s": 0.02,
+  "glove_radius_m": 0.08,
+  "head_radius_m": 0.06,
+  "encounter_distance_m": 0.14,
+  "safe_clearance_m": 0.16,
+  "seed": 102301,
+  "nominal_observation_noise": true,
+  "visual_noise": true,
+  "visual_delay_ticks": [2, 3, 4],
+  "launch": "first control boundary immediately after exact snapshot restoration; no settling",
+  "playback": "source timing and global linear monotone retiming to actual frozen-target first entry",
+  "g1_controller": "canonical Fresh96 frozen nominal actor and normalizer",
+  "episode": "diagnostic full-cycle continuation; first hazards remain latched, no safe-arrival evaluation"
+}
