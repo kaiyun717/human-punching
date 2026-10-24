@@ -35,12 +35,13 @@ def cpu(value):
     return to_cpu(value)
 
 
-def create_plant(config, output, h2=None):
+def create_plant(config, output, h2=None, *, camera_config=None):
     from mjlab.envs import ManagerBasedRlEnv
     from .camera import add_camera_only
     cfg = make_task08_cfg(count=1, seed=config["seed"], output_dir=output,
         extra_entities=None if h2 is None else {"h2": h2.entity_cfg()},
-        scene_spec_fn=None if h2 is None else add_camera_only)
+        scene_spec_fn=None if h2 is None else lambda spec: add_camera_only(
+            spec, camera_config=camera_config))
     cfg.auto_reset = False
     env = ManagerBasedRlEnv(cfg, device="cuda:0")
     g1 = DynamicG1(env, noise_seed=config["seed"] + 1,

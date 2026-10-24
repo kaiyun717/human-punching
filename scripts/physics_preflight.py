@@ -10,7 +10,6 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
-import math
 import os
 import platform
 import time
@@ -144,16 +143,17 @@ def main() -> int:
         import mujoco
         import mujoco_warp as mjwarp
         import warp as wp
+        from human_punching.task10d.g1 import _imports
+        _imports()
+        from boxing.perception.rectified_camera import CAMERA
         spec = mujoco.MjSpec.from_file(str(args.scene.resolve()))
         # A camera above/sideways sees both existing entities; pure Warp, no OpenGL.
         spec.worldbody.add_camera(name='runtime_probe_camera', pos=[1., -3.2, 1.7],
                                   xyaxes=[1, 0, 0, 0, .22, .975], fovy=45)
-        # Match Task 08 rectified_camera.py/camera.py, adapting only the body prefix.
-        half_pitch = math.radians(15.) / 2
-        c, s = math.cos(half_pitch), math.sin(half_pitch)
+        # Reuse the canonical torso mount; adapt only this fixture's body prefix.
         spec.body('g1/torso_link').add_camera(name='task08_runtime_probe',
-            pos=[.08, 0., .45], quat=[(c+s)/2, (c-s)/2, (-c+s)/2, (-c-s)/2],
-            fovy=54., resolution=[672,376])
+            pos=CAMERA.mount_position, quat=CAMERA.mujoco_quaternion_wxyz,
+            fovy=CAMERA.vertical_fov_deg, resolution=[CAMERA.width, CAMERA.height])
         model = spec.compile()
         data = mujoco.MjData(model)
         frame = None
@@ -177,7 +177,8 @@ def main() -> int:
                 'trajectory_frame': frame, 'nq': model.nq, 'nv': model.nv, 'nmesh': model.nmesh,
                 'ngeom': model.ngeom, 'worlds': 2, 'camera': result, 'task08_camera': task08,
                 'task08_camera_parameters': {'raster':[672,376], 'fovy_deg':54., 'parent':'g1/torso_link',
-                    'mount_position_m':[.08,0.,.45], 'pitch_down_deg':15.,
+                    'mount_position_m':list(CAMERA.mount_position),
+                    'pitch_down_deg':CAMERA.mount_pitch_down_deg,
                     'scope':'Matched raster/extrinsics and raw RGB/depth/IDs; no HSV LUT, pooling, delay, or policy inference.'},
                 'scope': 'Existing mannequin/G1 geometry + kinematic FK + Warp RGB/depth/IDs; not physical control.'}
 
