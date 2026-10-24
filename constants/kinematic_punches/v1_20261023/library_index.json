@@ -1,0 +1,2099 @@
+{
+  "schema": "task10d_phase2_library_index_v1",
+  "status": "Eight selected Phase 2 punch references ACCEPTED by user on 2026-10-23 across four families; no Phase 3 or Phase 4 authorization.",
+  "scope": "Isolated reset scenarios of human-motion-derived kinematic H2; dynamic frozen Fresh96 G1; no training, live switching, impact model or broad coverage claim.",
+  "motion_storage": "Versioned constants basis: eight byte-identical accepted NPZ/JSON pairs, one stored spatial motion per primitive; no TTC/snapshot trajectory bank.",
+  "runtime_contract": {
+    "physics_dt_s": 0.005,
+    "g1_control_dt_s": 0.02,
+    "glove_radius_m": 0.08,
+    "g1_head_radius_m": 0.06,
+    "encounter_distance_m": 0.14,
+    "both_glove_safe_clearance_m": 0.16,
+    "h2_mocap_links": 32,
+    "h2_contacts": false,
+    "camera_changes": false,
+    "camera_revision": "Deferred to Task 11"
+  },
+  "source_inventory": "outputs/task10d/phase2/survey/survey.json",
+  "source_exclusions": "outputs/task10d/phase2/survey/summary.json",
+  "raw_conversion_checks": "outputs/task10d/phase2/variants/raw_checks.json",
+  "visual_review": "outputs/task10d/phase2/visual_review.json",
+  "variant_exclusions": [],
+  "primitives": [
+    {
+      "primitive_id": "jab_nominal",
+      "family": "jab",
+      "active_hand": "left",
+      "role": "nominal",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/jab_nominal/jab.npz",
+      "reference_sha256": "50887274783da7364d8b7ce39ee7f956c583174b0339ca602d65bfd71ff600e8",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.68,
+        "nominal_first_entry_s": 0.51,
+        "withdrawal_start_s": 0.68,
+        "terminal_guard_start_s": 1.38,
+        "end_s": 1.42,
+        "design_aim_center_s": 0.68,
+        "extension_center_semantics": "Design aim center; distinct from closest approach and maximum elbow extension.",
+        "nominal_closest_approach_s": 0.68,
+        "maximum_elbow_extension_s": 0.7000000000000001,
+        "maximum_elbow_interior_angle_deg": 162.0153016856568,
+        "elbow_interior_angle_at_design_center_deg": 161.94968860452175,
+        "guard_at_launch_s": 0.0,
+        "preparation_interval_s": [
+          0.0,
+          0.51
+        ],
+        "strike_region_semantics": "Entry into frozen head region is measured, not source outward-completion or impact.",
+        "terminal_guard_interval_s": [
+          1.38,
+          1.42
+        ],
+        "withdrawal_interval_s": [
+          0.68,
+          1.38
+        ],
+        "original_source_outward_annotation_time_s": 0.6166666666666667
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/jab_nominal/jab.json",
+      "reference_json_sha256": "96bf91e8a60f66847adfaa9f56a0319410424a522db5c53fba64b3e5ec36a74d",
+      "stance": {
+        "description": "Native family-specific split stance retained; anatomical active hand explicit; no lead/rear inference from hand label alone.",
+        "reset_left_sole_center_world_m": [
+          0.16326777026482667,
+          0.3172824225734771,
+          0.005856585963925881
+        ],
+        "reset_right_sole_center_world_m": [
+          0.06072393089749672,
+          -0.24623909486536355,
+          0.005147740576862049
+        ],
+        "exact_terminal_footprints_required": false
+      },
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/000_ma_jab_liu_defense_joints.npy",
+        "source_sha256": "7ed040b3b727baa108b5090872fab864d684ff1152031a746da07b6b260e17a3",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          358,
+          530
+        ],
+        "selected_frame_range_inclusive": [
+          370,
+          518
+        ],
+        "outward_completion_frame": 432,
+        "anatomical_hand": "left",
+        "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward"
+      },
+      "source_event_id": "jb_000_ma_00370_00518",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "description": "Approved reference coordinates retained; identity reset placement."
+      },
+      "provenance_class": "approved_derived_spatial_retained",
+      "diversity": null,
+      "limitations": [
+        "Prescribed geometry only; no physical impact, dynamic H2 controller, balance, or torque claim.",
+        "Current camera optics/acquisition/delay/occlusion unchanged; documented visibility limitations remain.",
+        "Family-specific episode reset; no live family switching, pursuit or shared guard claim.",
+        "Approved jab retained unchanged, including its documented extension linger and derivative/source-step limitations."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/comparison.json",
+      "source_manifest": "outputs/task10d/phase2/nominal_selected.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "visual_review": {
+        "finding": "Approved jab remains unchanged; recognizable straight extension, withdrawal and terminal guard.",
+        "retained_limitations": []
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/jab_nominal_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/jab_nominal_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/jab_nominal_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/jab_nominal_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.51,
+          "moving_head_first_encounter_s": 0.53,
+          "recovery_complete_s": 1.42,
+          "first_sampled_complete_s": 1.42,
+          "terminal_glove_distances_m": [
+            0.8408200144767761,
+            0.8627963066101074
+          ],
+          "video_frames": 92
+        },
+        "ttc0700": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/jab_nominal_ttc0700/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/jab_nominal_ttc0700/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/jab_nominal_ttc0700/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/jab_nominal_ttc0700.json",
+          "clock_rate": 0.7283963235507857,
+          "replay_frozen_target_first_entry_s": 0.7000000000000001,
+          "moving_head_first_encounter_s": 0.715,
+          "recovery_complete_s": 1.9494881482621786,
+          "first_sampled_complete_s": 1.95,
+          "terminal_glove_distances_m": [
+            0.8476070761680603,
+            0.8681586384773254
+          ],
+          "video_frames": 119
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.npz",
+        "reference_json": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.json",
+        "npz_sha256": "50887274783da7364d8b7ce39ee7f956c583174b0339ca602d65bfd71ff600e8",
+        "json_sha256": "96bf91e8a60f66847adfaa9f56a0319410424a522db5c53fba64b3e5ec36a74d"
+      }
+    },
+    {
+      "primitive_id": "cross_nominal",
+      "family": "cross",
+      "active_hand": "right",
+      "role": "nominal",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/cross_nominal/cross.npz",
+      "reference_sha256": "3333a46c67da6882423f1cb70b4300b00e59cde76e32555f183ebf181707a03a",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.64,
+        "nominal_first_entry_s": 0.455,
+        "withdrawal_start_s": 0.64,
+        "terminal_guard_start_s": 1.3599999999999999,
+        "end_s": 1.4,
+        "design_aim_center_s": 0.64,
+        "extension_center_semantics": "Design aim center; distinct from closest approach and maximum elbow extension.",
+        "nominal_closest_approach_s": 0.56,
+        "maximum_elbow_extension_s": 0.76,
+        "maximum_elbow_interior_angle_deg": 165.56063244302155,
+        "elbow_interior_angle_at_design_center_deg": 165.1685116785412,
+        "guard_at_launch_s": 0.0,
+        "preparation_interval_s": [
+          0.0,
+          0.455
+        ],
+        "strike_region_semantics": "Entry into frozen head region is measured, not source outward-completion or impact.",
+        "terminal_guard_interval_s": [
+          1.3599999999999999,
+          1.4
+        ],
+        "withdrawal_interval_s": [
+          0.64,
+          1.3599999999999999
+        ],
+        "original_source_outward_annotation_time_s": 0.675
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/cross_nominal/cross.json",
+      "reference_json_sha256": "f9e95fc3532e1e69fdf3a6c0b6507608b03e7b60af45becb51dc1522964643ad",
+      "stance": {
+        "description": "Native family-specific split stance retained; anatomical active hand explicit; no lead/rear inference from hand label alone.",
+        "reset_left_sole_center_world_m": [
+          0.2976779795932701,
+          0.08390572339839067,
+          0.005032233829771776
+        ],
+        "reset_right_sole_center_world_m": [
+          0.1340365248325016,
+          -0.604697816342404,
+          0.005005701201634037
+        ],
+        "exact_terminal_footprints_required": false
+      },
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/003_ma_cross_liu_defense_joints.npy",
+        "source_sha256": "4295973d6348916cd820d8e3de1ff091af6eaf25b40b5d4c81ad4f2e6282f39f",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          211,
+          379
+        ],
+        "selected_frame_range_inclusive": [
+          223,
+          367
+        ],
+        "outward_completion_frame": 292,
+        "anatomical_hand": "right",
+        "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward"
+      },
+      "source_event_id": "cr_003_ma_00223_00367",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.2268672919902538,
+          -0.2754588511073402
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY before vertical arm adaptation",
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "derived_spatial",
+      "diversity": null,
+      "limitations": [
+        "Prescribed geometry only; no physical impact, dynamic H2 controller, balance, or torque claim.",
+        "Current camera optics/acquisition/delay/occlusion unchanged; documented visibility limitations remain.",
+        "Family-specific episode reset; no live family switching, pursuit or shared guard claim.",
+        "Native source sole minimum -0.001031 m is inherited; no root-height lowering or foot repair introduced.",
+        "Source body pivot/step retained; central path is C2 straight approach/withdrawal with a broad extension interval. Aim center0.64s, closest0.56s and maximum elbow extension0.76s are distinct.",
+        "Fist/forearm angle at first entry is 36.0 degrees versus 28.5 in the placed source; at aim center it is 11.1 versus 19.4. No abrupt wrist kink was seen."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/nominal_v2/generation.json",
+      "source_manifest": "outputs/task10d/phase2/nominal_selected.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "diagnostic_record": "outputs/task10d/phase2/nominal_v2/diagnostics.json",
+      "source_reference": {
+        "npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/references/cross.npz",
+        "npz_sha256": "b41dff798ad7b25ab45fe192f66362e307810afafe28a3dc48e79ee0677d1628",
+        "json_sha256": "05006e31ac7178acceb5d73c176a824c9444e945ad63ab3c9150aa992572ea4c"
+      },
+      "visual_review": {
+        "finding": "Coordinated source pivot and broad straight extension followed by continuous withdrawal; no visible discontinuity, glove detachment or large self-intersection.",
+        "retained_limitations": [
+          "Fist/forearm angle at first entry is 36.0 degrees versus 28.5 in the placed source; at aim center it is 11.1 versus 19.4. No abrupt wrist kink was seen."
+        ]
+      },
+      "native_measurements": {
+        "first_entry_s": 0.455,
+        "first_entry_hand": "right",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.05682510900171431,
+        "active_closest_center_distance_m": 0.05682510900171431,
+        "active_closest_approach_s": 0.56,
+        "initial_both_glove_distances_m": [
+          0.7417328784598964,
+          0.8686265520181053
+        ],
+        "terminal_both_glove_distances_m": [
+          0.8382685612369499,
+          0.9739560717032525
+        ],
+        "maximum_active_glove_speed_m_s": 2.8517183659266707,
+        "maximum_active_glove_acceleration_m_s2": 48.9443853379293,
+        "maximum_stored_joint_speed_rad_s": 10.613857703024895,
+        "maximum_stored_joint_step_rad": 0.22570517566893944,
+        "maximum_stored_joint_acceleration_rad_s2": 163.91729428057144,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.2130311723978818,
+          0.25420253235072177
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": -0.0010308305499294465,
+        "minimum_glove_to_glove_center_distance_m": 0.2011946047562719,
+        "native_filtered_self_penetrations_over_1mm": {},
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/cross_nominal_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/cross_nominal_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/cross_nominal_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/cross_nominal_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.455,
+          "moving_head_first_encounter_s": 0.48,
+          "recovery_complete_s": 1.4,
+          "first_sampled_complete_s": 1.4000000000000001,
+          "terminal_glove_distances_m": [
+            0.85816490650177,
+            0.9997825026512146
+          ],
+          "video_frames": 91
+        },
+        "ttc0700": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/cross_nominal_ttc0700/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/cross_nominal_ttc0700/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/cross_nominal_ttc0700/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/cross_nominal_ttc0700.json",
+          "clock_rate": 0.6458016159910172,
+          "replay_frozen_target_first_entry_s": 0.7000000000000001,
+          "moving_head_first_encounter_s": 0.735,
+          "recovery_complete_s": 2.1678484000874247,
+          "first_sampled_complete_s": 2.17,
+          "terminal_glove_distances_m": [
+            0.8585636615753174,
+            0.9990935325622559
+          ],
+          "video_frames": 130
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/nominal_v2/cross.npz",
+        "reference_json": "outputs/task10d/phase2/nominal_v2/cross.json",
+        "npz_sha256": "3333a46c67da6882423f1cb70b4300b00e59cde76e32555f183ebf181707a03a",
+        "json_sha256": "f9e95fc3532e1e69fdf3a6c0b6507608b03e7b60af45becb51dc1522964643ad"
+      }
+    },
+    {
+      "primitive_id": "left_hook_nominal",
+      "family": "left_hook",
+      "active_hand": "left",
+      "role": "nominal",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/left_hook_nominal/left_hook.npz",
+      "reference_sha256": "a9783462679f6942da749b8c0fa9d3f1aae3d96a558f263010c1a87b0eeef7f5",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.7000000000000001,
+        "nominal_first_entry_s": 0.685,
+        "withdrawal_start_s": 0.7000000000000001,
+        "terminal_guard_start_s": 1.8000000000000003,
+        "end_s": 1.9000000000000004,
+        "design_aim_center_s": 0.7000000000000001,
+        "extension_center_semantics": "Design aim center; distinct from closest approach and maximum elbow extension.",
+        "nominal_closest_approach_s": 0.7000000000000001,
+        "maximum_elbow_extension_s": 0.495,
+        "maximum_elbow_interior_angle_deg": 167.0084489475216,
+        "elbow_interior_angle_at_design_center_deg": 118.34966296880997,
+        "guard_at_launch_s": 0.0,
+        "preparation_interval_s": [
+          0.0,
+          0.685
+        ],
+        "strike_region_semantics": "Entry into frozen head region is measured, not source outward-completion or impact.",
+        "terminal_guard_interval_s": [
+          1.8000000000000003,
+          1.9000000000000004
+        ],
+        "withdrawal_interval_s": [
+          0.7000000000000001,
+          1.8000000000000003
+        ],
+        "original_source_outward_annotation_time_s": 0.6916666666666667
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/left_hook_nominal/left_hook.json",
+      "reference_json_sha256": "641e349742b292768309e008bdcf3daabb772990c4c0b774c37ab6bd9405e4cf",
+      "stance": {
+        "description": "Native family-specific split stance retained; anatomical active hand explicit; no lead/rear inference from hand label alone.",
+        "reset_left_sole_center_world_m": [
+          0.3829813373900005,
+          0.4041267129276335,
+          0.005888999988894111
+        ],
+        "reset_right_sole_center_world_m": [
+          -0.07616343635135689,
+          0.016509144061333386,
+          0.005181535831448383
+        ],
+        "exact_terminal_footprints_required": false
+      },
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/006_ma_leadhook_liu_shanbi_joints.npy",
+        "source_sha256": "790fb445dd9dd002756f9902f29730e69a40de8259a8c6add7bf4bd3f48de23b",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          389,
+          575
+        ],
+        "selected_frame_range_inclusive": [
+          401,
+          563
+        ],
+        "outward_completion_frame": 472,
+        "anatomical_hand": "left",
+        "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward"
+      },
+      "source_event_id": "lh_006_ma_00401_00563",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.0965124503953497,
+          0.15285244118492503
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.16,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "derived_spatial",
+      "diversity": null,
+      "limitations": [
+        "Prescribed geometry only; no physical impact, dynamic H2 controller, balance, or torque claim.",
+        "Current camera optics/acquisition/delay/occlusion unchanged; documented visibility limitations remain.",
+        "Family-specific episode reset; no live family switching, pursuit or shared guard claim.",
+        "Sparse offline fit reached its 65-iteration cap; no optimizer-convergence claim. Selection rests on measured and visual motion quality.",
+        "Native source sole minimum -0.007430 m is inherited; no root-height lowering or foot repair introduced.",
+        "Native low preparation and broad curved sweep retained; final source recovery remains procedural upper-body return from selected corrected reference.",
+        "Native source foot placement and procedural corrected upper-body return remain; this is not an unmodified recorded recovery."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/nominal_v3/generation.json",
+      "source_manifest": "outputs/task10d/phase2/nominal_selected.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "diagnostic_record": "outputs/task10d/phase2/nominal_v3/diagnostics.json",
+      "source_reference": {
+        "npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/hooks_final/initial_guard_return/selected/left_hook.npz",
+        "npz_sha256": "d634f431c50547b601c93fdcb02dd8d96949d011903faaac6102f66f459df9bd",
+        "json_sha256": "9a8d4e005de52602933d76a7f8c265b09382ec4db160b364f928347a9d96bbbc"
+      },
+      "visual_review": {
+        "finding": "Curved bent-arm hook retains low windup, coordinated pivot and broad high recovery.",
+        "retained_limitations": [
+          "Native source foot placement and procedural corrected upper-body return remain; this is not an unmodified recorded recovery."
+        ]
+      },
+      "native_measurements": {
+        "first_entry_s": 0.685,
+        "first_entry_hand": "left",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.03507178064621115,
+        "active_closest_center_distance_m": 0.03507178064621115,
+        "active_closest_approach_s": 0.7000000000000001,
+        "initial_both_glove_distances_m": [
+          0.7097403410375196,
+          0.5937114055043938
+        ],
+        "terminal_both_glove_distances_m": [
+          0.7497445549735472,
+          0.6457202212184883
+        ],
+        "maximum_active_glove_speed_m_s": 9.594158214721277,
+        "maximum_active_glove_acceleration_m_s2": 220.6010519379879,
+        "maximum_stored_joint_speed_rad_s": 11.901636073674362,
+        "maximum_stored_joint_step_rad": 0.2390888040099518,
+        "maximum_stored_joint_acceleration_rad_s2": 412.3101287589842,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.2546121235932909,
+          0.16356319649045928
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": -0.00743007216505856,
+        "minimum_glove_to_glove_center_distance_m": 0.26711933974296426,
+        "native_filtered_self_penetrations_over_1mm": {},
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.685,
+          "moving_head_first_encounter_s": 0.685,
+          "recovery_complete_s": 1.9000000000000004,
+          "first_sampled_complete_s": 1.905,
+          "terminal_glove_distances_m": [
+            0.7522022128105164,
+            0.6584206819534302
+          ],
+          "video_frames": 117
+        },
+        "ttc0700": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_ttc0700/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_ttc0700/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_ttc0700/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/left_hook_nominal_ttc0700.json",
+          "clock_rate": 0.9784321423480082,
+          "replay_frozen_target_first_entry_s": 0.705,
+          "moving_head_first_encounter_s": 0.7000000000000001,
+          "recovery_complete_s": 1.941882239723283,
+          "first_sampled_complete_s": 1.945,
+          "terminal_glove_distances_m": [
+            0.75242018699646,
+            0.6586589217185974
+          ],
+          "video_frames": 119
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/nominal_v3/left_hook.npz",
+        "reference_json": "outputs/task10d/phase2/nominal_v3/left_hook.json",
+        "npz_sha256": "a9783462679f6942da749b8c0fa9d3f1aae3d96a558f263010c1a87b0eeef7f5",
+        "json_sha256": "641e349742b292768309e008bdcf3daabb772990c4c0b774c37ab6bd9405e4cf"
+      }
+    },
+    {
+      "primitive_id": "right_hook_nominal",
+      "family": "right_hook",
+      "active_hand": "right",
+      "role": "nominal",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/right_hook_nominal/right_hook.npz",
+      "reference_sha256": "6630aec81a36657931fa702d37711265494822c8f1008c3c23d241fa723eb952",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.58,
+        "nominal_first_entry_s": 0.5650000000000001,
+        "withdrawal_start_s": 0.58,
+        "terminal_guard_start_s": 1.7600000000000002,
+        "end_s": 1.8600000000000003,
+        "design_aim_center_s": 0.58,
+        "extension_center_semantics": "Design aim center; distinct from closest approach and maximum elbow extension.",
+        "nominal_closest_approach_s": 0.58,
+        "maximum_elbow_extension_s": 0.5,
+        "maximum_elbow_interior_angle_deg": 137.1316801649791,
+        "elbow_interior_angle_at_design_center_deg": 113.96552414071805,
+        "guard_at_launch_s": 0.0,
+        "preparation_interval_s": [
+          0.0,
+          0.5650000000000001
+        ],
+        "strike_region_semantics": "Entry into frozen head region is measured, not source outward-completion or impact.",
+        "terminal_guard_interval_s": [
+          1.7600000000000002,
+          1.8600000000000003
+        ],
+        "withdrawal_interval_s": [
+          0.58,
+          1.7600000000000002
+        ],
+        "original_source_outward_annotation_time_s": 0.6416666666666667
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/right_hook_nominal/right_hook.json",
+      "reference_json_sha256": "43817f7f35f69901ea3058b55cff81a134d5018e1a60fe9fd5a415e982ef1643",
+      "stance": {
+        "description": "Native family-specific split stance retained; anatomical active hand explicit; no lead/rear inference from hand label alone.",
+        "reset_left_sole_center_world_m": [
+          0.3423541498472768,
+          0.4182922894794247,
+          0.0050715725167547465
+        ],
+        "reset_right_sole_center_world_m": [
+          0.32219163537639084,
+          -0.33752500189320256,
+          0.005009915823844559
+        ],
+        "exact_terminal_footprints_required": false
+      },
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/007_ma_rearhook_liu_shanbi_joints.npy",
+        "source_sha256": "86e378bfbd31779fa65ceac9d4d26d3d9bc0c3aedca74eebe0b027f9b4dfcfb3",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          451,
+          632
+        ],
+        "selected_frame_range_inclusive": [
+          463,
+          620
+        ],
+        "outward_completion_frame": 528,
+        "anatomical_hand": "right",
+        "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward"
+      },
+      "source_event_id": "rh_007_ma_00463_00620",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.28706875096796114,
+          0.028258887074195577
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.16,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "derived_spatial",
+      "diversity": null,
+      "limitations": [
+        "Prescribed geometry only; no physical impact, dynamic H2 controller, balance, or torque claim.",
+        "Current camera optics/acquisition/delay/occlusion unchanged; documented visibility limitations remain.",
+        "Family-specific episode reset; no live family switching, pursuit or shared guard claim.",
+        "Sparse offline fit reached its 65-iteration cap; no optimizer-convergence claim. Selection rests on measured and visual motion quality.",
+        "Native source sole minimum -0.009478 m is inherited; no root-height lowering or foot repair introduced.",
+        "Native low preparation retained; adaptation starts at0.40s to avoid lowering its already-low windup into own hip. Corrected compact recovery retained.",
+        "Inactive glove approaches own head to a 2.01 mm surface gap inherited from the selected corrected reference."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/nominal_right_v4/generation.json",
+      "source_manifest": "outputs/task10d/phase2/nominal_selected.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "diagnostic_record": "outputs/task10d/phase2/nominal_right_v4/diagnostics.json",
+      "source_reference": {
+        "npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/hooks_final/right_compact_return/selected/right_hook.npz",
+        "npz_sha256": "f3784396e8c55a732005664cbccc6bdbd6835c900b285056d8901b746ec680b9",
+        "json_sha256": "9befb41f22aa942a6ceb44a6adb6cb316d6c275237895fb29855d122d03f7242"
+      },
+      "visual_review": {
+        "finding": "Curved bent-arm hook retains low windup and compact folded return. Delaying deformation until 0.40 s removed the introduced glove/hip overlap.",
+        "retained_limitations": [
+          "Inactive glove approaches own head to a 2.01 mm surface gap inherited from the selected corrected reference."
+        ]
+      },
+      "native_measurements": {
+        "first_entry_s": 0.5650000000000001,
+        "first_entry_hand": "right",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.0393079815361679,
+        "active_closest_center_distance_m": 0.0393079815361679,
+        "active_closest_approach_s": 0.58,
+        "initial_both_glove_distances_m": [
+          0.567028025255531,
+          0.6191856382513962
+        ],
+        "terminal_both_glove_distances_m": [
+          0.6627615396428622,
+          0.6392884185189746
+        ],
+        "maximum_active_glove_speed_m_s": 9.782739549499254,
+        "maximum_active_glove_acceleration_m_s2": 204.77206916800645,
+        "maximum_stored_joint_speed_rad_s": 15.119028774142791,
+        "maximum_stored_joint_step_rad": 0.3109796353575669,
+        "maximum_stored_joint_acceleration_rad_s2": 295.4317804451132,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.15201015655811811,
+          0.18267175124821938
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": -0.009478049861086885,
+        "minimum_glove_to_glove_center_distance_m": 0.17159893822493288,
+        "native_filtered_self_penetrations_over_1mm": {},
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.5650000000000001,
+          "moving_head_first_encounter_s": 0.5700000000000001,
+          "recovery_complete_s": 1.8600000000000003,
+          "first_sampled_complete_s": 1.865,
+          "terminal_glove_distances_m": [
+            0.6734361052513123,
+            0.6578424572944641
+          ],
+          "video_frames": 115
+        },
+        "ttc0700": {
+          "external_video": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_ttc0700/external.mp4",
+          "camera_video": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_ttc0700/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_ttc0700/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/nominal_preview01/right_hook_nominal_ttc0700.json",
+          "clock_rate": 0.8062152097495368,
+          "replay_frozen_target_first_entry_s": 0.7000000000000001,
+          "moving_head_first_encounter_s": 0.705,
+          "recovery_complete_s": 2.307076296139139,
+          "first_sampled_complete_s": 2.31,
+          "terminal_glove_distances_m": [
+            0.6796913743019104,
+            0.6639897227287292
+          ],
+          "video_frames": 137
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/nominal_right_v4/right_hook.npz",
+        "reference_json": "outputs/task10d/phase2/nominal_right_v4/right_hook.json",
+        "npz_sha256": "6630aec81a36657931fa702d37711265494822c8f1008c3c23d241fa723eb952",
+        "json_sha256": "43817f7f35f69901ea3058b55cff81a134d5018e1a60fe9fd5a415e982ef1643"
+      }
+    },
+    {
+      "primitive_id": "jab_004_01107",
+      "family": "jab",
+      "active_hand": "left",
+      "role": "variant",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/jab_004_01107/jab.npz",
+      "reference_sha256": "615150ab29b0cedec57e7db6f8c76678ee83af2a7f0316b7da523a99009b9020",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.8,
+        "design_aim_center_s": 0.8,
+        "nominal_first_entry_s": 0.705,
+        "nominal_closest_approach_s": 0.8,
+        "withdrawal_start_s": 0.8,
+        "terminal_guard_start_s": 1.96,
+        "end_s": 2.04,
+        "guard_at_launch_s": 0.0,
+        "extension_center_semantics": "Design aim/sweep center, not maximum elbow extension or closest approach.",
+        "preparation_interval_s": [
+          0.0,
+          0.705
+        ],
+        "withdrawal_interval_s": [
+          0.8,
+          1.96
+        ],
+        "terminal_guard_interval_s": [
+          1.96,
+          2.04
+        ],
+        "original_source_outward_annotation_time_s": 0.7
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/jab_004_01107/jab.json",
+      "reference_json_sha256": "a9f6ce48b5bc649874397a10fbc27e4a0e3a041af3e798b6d81dc7792907afd1",
+      "stance": "left_foot_forward",
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/004_ma_jab_liu_shanbi_joints.npy",
+        "source_sha256": "65969689a7d07d6be665de541f64aeb2bcffedf45077f30bd18c1c7edd764289",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          1023,
+          1235
+        ],
+        "selected_frame_range_inclusive": [
+          1023,
+          1235
+        ],
+        "outward_completion_frame": 1107,
+        "anatomical_hand": "left"
+      },
+      "source_event_id": "jab_004_01107",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          -0.07214751655249674,
+          -0.3916735641110974
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.0,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "recorded_style_variant_with_derived_spatial_and_terminal_timing_processing",
+      "diversity": "A recorded larger step and lowered terminal pelvis, faster extension, and active-hand recoil with ongoing stance travel; differs from the nearly stationary source of the nominal jab.",
+      "limitations": [
+        "Kinematic motion, not physical execution or impact dynamics.",
+        "Native source guards retained; no shared guard or exact initial-footprint return.",
+        "Source family/event bounds are distinct from processed source clock and frozen-target entry.",
+        "Sparse correction fit is capped; convergence is not a prerequisite or claimed guarantee.",
+        "Fast source event: raw recorded elbow peak28.04rad/s. Corrected maximum joint speed24.19rad/s and20ms step0.499rad; no calibrated biomechanics claim.",
+        "H2 must still aim about29.4cm below the raw source hand height at the design center; correction is distributed through the active arm, without lowering H2 root or changing G1 height."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/generation.json",
+      "source_manifest": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/variant_manifest.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "derived_terminal_timing": {
+        "method": "C2 monotone terminal source clock, s=start+tail*(2u-2u^3+u^4)",
+        "source_tail_interval_s": [
+          1.56,
+          1.76
+        ],
+        "processed_tail_interval_s": [
+          1.56,
+          1.96
+        ],
+        "processed_terminal_hold_interval_s": [
+          1.96,
+          2.04
+        ],
+        "start_rate": 1.0,
+        "end_rate": 0.0,
+        "endpoint_clock_accelerations": [
+          0.0,
+          0.0
+        ],
+        "original_final_qpos_preserved_exactly": true,
+        "source_frame_mapping": "Hold repeats the last retained source-frame coordinate, possibly fractional after 50 Hz resampling; no additional recorded frame is invented.",
+        "provenance": "Derived recovery timing processing of this recorded-style variant; not another recorded style or runtime TTC variant."
+      },
+      "source_reference": {
+        "npz": "outputs/task10d/phase2/variants/raw/jab_004_01107/jab.npz",
+        "npz_sha256": "7eb96ee282cb4efaf3d8a26dd38029d60083f0677ab72b0d7ddbdf6b4ffaeae4",
+        "json_sha256": "f22cbaa199dad788b5cce7cb570841fe99889013a4aa97ff449d884e14aac85e"
+      },
+      "visual_review": {
+        "finding": "User-requested correction removes introduced wrist curl. H2 resets12cm farther back; the fist continues the forearm through extension while preserving recorded step and terminal recovery. Complete two-view sequence and matched before/after strike frames reviewed.",
+        "retained_limitations": [
+          "Fast source event: raw recorded elbow peak28.04rad/s. Corrected maximum joint speed24.19rad/s and20ms step0.499rad; no calibrated biomechanics claim.",
+          "H2 must still aim about29.4cm below the raw source hand height at the design center; correction is distributed through the active arm, without lowering H2 root or changing G1 height."
+        ],
+        "comparison_video": "outputs/task10d/phase2/variants/jab_wrist_revision01/comparison/before_after.mp4",
+        "geometry_review": "outputs/task10d/phase2/variants/jab_wrist_revision01/independent_geometry_review.json",
+        "scope": "Complete decoded50fps media,24sample two-view sequence and representative full-resolution before/after frames; not collision-free certification."
+      },
+      "native_measurements": {
+        "first_entry_s": 0.705,
+        "first_entry_hand": "left",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.020356763417114655,
+        "active_closest_center_distance_m": 0.020356763417114655,
+        "active_closest_approach_s": 0.8,
+        "initial_both_glove_distances_m": [
+          0.9447032376335547,
+          1.1573097232430904
+        ],
+        "terminal_both_glove_distances_m": [
+          0.8905628180226116,
+          1.0733944476103825
+        ],
+        "maximum_active_glove_speed_m_s": 6.284815784828297,
+        "maximum_active_glove_acceleration_m_s2": 264.1850436643028,
+        "maximum_stored_joint_speed_rad_s": 24.189593846845245,
+        "maximum_stored_joint_step_rad": 0.4986207277553393,
+        "maximum_stored_joint_acceleration_rad_s2": 513.399710539005,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.3002455711581142,
+          0.16796706634807596
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": 0.001996687389709966,
+        "minimum_glove_to_glove_center_distance_m": 0.23578991853267858,
+        "native_filtered_self_penetrations_over_1mm": {},
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/variants/jab_wrist_revision01/preview01/jab_004_01107_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/variants/jab_wrist_revision01/preview01/jab_004_01107_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/variants/jab_wrist_revision01/preview01/jab_004_01107_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/variants/jab_wrist_revision01/preview01/jab_004_01107_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.705,
+          "moving_head_first_encounter_s": 0.71,
+          "recovery_complete_s": 2.04,
+          "first_sampled_complete_s": 2.04,
+          "terminal_glove_distances_m": [
+            0.913867712020874,
+            1.1002522706985474
+          ],
+          "video_frames": 123
+        }
+      },
+      "revision_history": [
+        {
+          "reason": "User identified introduced wrist bend near target; increased reset separation and opt-in actual fist/forearm alignment. Prior artifact and preview retained.",
+          "superseded_selection": {
+            "reference_npz": "outputs/task10d/phase2/variants/adapted01/jab_004_01107/jab.npz",
+            "reference_sha256": "3ecfa9bf3acc4a8e3bbc0b47ca6cdf00db69c1584902b31df14941b8d62872bd",
+            "reference_json": "outputs/task10d/phase2/variants/adapted01/jab_004_01107/jab.json",
+            "reference_json_sha256": "d20bcd3feb346e91da00c1c9b10f8b6d4e13b764d378229ab3cfbe74ceba1532",
+            "source_to_world_placement": {
+              "xy": [
+                0.04785248344750326,
+                -0.3916735641110974
+              ],
+              "yaw": 0.0,
+              "z": 0.0,
+              "baked_into_reference_qpos": true,
+              "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+              "closer_reset_m": 0.12,
+              "runtime_placement": {
+                "xy": [
+                  0.0,
+                  0.0
+                ],
+                "yaw": 0.0
+              }
+            },
+            "previews": {
+              "source": {
+                "external_video": "outputs/task10d/phase2/variant_preview01/jab_004_01107_source/external.mp4",
+                "camera_video": "outputs/task10d/phase2/variant_preview01/jab_004_01107_source/perception.mp4",
+                "sequence_review": "outputs/task10d/phase2/variant_preview01/jab_004_01107_source/sequence_review.jpg",
+                "summary": "outputs/task10d/phase2/variant_preview01/jab_004_01107_source.json",
+                "clock_rate": 1.0,
+                "replay_frozen_target_first_entry_s": 0.675,
+                "moving_head_first_encounter_s": 0.68,
+                "recovery_complete_s": 2.04,
+                "first_sampled_complete_s": 2.04,
+                "terminal_glove_distances_m": [
+                  0.8174036145210266,
+                  1.0179771184921265
+                ],
+                "video_frames": 123
+              }
+            }
+          }
+        }
+      ],
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/jab_004_01107/jab.npz",
+        "reference_json": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/jab_004_01107/jab.json",
+        "npz_sha256": "615150ab29b0cedec57e7db6f8c76678ee83af2a7f0316b7da523a99009b9020",
+        "json_sha256": "a9f6ce48b5bc649874397a10fbc27e4a0e3a041af3e798b6d81dc7792907afd1"
+      }
+    },
+    {
+      "primitive_id": "cross_012_01441",
+      "family": "cross",
+      "active_hand": "right",
+      "role": "variant",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/cross_012_01441/cross.npz",
+      "reference_sha256": "1ad957955aec56348d743ae296ee353ff846ac280f2731c34764d43c8f8e5ee6",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.7000000000000001,
+        "design_aim_center_s": 0.7000000000000001,
+        "nominal_first_entry_s": 0.625,
+        "nominal_closest_approach_s": 0.68,
+        "withdrawal_start_s": 0.7000000000000001,
+        "terminal_guard_start_s": 1.7200000000000002,
+        "end_s": 1.8,
+        "guard_at_launch_s": 0.0,
+        "extension_center_semantics": "Design aim/sweep center, not maximum elbow extension or closest approach.",
+        "preparation_interval_s": [
+          0.0,
+          0.625
+        ],
+        "withdrawal_interval_s": [
+          0.7000000000000001,
+          1.7200000000000002
+        ],
+        "terminal_guard_interval_s": [
+          1.7200000000000002,
+          1.8
+        ],
+        "original_source_outward_annotation_time_s": 0.7416666666666667
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/cross_012_01441/cross.json",
+      "reference_json_sha256": "965fbe4178c148cb401414d5cdee913f25656f658ad82a618c274f527704a7e4",
+      "stance": "left_foot_forward",
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/012_ma_cross_liu_fanji_joints.npy",
+        "source_sha256": "4f33cbc7bf348ccb4df751f253d036726234a838c197f092c45c64dd479431d9",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          1352,
+          1535
+        ],
+        "selected_frame_range_inclusive": [
+          1352,
+          1535
+        ],
+        "outward_completion_frame": 1441,
+        "anatomical_hand": "right"
+      },
+      "source_event_id": "cross_012_01441",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.4158606149221188,
+          -0.4347277682283575
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.12,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "recorded_style_variant_with_derived_spatial_and_terminal_timing_processing",
+      "diversity": "A more compact initial right-hand guard, small net pelvis travel, and rising/circular withdrawal from a counter-response drill; same performer and punch family, not a new population style.",
+      "limitations": [
+        "Kinematic motion, not physical execution or impact dynamics.",
+        "Native source guards retained; no shared guard or exact initial-footprint return.",
+        "Source family/event bounds are distinct from processed source clock and frozen-target entry.",
+        "Sparse correction fit is capped; convergence is not a prerequisite or claimed guarantee.",
+        "Inherited proxy overlaps remain: shoulder/torso up to 22.3 mm, inactive glove/own head 3.42 mm, glove/glove 5.86 mm and elbow/torso 1.24 mm. No collision-free claim.",
+        "Active-glove 5 ms finite-difference acceleration rises from about 135 to 222 m/s^2, including linear-interpolation corners; peak speed decreases from 4.67 to 4.13 m/s. No severe introduced IK branch jump is present."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/variants/adapted01/generation.json",
+      "source_manifest": "outputs/task10d/phase2/variants/adapted01/variant_manifest.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "derived_terminal_timing": {
+        "method": "C2 monotone terminal source clock, s=start+tail*(2u-2u^3+u^4)",
+        "source_tail_interval_s": [
+          1.32,
+          1.52
+        ],
+        "processed_tail_interval_s": [
+          1.32,
+          1.7200000000000002
+        ],
+        "processed_terminal_hold_interval_s": [
+          1.7200000000000002,
+          1.8
+        ],
+        "start_rate": 1.0,
+        "end_rate": 0.0,
+        "endpoint_clock_accelerations": [
+          0.0,
+          0.0
+        ],
+        "original_final_qpos_preserved_exactly": true,
+        "source_frame_mapping": "Hold repeats the last retained source-frame coordinate, possibly fractional after 50 Hz resampling; no additional recorded frame is invented.",
+        "provenance": "Derived recovery timing processing of this recorded-style variant; not another recorded style or runtime TTC variant."
+      },
+      "source_reference": {
+        "npz": "outputs/task10d/phase2/variants/raw/cross_012_01441/cross.npz",
+        "npz_sha256": "6d6a59183c4dada173d02d53799a5da676abc7ae403b3f092c406da80d184c82",
+        "json_sha256": "ec672bc3f359d437582295b115ac74157d96a85d2f0928bb56477160706b555c"
+      },
+      "visual_review": {
+        "finding": "Compact guard, coordinated pivot and straight extension, rounded rising recoil and continuous recovery. Independent second review agrees the close guard does not show a large visible limb penetration.",
+        "retained_limitations": [
+          "Inherited proxy overlaps remain: shoulder/torso up to 22.3 mm, inactive glove/own head 3.42 mm, glove/glove 5.86 mm and elbow/torso 1.24 mm. No collision-free claim.",
+          "Active-glove 5 ms finite-difference acceleration rises from about 135 to 222 m/s^2, including linear-interpolation corners; peak speed decreases from 4.67 to 4.13 m/s. No severe introduced IK branch jump is present."
+        ]
+      },
+      "native_measurements": {
+        "first_entry_s": 0.625,
+        "first_entry_hand": "right",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.02874834464370005,
+        "active_closest_center_distance_m": 0.02874834464370005,
+        "active_closest_approach_s": 0.68,
+        "initial_both_glove_distances_m": [
+          0.8079604310531827,
+          0.8922963402327575
+        ],
+        "terminal_both_glove_distances_m": [
+          0.7951959567497097,
+          0.8262934020504958
+        ],
+        "maximum_active_glove_speed_m_s": 4.1274638597717,
+        "maximum_active_glove_acceleration_m_s2": 222.0901774589459,
+        "maximum_stored_joint_speed_rad_s": 15.747625549449198,
+        "maximum_stored_joint_step_rad": 0.3349965999941704,
+        "maximum_stored_joint_acceleration_rad_s2": 338.15747048451635,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.1465776338923877,
+          0.1846327826395348
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": 0.0019965438939349867,
+        "minimum_glove_to_glove_center_distance_m": 0.1541365579864858,
+        "native_filtered_self_penetrations_over_1mm": {
+          "left_shoulder_yaw_collision|torso_collision": -0.022272827286677156,
+          "left_glove_collision|right_glove_collision": -0.005863442013514214,
+          "right_shoulder_yaw_collision|torso_collision": -0.010971507996836195,
+          "head_collision|left_glove_collision": -0.003422366107611971,
+          "right_elbow_collision|torso_collision": -0.001239340215121544
+        },
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/variant_preview01/cross_012_01441_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/variant_preview01/cross_012_01441_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/variant_preview01/cross_012_01441_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/variant_preview01/cross_012_01441_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.625,
+          "moving_head_first_encounter_s": 0.635,
+          "recovery_complete_s": 1.8,
+          "first_sampled_complete_s": 1.8,
+          "terminal_glove_distances_m": [
+            0.8182730674743652,
+            0.8501673936843872
+          ],
+          "video_frames": 111
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/variants/adapted01/cross_012_01441/cross.npz",
+        "reference_json": "outputs/task10d/phase2/variants/adapted01/cross_012_01441/cross.json",
+        "npz_sha256": "1ad957955aec56348d743ae296ee353ff846ac280f2731c34764d43c8f8e5ee6",
+        "json_sha256": "965fbe4178c148cb401414d5cdee913f25656f658ad82a618c274f527704a7e4"
+      }
+    },
+    {
+      "primitive_id": "left_hook_013_03243",
+      "family": "left_hook",
+      "active_hand": "left",
+      "role": "variant",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/left_hook_013_03243/left_hook.npz",
+      "reference_sha256": "e33fd142fb09c4ba639fc4c087aa9107815a6aff5be908ce09bcf9794ae5fe1d",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.68,
+        "design_aim_center_s": 0.68,
+        "nominal_first_entry_s": 0.66,
+        "nominal_closest_approach_s": 0.68,
+        "withdrawal_start_s": 0.68,
+        "terminal_guard_start_s": 1.7000000000000002,
+        "end_s": 1.78,
+        "guard_at_launch_s": 0.0,
+        "extension_center_semantics": "Design aim/sweep center, not maximum elbow extension or closest approach.",
+        "preparation_interval_s": [
+          0.0,
+          0.66
+        ],
+        "withdrawal_interval_s": [
+          0.68,
+          1.7000000000000002
+        ],
+        "terminal_guard_interval_s": [
+          1.7000000000000002,
+          1.78
+        ],
+        "original_source_outward_annotation_time_s": 0.6833333333333333
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/left_hook_013_03243/left_hook.json",
+      "reference_json_sha256": "95a8d7b799b43f89a580c5660dbb074959921fa754cf391f18d97c27b1eaf3d8",
+      "stance": "left_foot_forward",
+      "source": {
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/013_ma_leadhook_liu_fanji_joints.npy",
+        "source_sha256": "aab4d07db2521f297b1b73fa36690ad50454649ef6a99051550d4866eb8fcf24",
+        "actor": "ma",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          3161,
+          3342
+        ],
+        "selected_frame_range_inclusive": [
+          3161,
+          3342
+        ],
+        "outward_completion_frame": 3243,
+        "anatomical_hand": "left"
+      },
+      "source_event_id": "left_hook_013_03243",
+      "source_time_convention": "Original inclusive 120 Hz frames; crop starts at zero. Adapted source_frames retain lineage; processed recovery timing is declared separately.",
+      "asset": {
+        "xml": "assets/task10c/h2/h2.xml",
+        "xml_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+        "joint_names": [
+          "left_hip_pitch_joint",
+          "left_hip_roll_joint",
+          "left_hip_yaw_joint",
+          "left_knee_joint",
+          "left_ankle_roll_joint",
+          "left_ankle_pitch_joint",
+          "right_hip_pitch_joint",
+          "right_hip_roll_joint",
+          "right_hip_yaw_joint",
+          "right_knee_joint",
+          "right_ankle_roll_joint",
+          "right_ankle_pitch_joint",
+          "waist_yaw_joint",
+          "waist_roll_joint",
+          "waist_pitch_joint",
+          "head_pitch_joint",
+          "head_yaw_joint",
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "nq": 38,
+        "nv": 37,
+        "quaternion_order": "wxyz",
+        "qvel_root_angular_frame": "MuJoCo local root frame"
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.23920592310021108,
+          0.10500308262142416
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.1,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "provenance_class": "recorded_style_variant_with_derived_spatial_and_terminal_timing_processing",
+      "diversity": "A tighter bent-arm left hook: 0.477 m maximum source wrist-to-shoulder reach versus 0.555 m in the selected nominal source; different approach curve and bent-arm recovery.",
+      "limitations": [
+        "Kinematic motion, not physical execution or impact dynamics.",
+        "Native source guards retained; no shared guard or exact initial-footprint return.",
+        "Source family/event bounds are distinct from processed source clock and frozen-target entry.",
+        "Sparse correction fit is capped; convergence is not a prerequisite or claimed guarantee.",
+        "Brief glove/glove proxy overlap reaches 9.27 mm in close preparation/guard; no large visible intersection was found."
+      ],
+      "timing_status": "Source and representative clocks are runtime transforms, not separate styles. No TTC interval qualified; inherited Task10C ranges are historical.",
+      "generation_record": "outputs/task10d/phase2/variants/adapted01/generation.json",
+      "source_manifest": "outputs/task10d/phase2/variants/adapted01/variant_manifest.json",
+      "review_status": "ACCEPTED by user on 2026-10-23 as a selected Phase 2 kinematic punch reference with documented limitations.",
+      "derived_terminal_timing": {
+        "method": "C2 monotone terminal source clock, s=start+tail*(2u-2u^3+u^4)",
+        "source_tail_interval_s": [
+          1.3,
+          1.5
+        ],
+        "processed_tail_interval_s": [
+          1.3,
+          1.7000000000000002
+        ],
+        "processed_terminal_hold_interval_s": [
+          1.7000000000000002,
+          1.78
+        ],
+        "start_rate": 1.0,
+        "end_rate": 0.0,
+        "endpoint_clock_accelerations": [
+          0.0,
+          0.0
+        ],
+        "original_final_qpos_preserved_exactly": true,
+        "source_frame_mapping": "Hold repeats the last retained source-frame coordinate, possibly fractional after 50 Hz resampling; no additional recorded frame is invented.",
+        "provenance": "Derived recovery timing processing of this recorded-style variant; not another recorded style or runtime TTC variant."
+      },
+      "source_reference": {
+        "npz": "outputs/task10d/phase2/variants/raw/left_hook_013_03243/left_hook.npz",
+        "npz_sha256": "04ee6460c7d4461ce855a738abc705ff4acff84fe67225edba78d9528420a591",
+        "json_sha256": "96fcb3a5b4432251b2c910cec3c7dcc1ac79556f5b119037461c0bb65607db93"
+      },
+      "visual_review": {
+        "finding": "Tighter bent-arm sweep and earlier folded recovery than nominal, with coherent pivot/stance change and continuous terminal guard. Independent second review agrees selection.",
+        "retained_limitations": [
+          "Brief glove/glove proxy overlap reaches 9.27 mm in close preparation/guard; no large visible intersection was found."
+        ]
+      },
+      "native_measurements": {
+        "first_entry_s": 0.66,
+        "first_entry_hand": "left",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.025476724875696667,
+        "active_closest_center_distance_m": 0.025476724875696667,
+        "active_closest_approach_s": 0.68,
+        "initial_both_glove_distances_m": [
+          0.7502139619636848,
+          0.6540755546655262
+        ],
+        "terminal_both_glove_distances_m": [
+          0.6798653785277691,
+          0.5993170143028512
+        ],
+        "maximum_active_glove_speed_m_s": 6.231535600017212,
+        "maximum_active_glove_acceleration_m_s2": 154.0151597842451,
+        "maximum_stored_joint_speed_rad_s": 11.929542726920017,
+        "maximum_stored_joint_step_rad": 0.2490031926666227,
+        "maximum_stored_joint_acceleration_rad_s2": 198.37683000372044,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.16979866172726182,
+          0.2407340457344213
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": 0.0019437351803900937,
+        "minimum_glove_to_glove_center_distance_m": 0.15072580179208772,
+        "native_filtered_self_penetrations_over_1mm": {
+          "left_glove_collision|right_glove_collision": -0.009274198207912282
+        },
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/variant_preview01/left_hook_013_03243_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/variant_preview01/left_hook_013_03243_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/variant_preview01/left_hook_013_03243_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/variant_preview01/left_hook_013_03243_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.66,
+          "moving_head_first_encounter_s": 0.66,
+          "recovery_complete_s": 1.78,
+          "first_sampled_complete_s": 1.78,
+          "terminal_glove_distances_m": [
+            0.6916390657424927,
+            0.6160047054290771
+          ],
+          "video_frames": 110
+        }
+      },
+      "acceptance_record": "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/variants/adapted01/left_hook_013_03243/left_hook.npz",
+        "reference_json": "outputs/task10d/phase2/variants/adapted01/left_hook_013_03243/left_hook.json",
+        "npz_sha256": "e33fd142fb09c4ba639fc4c087aa9107815a6aff5be908ce09bcf9794ae5fe1d",
+        "json_sha256": "95a8d7b799b43f89a580c5660dbb074959921fa754cf391f18d97c27b1eaf3d8"
+      }
+    },
+    {
+      "primitive_id": "right_hook_014_02074",
+      "family": "right_hook",
+      "active_hand": "right",
+      "role": "variant",
+      "reference_npz": "constants/kinematic_punches/v1_20261023/right_hook_014_02074/right_hook.npz",
+      "reference_sha256": "47286c9d84f7c3e7f98e17ed79ccd31a1b5f54f0b83e79b522651cc2b4b06bf7",
+      "reference_json_sha256": "5dd9abfd99cf10a072afc27e7cc8a9f4764737d4821b1cfb55986487f728c679",
+      "placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      },
+      "source_to_world_placement": {
+        "xy": [
+          0.3070238043809213,
+          0.11310613185152527
+        ],
+        "yaw": 0.0,
+        "z": 0.0,
+        "baked_into_reference_qpos": true,
+        "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+        "closer_reset_m": 0.08,
+        "runtime_placement": {
+          "xy": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        }
+      },
+      "target": {
+        "snapshot_id": 53874,
+        "split": "train",
+        "head_world": [
+          1.06117475,
+          0.260344207,
+          1.228431463
+        ],
+        "height_adjustment_m": 0.0
+      },
+      "annotations": {
+        "extension_center_s": 0.54,
+        "design_aim_center_s": 0.54,
+        "nominal_first_entry_s": 0.53,
+        "nominal_closest_approach_s": 0.54,
+        "withdrawal_start_s": 0.54,
+        "terminal_guard_start_s": 1.6,
+        "end_s": 1.68,
+        "guard_preparation_approach_interval_s": [
+          0.0,
+          0.54
+        ],
+        "source_reach_annotation_s": 0.575,
+        "terminal_guard_pose_start_s": 1.6,
+        "terminal_zero_stored_velocity_start_s": 1.62
+      },
+      "source": {
+        "schema": "human_punching_duobox_crop_v1",
+        "punch": "right_hook",
+        "candidate_id": "right_hook_014_02074",
+        "actor": "ma",
+        "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/014_ma_rearhook_liu_fanji_joints.npy",
+        "source_sha256": "737d30e7854b3c106a4ad91acf75c1b3791edab4849492db6bff0d7a14d0aadc",
+        "source_rate_hz": 120.0,
+        "source_frame_range_inclusive": [
+          2005,
+          2174
+        ],
+        "selected_frame_range_inclusive": [
+          2005,
+          2174
+        ],
+        "outward_completion_frame": 2074,
+        "anatomical_hand": "right",
+        "active_hand_joint_index": 12,
+        "original_named_drill": "rearhook",
+        "source_time_convention": "120 Hz; absolute source frame / 120; crop time zero is first included frame",
+        "label_status": "source-drill family with explicit anatomical hand; descriptor-assisted event nomination",
+        "fk_max_error_m": 2.858183004681743e-07,
+        "retargeting": "none; source skeleton only"
+      },
+      "source_event": {
+        "event_id": "right_hook_014_02074",
+        "family": "right_hook",
+        "source_recording": "014_ma_rearhook_liu_fanji_joints.npy",
+        "source_sha256": "737d30e7854b3c106a4ad91acf75c1b3791edab4849492db6bff0d7a14d0aadc",
+        "source_frame_range_inclusive": [
+          2005,
+          2174
+        ],
+        "extension_frame": 2074,
+        "source_time_convention": "120 Hz; absolute frame / 120; crop clock begins at first included frame",
+        "anatomical_active_hand": "right",
+        "measured_larger_reach_excursion_hand": "right",
+        "bilateral_wrist_shoulder_reach_excursion_m_left_right": [
+          0.04295176240345466,
+          0.2764060429477153
+        ],
+        "hand_evidence_agrees_with_family": true,
+        "stance": "left_foot_forward",
+        "initial_left_minus_right_foot_forward_m": 0.1150325700876729,
+        "complete_guard_context_candidate": true,
+        "duration_s": 1.4083333333333334,
+        "preparation_s": 0.575,
+        "withdrawal_s": 0.8333333333333334,
+        "source_arm_reach_m": [
+          0.22840199539074305,
+          0.49977189219153817,
+          0.22389916612451996
+        ],
+        "active_hand_approach_path_chord_ratio": 3.989776163788691,
+        "active_hand_peak_speed_pelvis_relative_m_s": 7.728882662675334,
+        "active_hand_approach_local_xyz_m": [
+          0.39898532437274054,
+          0.23575674610781147,
+          0.07243216037750244
+        ],
+        "torso_yaw_range_deg": 93.04595090779048,
+        "pelvis_net_displacement_m": [
+          0.03295870125293732,
+          -0.01587173342704773,
+          -0.008975386619567871
+        ],
+        "active_hand_guard_height_relative_head_m": -0.16789722442626953,
+        "status": "selected_for_conversion_review",
+        "reason": "A tighter right-hook arm reach (0.500 m versus 0.532 m nominal source) and earlier elbow folding in recorded recovery, with modest pelvis displacement."
+      },
+      "stance": "left_foot_forward",
+      "provenance_class": "recorded_style_variant_with_derived_spatial_and_terminal_timing_processing",
+      "diversity_rationale": "A tighter right-hook arm reach (0.500 m versus 0.532 m nominal source) and earlier elbow folding in recorded recovery, with modest pelvis displacement.",
+      "derived_terminal_timing": {
+        "method": "C2 monotone terminal source clock, s=start+tail*(2u-2u^3+u^4)",
+        "source_tail_interval_s": [
+          1.2000000000000002,
+          1.4000000000000001
+        ],
+        "processed_tail_interval_s": [
+          1.2000000000000002,
+          1.6
+        ],
+        "processed_terminal_hold_interval_s": [
+          1.6,
+          1.68
+        ],
+        "start_rate": 1.0,
+        "end_rate": 0.0,
+        "endpoint_clock_accelerations": [
+          0.0,
+          0.0
+        ],
+        "original_final_qpos_preserved_exactly": false,
+        "source_frame_mapping": "Original frame lineage follows monotone source query; the last retained source-frame coordinate (possibly fractional after 50 Hz resampling) repeats during generated hold.",
+        "provenance": "Derived recovery timing processing of this recorded-style variant; not another recorded style or runtime TTC variant.",
+        "repaired_final_qpos_preserved_by_terminal_easing": false,
+        "endpoint_scope": "Both arm endpoint poses replaced with exact initial arm coordinates; current nonarm endpoint retained.",
+        "current_processed_clock_preserved_exactly": true
+      },
+      "diagnostics": {
+        "first_entry_s": 0.53,
+        "first_entry_hand": "right",
+        "first_entry_sampling_s": 0.005,
+        "minimum_both_glove_distance_m": 0.044805759908338745,
+        "active_closest_center_distance_m": 0.044805759908338745,
+        "active_closest_approach_s": 0.54,
+        "initial_both_glove_distances_m": [
+          0.6134673491727771,
+          0.6389330096060302
+        ],
+        "terminal_both_glove_distances_m": [
+          0.5679571678642797,
+          0.561814338836774
+        ],
+        "maximum_active_glove_speed_m_s": 9.395981321912585,
+        "maximum_active_glove_acceleration_m_s2": 202.16305523912214,
+        "maximum_stored_joint_speed_rad_s": 16.000366349762746,
+        "maximum_stored_joint_step_rad": 0.3398601317241289,
+        "maximum_stored_joint_acceleration_rad_s2": 384.290398880169,
+        "minimum_each_glove_to_own_head_center_m": [
+          0.1877243822538974,
+          0.17279480957027654
+        ],
+        "maximum_joint_limit_excess_rad": 0.0,
+        "lowest_sole_vertex_m": 0.0019915376651102306,
+        "minimum_glove_to_glove_center_distance_m": 0.1559012312361388,
+        "native_filtered_self_penetrations_over_1mm": {
+          "left_glove_collision|right_glove_collision": -0.004098768763861199
+        },
+        "contact_diagnostic_note": "native geometry with original pair filtering; prescribed replay disables all contacts",
+        "acceleration_note": "5 ms FK finite differences of linearly interpolated 20 ms poses; interpolation corners included"
+      },
+      "review_status": "ACCEPTED by user on 2026-10-23 as the tight right hook with both arms returning to their starting guard; documented limitations retained.",
+      "source_reference": {
+        "npz": "outputs/task10d/phase2/variants/raw/right_hook_014_02074/right_hook.npz",
+        "npz_sha256": "6d55e55b2e469e6c0235e5da1a68766a73deb39f99338294d23d06eb1bc2bc0b",
+        "json_sha256": "fb8dc1734150f2b218191162e8a607fc950ca2ca8e6b317bf86d119bba029169"
+      },
+      "limitations": [
+        "Prescribed kinematic H2; no impact, torque, dynamic balance or avoidance claim.",
+        "Derived two-arm return restores exact initial arm coordinates on the retained current body/stance; not the original recorded recovery.",
+        "One isolated reset and real target; no coverage or supported TTC-range claim.",
+        "Inherited4.10mm glove/glove preparation overlap; source torso lean/footwork and initial guard wrist flexion retained.",
+        "Right glove briefly passes below terminal guard height during the smooth derived return."
+      ],
+      "previews": {
+        "source": {
+          "external_video": "outputs/task10d/phase2/variants/right_hook_guard_revision01/preview02/right_hook_014_02074_source/external.mp4",
+          "camera_video": "outputs/task10d/phase2/variants/right_hook_guard_revision01/preview02/right_hook_014_02074_source/perception.mp4",
+          "sequence_review": "outputs/task10d/phase2/variants/right_hook_guard_revision01/preview02/right_hook_014_02074_source/sequence_review.jpg",
+          "summary": "outputs/task10d/phase2/variants/right_hook_guard_revision01/preview02/right_hook_014_02074_source.json",
+          "clock_rate": 1.0,
+          "replay_frozen_target_first_entry_s": 0.53,
+          "moving_head_first_encounter_s": 0.53,
+          "recovery_complete_s": 1.68,
+          "first_sampled_complete_s": 1.68,
+          "terminal_glove_distances_m": [
+            0.5740722417831421,
+            0.5738809108734131
+          ],
+          "video_frames": 105,
+          "comparison_video": "outputs/task10d/phase2/variants/right_hook_guard_revision01/comparison/before_after.mp4"
+        }
+      },
+      "prior_candidate_reference": {
+        "path": "outputs/task10d/phase2/variants/right_hook_repair01/final/right_hook.npz",
+        "npz_sha256": "88e2c4cd723fdf384bf081d08f71583c6613fb7a02b984bb479c58a4d079c939",
+        "json_sha256": "0cdb00345683b22a7e64df52e65393f55b047080e8a61bc49e706f801a11bd72",
+        "manifest_sha256": "aece39cf138916765a44aae53eb209fe3fdb51e07e1249c7b6807fed4f6f7dfb"
+      },
+      "derived_bilateral_start_guard_return": {
+        "method": "Fixed right-arm Hermite withdrawal through one coordinated waypoint, left-arm quintic source blend",
+        "formula": "Right: fixed quintic Hermite spans; left: q=(1-w)*q_input+w*q_initial",
+        "blend_interval_s": [
+          0.7,
+          1.6
+        ],
+        "preserved_through_s": 0.7,
+        "modified_joint_names": [
+          "left_shoulder_pitch_joint",
+          "left_shoulder_roll_joint",
+          "left_shoulder_yaw_joint",
+          "left_elbow_joint",
+          "left_wrist_roll_joint",
+          "left_wrist_pitch_joint",
+          "left_wrist_yaw_joint",
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "endpoint_constraint": "Exact initial values for all fourteen arm joints",
+        "guard_coordinate_frame": "Arm joint coordinates relative to the retained torso, not the original world/root pose",
+        "unchanged": "Root, legs, waist, head, processed timestamps, source-frame lineage and original source query array",
+        "orientation": "No uniform alignment constraint; initial guard wrist flexion and arm posture restored exactly",
+        "provenance": "Derived two-arm withdrawal and guard revision of the same recorded event; no new style recording",
+        "historical_recipe": "Task10C compact_right_return fixed waypoint construction; event-specific times/anchor/guard, no prior output path or task obligations reused",
+        "fixed_right_return": {
+          "right_waypoint_s": 1.0,
+          "right_waypoint_joint_names": [
+            "right_shoulder_pitch_joint",
+            "right_shoulder_roll_joint",
+            "right_shoulder_yaw_joint",
+            "right_elbow_joint",
+            "right_wrist_roll_joint",
+            "right_wrist_pitch_joint",
+            "right_wrist_yaw_joint"
+          ],
+          "right_waypoint_joint_pose_rad": [
+            0.0,
+            -1.5707963267948966,
+            -0.6,
+            -0.6,
+            -0.18647156895246936,
+            0.0697917152998675,
+            -0.21067829942964347
+          ],
+          "right_waypoint_velocity_rad_s": [
+            -2.3416014982339557,
+            3.0098143093812246,
+            2.572733562221621,
+            -1.3349430352765563,
+            0.4607207730771372,
+            0.06345257562439725,
+            -0.5815258173174813
+          ],
+          "anchor_velocity_rad_s": [
+            2.916259857571596,
+            -8.40095770725872e-09,
+            -5.728054754694169,
+            0.43381913300116687,
+            -0.9406519446257666,
+            0.003965895044494947,
+            -2.0771367444618707
+          ],
+          "construction": "Two quintic Hermite spans; source position/velocity at anchor, shared waypoint position/velocity and zero acceleration, exact initial guard with zero endpoint velocity/acceleration.",
+          "coordination": "Shoulder pitch reaches zero as roll crosses -pi/2; elbow folds during withdrawal. Left arm retains moving-source guard blend."
+        }
+      },
+      "prior_derived_recovery_repair": {
+        "method": "Disjoint right-arm recovery joint correction applied at retained source queries after target adaptation; dependent arrays rebuilt.",
+        "source_repair_npz": "outputs/task10d/phase2/variants/right_hook_repair01/recovery01/attempt02/right_hook.npz",
+        "source_repair_npz_sha256": "7bbb9372d15c9a2841ea53ca3b9131a9fea221f881400111d6d30496ca7c1a82",
+        "source_repair_json_sha256": "227e57f1b909ede9eee0c9efdca30933d09f407ea183338f2c1af502b69bae0e",
+        "raw_reference_npz_sha256": "6d55e55b2e469e6c0235e5da1a68766a73deb39f99338294d23d06eb1bc2bc0b",
+        "unchanged_through_source_s": 0.9,
+        "modified_joint_names": [
+          "right_shoulder_pitch_joint",
+          "right_shoulder_roll_joint",
+          "right_shoulder_yaw_joint",
+          "right_elbow_joint",
+          "right_wrist_roll_joint",
+          "right_wrist_pitch_joint",
+          "right_wrist_yaw_joint"
+        ],
+        "revised_final_guard": "Final right-arm pose uses the repaired source guard; original overlapping endpoint is not restored.",
+        "terminal_easing": "Existing monotone source clock and stationary endpoint hold retained; repair follows source queries.",
+        "provenance": "Derived recovery repair, not an unmodified recorded return."
+      },
+      "visual_review": {
+        "method": "Two independent complete side/oblique frame-sequence inspections plus detailed strike/.80\u20131.20s withdrawal/start/terminal/hold frames; videos fully decoded at50fps.",
+        "finding": "Both arms finish in their exact starting joint configuration. Elbows lowered beside torso; continuous compact folding return; no apparent backward loop, branch snap, glove detachment or new large intersection.",
+        "body_note": "Final whole-body silhouette retains the current torso lean/stance; only fourteen arm coordinates were revised."
+      },
+      "reference_json": "constants/kinematic_punches/v1_20261023/right_hook_014_02074/right_hook.json",
+      "selected_output_reference": {
+        "reference_npz": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02/right_hook.npz",
+        "reference_json": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02/right_hook.json",
+        "npz_sha256": "47286c9d84f7c3e7f98e17ed79ccd31a1b5f54f0b83e79b522651cc2b4b06bf7",
+        "json_sha256": "5dd9abfd99cf10a072afc27e7cc8a9f4764737d4821b1cfb55986487f728c679"
+      }
+    }
+  ],
+  "stop_boundary": "No Phase 3 or Phase 4 authorization; no automatic expansion or training.",
+  "revisions": [
+    {
+      "primitive_id": "jab_004_01107",
+      "reason": "User-requested straighter fist extension and farther reset placement",
+      "previous_index": "outputs/task10d/phase2/variants/jab_wrist_revision01/preparation/library_index.json",
+      "previous_index_sha256": "96714c1bba0f91a0af6905abe270c0dbc9ddc634a718b5977d2b84e60ae3ad23",
+      "visual_review": "outputs/task10d/phase2/variants/jab_wrist_revision01/visual_review.json"
+    },
+    {
+      "primitive_id": "right_hook_014_02074",
+      "reason": "User-authorized tighter right-hook recovery repair followed by exact starting-guard return for both arms; user explicitly accepts selected candidate02.",
+      "acceptance_record": "outputs/task10d/phase2/acceptance_tight_right_hook_20261023/accepted_punches.json",
+      "reviewed_manifest": "outputs/task10d/phase2/variants/right_hook_guard_revision01/reviewed_candidate_manifest.json",
+      "completion_review": "outputs/task10d/phase2/variants/right_hook_guard_revision01/completion_review.json",
+      "previous_index": "outputs/task10d/phase2/acceptance_tight_right_hook_20261023/previous_seven_punch_index.json",
+      "previous_index_sha256": "ca2d6561c45c3757643c6e0910ad929b21a8e6f64501015f6a1bfe6d8e3117d3"
+    }
+  ],
+  "acceptance": {
+    "date": "2026-10-23",
+    "scope": "Eight selected punch references across four families: four nominal motions, stepping jab, compact cross, tight left hook and tight right hook; documented limitations retained.",
+    "record": "outputs/task10d/phase2/acceptance_tight_right_hook_20261023/accepted_punches.json",
+    "previous_records": [
+      "outputs/task10d/phase2/acceptance_20261023/accepted_punches.json"
+    ]
+  },
+  "historical_variant_exclusions": [
+    {
+      "event_id": "right_hook_014_02074",
+      "reason": "Retargeted active glove intersects own head during recovery from 1.04 s through final guard, reaching 46.9 mm depth. Excluded rather than expanding recovery repair; nominal right hook remains available.",
+      "disposition": "Raw-reference exclusion preserved as historical; the user separately authorized recovery/initial-arm-guard repair and accepted candidate02 on 2026-10-23.",
+      "accepted_reference_npz": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02/right_hook.npz"
+    }
+  ],
+  "source_exclusions_note": "Source survey/exclusion files describe the original survey and raw inputs. Historical RH raw recovery issues are preserved; accepted tight RH points to the later repaired starting-guard candidate.",
+  "basis_bundle": {
+    "version": "v1_20261023",
+    "recorded_at_edt": "2026-10-23T21:27:08.027202-04:00",
+    "manifest": "constants/kinematic_punches/v1_20261023/manifest.json",
+    "source_index": "outputs/task10d/phase2/library_index.json",
+    "source_index_sha256": "3c21a90c88cf90658c35b427848c4f09666945ef0394306beda5e9b70e706c82",
+    "reference_path_base": "human-punching repository root",
+    "historical_paths": "Other output/source/preview paths are retained provenance and optional review evidence, not required reference inputs.",
+    "authorization": "User explicitly requests these eight accepted punches in constants as the library construction basis and tracked through Git."
+  }
+}

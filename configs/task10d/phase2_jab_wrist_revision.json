@@ -1,0 +1,48 @@
+{
+  "schema": "task10d_phase2_explicit_variant_adaptation_v1",
+  "target": {
+    "snapshot_id": 53874,
+    "split": "train",
+    "head_world": [
+      1.06117475,
+      0.260344207,
+      1.228431463
+    ],
+    "height_adjustment_m": 0.0
+  },
+  "contact_center_offset_m": 0.04,
+  "output": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01",
+  "terminal_easing": {
+    "source_tail_s": 0.2,
+    "duration_multiplier": 2.0,
+    "final_pose_hold_s": 0.08
+  },
+  "events": {
+    "jab_004_01107": {
+      "family": "jab",
+      "active_hand": "left",
+      "reference": "outputs/task10d/phase2/variants/raw/jab_004_01107/jab.npz",
+      "sha256": "7eb96ee282cb4efaf3d8a26dd38029d60083f0677ab72b0d7ddbdf6b4ffaeae4",
+      "placement_yaw_rad": 0.0,
+      "closer_reset_m": 0.0,
+      "anchor_window_s": [
+        0.6,
+        0.92
+      ],
+      "deformation_interval_s": [
+        0.24,
+        1.42
+      ],
+      "path": "source_path_offset",
+      "elbow_translation_fraction": 0.55,
+      "fist_forearm_alignment_weight": 0.3
+    }
+  },
+  "excluded_raw_events": [
+    {
+      "event_id": "right_hook_014_02074",
+      "reason": "Retargeted active glove intersects own head during recovery from 1.04 s through final guard, reaching 46.9 mm depth. Excluded rather than expanding recovery repair; nominal right hook remains available."
+    }
+  ],
+  "revision_rationale": "User identified introduced stepping-jab wrist bend. Increase reset separation by removing 0.12m closer offset and add explicit native fist/forearm alignment. Preserve original event and other selected motions."
+}

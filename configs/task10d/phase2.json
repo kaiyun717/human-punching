@@ -1,0 +1,23 @@
+{
+  "schema": "task10d_phase2_combined_previews_v1",
+  "nominal_snapshot_id": 53874,
+  "requested_ttc_s": 0.7,
+  "terminal_hold_s": 0.4,
+  "physics_dt_s": 0.005,
+  "control_dt_s": 0.02,
+  "glove_radius_m": 0.08,
+  "head_radius_m": 0.06,
+  "encounter_distance_m": 0.14,
+  "safe_clearance_m": 0.16,
+  "seed": 102302,
+  "nominal_observation_noise": true,
+  "visual_noise": true,
+  "visual_delay_ticks": [2, 3, 4],
+  "launch": "first control boundary immediately after exact snapshot restoration; no settling",
+  "placement": "explicit library reset transform; no post-launch change or vertical shift",
+  "g1_calibration": "snapshot 53874 in accepted jab calibration for every family",
+  "playback": "source and representative 0.700 s frozen-target first-entry clocks only",
+  "camera": "unchanged Task08 mount, FOV, range, delay and full H2 occlusion",
+  "g1_controller": "canonical Fresh96 frozen nominal actor and normalizer",
+  "episode": "diagnostic full-cycle continuation; first hazards latched, no safe-arrival evaluation"
+}

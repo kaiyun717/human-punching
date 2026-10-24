@@ -1,0 +1,144 @@
+{
+  "schema": "task10d_accepted_punch_basis_v1",
+  "version": "v1_20261023",
+  "recorded_at_edt": "2026-10-23T21:27:08.027202-04:00",
+  "status": "Eight user-accepted punch references, explicitly selected for constants storage and Git tracking.",
+  "motion_count": 8,
+  "family_count": 4,
+  "nominal_count": 4,
+  "variant_count": 4,
+  "index": {
+    "path": "library_index.json",
+    "sha256": "f405c875e2f1b41dfa0798e50f588d8f5dad32e3e377a4d92ef650e4190966f7",
+    "size_bytes": 97343
+  },
+  "source_index": {
+    "path": "outputs/task10d/phase2/library_index.json",
+    "sha256": "3c21a90c88cf90658c35b427848c4f09666945ef0394306beda5e9b70e706c82"
+  },
+  "source_acceptance": {
+    "path": "outputs/task10d/phase2/acceptance_tight_right_hook_20261023/accepted_punches.json",
+    "sha256": "b9bcd00efc6a207e839fddb024a35c523e18b1b6d427b39bf67d4e96ead0723d"
+  },
+  "paths": "File paths in this manifest are relative to this bundle; source paths and reference paths inside library_index.json are relative to the human-punching root.",
+  "reference_processing": "None: all NPZ and adjacent JSON bytes copied exactly; original source outputs preserved.",
+  "provenance_note": "Original absolute paths and generation/review status text inside adjacent JSON are historical. Current selection, annotations and placement come from library_index.json. Preview/evidence paths are optional local history.",
+  "runtime_dependencies": "Existing H2 asset/joint convention and compatible project environment; no source dataset, original output NPZ/JSON or videos needed to load these copied references.",
+  "git_storage": "Ordinary Git files, no Git LFS requirement; no generated caches or videos included.",
+  "scope": "Library construction basis only; no Phase 3/4, expansion, training, camera or dynamics changes.",
+  "reference_total_bytes": 2983585,
+  "files": [
+    {
+      "primitive_id": "jab_nominal",
+      "path": "jab_nominal/jab.npz",
+      "source_path": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.npz",
+      "sha256": "50887274783da7364d8b7ce39ee7f956c583174b0339ca602d65bfd71ff600e8",
+      "size_bytes": 304993
+    },
+    {
+      "primitive_id": "jab_nominal",
+      "path": "jab_nominal/jab.json",
+      "source_path": "outputs/task10c/jab/nominal_reference_adaptation_20261022_01/final/candidate/jab.json",
+      "sha256": "96bf91e8a60f66847adfaa9f56a0319410424a522db5c53fba64b3e5ec36a74d",
+      "size_bytes": 16345
+    },
+    {
+      "primitive_id": "cross_nominal",
+      "path": "cross_nominal/cross.npz",
+      "source_path": "outputs/task10d/phase2/nominal_v2/cross.npz",
+      "sha256": "3333a46c67da6882423f1cb70b4300b00e59cde76e32555f183ebf181707a03a",
+      "size_bytes": 300706
+    },
+    {
+      "primitive_id": "cross_nominal",
+      "path": "cross_nominal/cross.json",
+      "source_path": "outputs/task10d/phase2/nominal_v2/cross.json",
+      "sha256": "f9e95fc3532e1e69fdf3a6c0b6507608b03e7b60af45becb51dc1522964643ad",
+      "size_bytes": 15533
+    },
+    {
+      "primitive_id": "left_hook_nominal",
+      "path": "left_hook_nominal/left_hook.npz",
+      "source_path": "outputs/task10d/phase2/nominal_v3/left_hook.npz",
+      "sha256": "a9783462679f6942da749b8c0fa9d3f1aae3d96a558f263010c1a87b0eeef7f5",
+      "size_bytes": 358697
+    },
+    {
+      "primitive_id": "left_hook_nominal",
+      "path": "left_hook_nominal/left_hook.json",
+      "source_path": "outputs/task10d/phase2/nominal_v3/left_hook.json",
+      "sha256": "641e349742b292768309e008bdcf3daabb772990c4c0b774c37ab6bd9405e4cf",
+      "size_bytes": 21115
+    },
+    {
+      "primitive_id": "right_hook_nominal",
+      "path": "right_hook_nominal/right_hook.npz",
+      "source_path": "outputs/task10d/phase2/nominal_right_v4/right_hook.npz",
+      "sha256": "6630aec81a36657931fa702d37711265494822c8f1008c3c23d241fa723eb952",
+      "size_bytes": 342340
+    },
+    {
+      "primitive_id": "right_hook_nominal",
+      "path": "right_hook_nominal/right_hook.json",
+      "source_path": "outputs/task10d/phase2/nominal_right_v4/right_hook.json",
+      "sha256": "43817f7f35f69901ea3058b55cff81a134d5018e1a60fe9fd5a415e982ef1643",
+      "size_bytes": 34487
+    },
+    {
+      "primitive_id": "jab_004_01107",
+      "path": "jab_004_01107/jab.npz",
+      "source_path": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/jab_004_01107/jab.npz",
+      "sha256": "615150ab29b0cedec57e7db6f8c76678ee83af2a7f0316b7da523a99009b9020",
+      "size_bytes": 432173
+    },
+    {
+      "primitive_id": "jab_004_01107",
+      "path": "jab_004_01107/jab.json",
+      "source_path": "outputs/task10d/phase2/variants/jab_wrist_revision01/attempt01/jab_004_01107/jab.json",
+      "sha256": "a9f6ce48b5bc649874397a10fbc27e4a0e3a041af3e798b6d81dc7792907afd1",
+      "size_bytes": 10080
+    },
+    {
+      "primitive_id": "cross_012_01441",
+      "path": "cross_012_01441/cross.npz",
+      "source_path": "outputs/task10d/phase2/variants/adapted01/cross_012_01441/cross.npz",
+      "sha256": "1ad957955aec56348d743ae296ee353ff846ac280f2731c34764d43c8f8e5ee6",
+      "size_bytes": 380167
+    },
+    {
+      "primitive_id": "cross_012_01441",
+      "path": "cross_012_01441/cross.json",
+      "source_path": "outputs/task10d/phase2/variants/adapted01/cross_012_01441/cross.json",
+      "sha256": "965fbe4178c148cb401414d5cdee913f25656f658ad82a618c274f527704a7e4",
+      "size_bytes": 10182
+    },
+    {
+      "primitive_id": "left_hook_013_03243",
+      "path": "left_hook_013_03243/left_hook.npz",
+      "source_path": "outputs/task10d/phase2/variants/adapted01/left_hook_013_03243/left_hook.npz",
+      "sha256": "e33fd142fb09c4ba639fc4c087aa9107815a6aff5be908ce09bcf9794ae5fe1d",
+      "size_bytes": 375739
+    },
+    {
+      "primitive_id": "left_hook_013_03243",
+      "path": "left_hook_013_03243/left_hook.json",
+      "source_path": "outputs/task10d/phase2/variants/adapted01/left_hook_013_03243/left_hook.json",
+      "sha256": "95a8d7b799b43f89a580c5660dbb074959921fa754cf391f18d97c27b1eaf3d8",
+      "size_bytes": 10248
+    },
+    {
+      "primitive_id": "right_hook_014_02074",
+      "path": "right_hook_014_02074/right_hook.npz",
+      "source_path": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02/right_hook.npz",
+      "sha256": "47286c9d84f7c3e7f98e17ed79ccd31a1b5f54f0b83e79b522651cc2b4b06bf7",
+      "size_bytes": 355393
+    },
+    {
+      "primitive_id": "right_hook_014_02074",
+      "path": "right_hook_014_02074/right_hook.json",
+      "source_path": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02/right_hook.json",
+      "sha256": "5dd9abfd99cf10a072afc27e7cc8a9f4764737d4821b1cfb55986487f728c679",
+      "size_bytes": 15387
+    }
+  ]
+}

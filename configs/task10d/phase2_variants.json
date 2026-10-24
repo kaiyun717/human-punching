@@ -1,0 +1,82 @@
+{
+  "schema": "task10d_phase2_explicit_variant_adaptation_v1",
+  "target": {
+    "snapshot_id": 53874,
+    "split": "train",
+    "head_world": [
+      1.06117475,
+      0.260344207,
+      1.228431463
+    ],
+    "height_adjustment_m": 0.0
+  },
+  "contact_center_offset_m": 0.04,
+  "output": "outputs/task10d/phase2/variants/adapted01",
+  "terminal_easing": {
+    "source_tail_s": 0.2,
+    "duration_multiplier": 2.0,
+    "final_pose_hold_s": 0.08
+  },
+  "events": {
+    "jab_004_01107": {
+      "family": "jab",
+      "active_hand": "left",
+      "reference": "outputs/task10d/phase2/variants/raw/jab_004_01107/jab.npz",
+      "sha256": "7eb96ee282cb4efaf3d8a26dd38029d60083f0677ab72b0d7ddbdf6b4ffaeae4",
+      "placement_yaw_rad": 0.0,
+      "closer_reset_m": 0.12,
+      "anchor_window_s": [
+        0.6,
+        0.92
+      ],
+      "deformation_interval_s": [
+        0.24,
+        1.42
+      ],
+      "path": "source_path_offset",
+      "elbow_translation_fraction": 0.55
+    },
+    "cross_012_01441": {
+      "family": "cross",
+      "active_hand": "right",
+      "reference": "outputs/task10d/phase2/variants/raw/cross_012_01441/cross.npz",
+      "sha256": "6d6a59183c4dada173d02d53799a5da676abc7ae403b3f092c406da80d184c82",
+      "placement_yaw_rad": 0.0,
+      "closer_reset_m": 0.12,
+      "anchor_window_s": [
+        0.58,
+        0.9
+      ],
+      "deformation_interval_s": [
+        0.26,
+        1.3
+      ],
+      "path": "source_path_offset",
+      "elbow_translation_fraction": 0.55
+    },
+    "left_hook_013_03243": {
+      "family": "left_hook",
+      "active_hand": "left",
+      "reference": "outputs/task10d/phase2/variants/raw/left_hook_013_03243/left_hook.npz",
+      "sha256": "04ee6460c7d4461ce855a738abc705ff4acff84fe67225edba78d9528420a591",
+      "placement_yaw_rad": 0.0,
+      "closer_reset_m": 0.1,
+      "anchor_window_s": [
+        0.58,
+        0.78
+      ],
+      "deformation_interval_s": [
+        0.5,
+        1.1
+      ],
+      "path": "source_path_offset",
+      "elbow_translation_fraction": 0.6
+    }
+  },
+  "excluded_raw_events": [
+    {
+      "event_id": "right_hook_014_02074",
+      "reason": "Retargeted active glove intersects own head during recovery from 1.04 s through final guard, reaching 46.9 mm depth. Excluded rather than expanding recovery repair; nominal right hook remains available."
+    }
+  ]
+}

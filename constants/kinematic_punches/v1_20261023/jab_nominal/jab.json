@@ -1,0 +1,473 @@
+{
+  "schema": "task10c_h2_reference_v1",
+  "family": "jab",
+  "active_hand": "left",
+  "strike_time_s": 0.68,
+  "end_time_s": 1.42,
+  "recovery_duration_s": 0.7399999999999999,
+  "ttc_range_s": [
+    0.555,
+    0.6783333333333335
+  ],
+  "terminal_guard_hold_s": 0.4,
+  "guard_start_time_s": 0.0,
+  "terminal_guard_interval_s": [
+    1.38,
+    1.42
+  ],
+  "withdrawal_interval_s": [
+    0.68,
+    1.42
+  ],
+  "annotation_rationale": "Source frames remain lineage, not exact adapted poses. strike_time_s/strike_center_time_s identify the nominal extension center; nominal_first_entry_s is measured separately by native H2 FK at 5 ms resolution.",
+  "source": {
+    "schema": "human_punching_duobox_crop_v1",
+    "punch": "jab",
+    "candidate_id": "jb_000_ma_00370_00518",
+    "actor": "ma",
+    "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/000_ma_jab_liu_defense_joints.npy",
+    "source_sha256": "7ed040b3b727baa108b5090872fab864d684ff1152031a746da07b6b260e17a3",
+    "source_rate_hz": 120.0,
+    "source_frame_range_inclusive": [
+      358,
+      530
+    ],
+    "selected_frame_range_inclusive": [
+      370,
+      518
+    ],
+    "outward_completion_frame": 432,
+    "padding_requested_s": 0.1,
+    "anatomical_hand": "left",
+    "active_hand_joint_index": 8,
+    "original_named_drill": "jab",
+    "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward",
+    "rotation_convention": "column vectors; global child = global parent @ local child",
+    "label_status": "inherited machine candidate; human label review pending",
+    "retargeting": "none; source skeleton only",
+    "fk_max_error_m": 2.8930482022162304e-07,
+    "fk_rms_error_m": 7.325535648594314e-08,
+    "rest_offset_max_deviation_m": 3.221329092101303e-07,
+    "rotation_orthogonality_max_error": 1.2818642680656467e-06,
+    "rotation_determinant_max_error": 1.2282421004705668e-06
+  },
+  "adapter": {
+    "source_world_convention": "z-up metres; no centimetre conversion or LAFAN world rotation",
+    "source_to_reference_rotation": [
+      [
+        -0.8160145280187796,
+        -0.578031391934978,
+        0.0
+      ],
+      [
+        0.578031391934978,
+        -0.8160145280187796,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "source_ground_origin": [
+      0.10842885822057724,
+      0.45132747292518616,
+      0.0
+    ],
+    "removed_scene_yaw_rad": -2.5252784970530517,
+    "foot_frame": "recorded Foot-to-Toe direction with bind-derived local orientation offset",
+    "source_target_offsets_torso_m": {},
+    "target_offset_convention": "Optional elbow/wrist IK target adjustment in source metres, torso axes +x forward/+y left/+z up; GMR scaling follows. Original recorded skeleton and all source rotations remain unchanged."
+  },
+  "source_revisions": {
+    "GMR": "bb1bbe40774794fceb2a7c579a3464a28e68c844",
+    "h2_extension": "3d9a05d951b49e803d9d2c3555aed29a4b1e4b2b"
+  },
+  "asset_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+  "retarget_config_sha256": "a3f07153c3d17bf5beaf2cc7785453821c0b359c1d608cdf2717398511c96bf6",
+  "retarget_config_path": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/configs/task10c/duobox_to_h2_31.json",
+  "retarget_arm_target_revision": "position_fit_v2",
+  "solver": "GMR inherited two-stage Mink proxqp",
+  "ik_dt_s": 0.008333333333333333,
+  "solver_api_correction": "Four local call sites pass the existing limits by keyword; equations, task updates and iteration remain inherited. See _gmr/SOURCE.json.",
+  "ik_joint_interior_margin_rad": 0.001,
+  "output_hz": 50.0,
+  "quaternion_order": "wxyz",
+  "qvel_root_angular_frame": "MuJoCo local root frame",
+  "glove_radius_m": 0.08,
+  "glove_attachment_offsets_m": [
+    [
+      0.135,
+      -0.01,
+      0.0
+    ],
+    [
+      0.135,
+      0.01,
+      0.0
+    ]
+  ],
+  "smoothing_sigma_source_frames": 1.5,
+  "sole_ground_shift_range_m": [
+    -0.036541736955528294,
+    0.1136320515095968
+  ],
+  "head_coordinates": "31-joint model pitch/yaw explicitly neutral and zero velocity",
+  "generation_wall_s": 1.423792574001709,
+  "guard_correction": {
+    "method": "bounded independent guard-pose correction and endpoint quintic blending",
+    "central_punch_unchanged_interval_s": [
+      0.24,
+      1.1199999999999999
+    ],
+    "launch_guard_reference_hold_s": 0.02,
+    "terminal_guard_reference_hold_s": 0.04,
+    "launch_clock": "unchanged t=0; every initial hold/blend millisecond counts toward commanded TTC",
+    "preserved_endpoint_coordinates": "pelvis orientation including lean/yaw, waist, head; family foot XY/yaw used as fit targets",
+    "source_frame_annotation": "source_frames remain provenance; endpoint poses are intentionally modified, not exact source samples",
+    "launch": {
+      "before": {
+        "pelvis_world": [
+          0.009432298796983173,
+          0.0030946557216488912,
+          1.0485821901283663
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9997778631006097,
+          0.001034945676310033,
+          -0.02104526569590624,
+          -0.0005001331968780829
+        ],
+        "center_of_mass_world": [
+          0.08086953022178435,
+          0.028475376203259666,
+          1.063371294355415
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.16329465992438857,
+              0.31735255014263974,
+              0.07166954093481906
+            ],
+            "rotation_xyz_rad": [
+              -0.04836647494054615,
+              -0.07463512080873946,
+              0.09670295832478716
+            ],
+            "lowest_vertex_m": 0.05718174767075944,
+            "near_ground_vertices": 0
+          },
+          "right": {
+            "center_world": [
+              0.06074185810140757,
+              -0.2461714490369939,
+              0.04245857896341954
+            ],
+            "rotation_xyz_rad": [
+              0.19383151289576664,
+              -0.2568145265489239,
+              -0.6242466779979107
+            ],
+            "lowest_vertex_m": 0.002000000000000113,
+            "near_ground_vertices": 1
+          }
+        },
+        "com_outside_near_ground_support_m": null,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "after": {
+        "pelvis_world": [
+          0.0647154813839965,
+          0.04088756263219377,
+          1.0161194090939607
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9997778631006097,
+          0.001034945676310033,
+          -0.02104526569590624,
+          -0.0005001331968780829
+        ],
+        "center_of_mass_world": [
+          0.11967473043759441,
+          0.05987101652149549,
+          1.0268063962704412
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.16326777026482667,
+              0.3172824225734771,
+              0.005856585963925881
+            ],
+            "rotation_xyz_rad": [
+              0.0002807370274897428,
+              0.0010796413593654464,
+              0.09688852773698914
+            ],
+            "lowest_vertex_m": 0.001721200246189043,
+            "near_ground_vertices": 4
+          },
+          "right": {
+            "center_world": [
+              0.06072393089749672,
+              -0.24623909486536355,
+              0.005147740576862049
+            ],
+            "rotation_xyz_rad": [
+              0.0003021259347173455,
+              -0.0011796395233634183,
+              -0.62400524188684
+            ],
+            "lowest_vertex_m": 0.0009999999999999792,
+            "near_ground_vertices": 4
+          }
+        },
+        "com_outside_near_ground_support_m": -0.11812898103534217,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "fit": {
+        "stance_fit": {
+          "function_evaluations": 33,
+          "cost": 0.26685281677381745
+        },
+        "arm_clearance_fit": {
+          "function_evaluations": 1,
+          "cost": 0.0
+        },
+        "final_stance_fit": {
+          "function_evaluations": 6,
+          "cost": 0.2668528163022075
+        },
+        "maximum_joint_adjustment_rad": 0.3853625367543271,
+        "maximum_leg_adjustment_rad": 0.3853625367543271,
+        "maximum_arm_adjustment_rad": 0.0,
+        "final_uniform_floor_lift_m": 0.0005019314810723804,
+        "root_position_adjustment_m": [
+          0.055283182587013334,
+          0.037792906910544884,
+          -0.032462781034405586
+        ]
+      }
+    },
+    "recovery": {
+      "before": {
+        "pelvis_world": [
+          0.05878500570853624,
+          -0.008689787462611894,
+          1.042871736780237
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9939354650071133,
+          0.0043425545005290975,
+          -0.05336181797705518,
+          -0.09605180895582971
+        ],
+        "center_of_mass_world": [
+          0.11549365129530681,
+          0.013761808014653905,
+          1.0663554717839403
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.18156537564621858,
+              0.3014019573887888,
+              0.07270271786962369
+            ],
+            "rotation_xyz_rad": [
+              0.04818643909546319,
+              0.04390008588643801,
+              0.08574177898972185
+            ],
+            "lowest_vertex_m": 0.06173946629500314,
+            "near_ground_vertices": 0
+          },
+          "right": {
+            "center_world": [
+              0.0485080576319098,
+              -0.24469891616031603,
+              0.028817511131928743
+            ],
+            "rotation_xyz_rad": [
+              0.16919590027268072,
+              -0.14174488475673686,
+              -0.7550867592781855
+            ],
+            "lowest_vertex_m": 0.002000000000000019,
+            "near_ground_vertices": 1
+          }
+        },
+        "com_outside_near_ground_support_m": null,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "after": {
+        "pelvis_world": [
+          0.0810161153087136,
+          0.042804025153189686,
+          1.017743499587435
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9939354650071133,
+          0.0043425545005290975,
+          -0.05336181797705518,
+          -0.09605180895582971
+        ],
+        "center_of_mass_world": [
+          0.12297703678442082,
+          0.05730491514584456,
+          1.036551051519579
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.18154531707266353,
+              0.30132195101812714,
+              0.006076510921391234
+            ],
+            "rotation_xyz_rad": [
+              0.0003394601916438325,
+              0.0014370897155628892,
+              0.08596087930451607
+            ],
+            "lowest_vertex_m": 0.0018976716285220305,
+            "near_ground_vertices": 4
+          },
+          "right": {
+            "center_world": [
+              0.04848274848288553,
+              -0.24478340190995185,
+              0.005180238678895492
+            ],
+            "rotation_xyz_rad": [
+              0.00036304840725803755,
+              -0.001441054193403346,
+              -0.7548139574583415
+            ],
+            "lowest_vertex_m": 0.0009999999999999948,
+            "near_ground_vertices": 4
+          }
+        },
+        "com_outside_near_ground_support_m": -0.12003682936223932,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "fit": {
+        "stance_fit": {
+          "function_evaluations": 30,
+          "cost": 0.36312174933156754
+        },
+        "arm_clearance_fit": {
+          "function_evaluations": 1,
+          "cost": 0.0
+        },
+        "final_stance_fit": {
+          "function_evaluations": 5,
+          "cost": 0.36312175015975645
+        },
+        "maximum_joint_adjustment_rad": 0.5201040917607769,
+        "maximum_leg_adjustment_rad": 0.5201040917607769,
+        "maximum_arm_adjustment_rad": 0.0,
+        "final_uniform_floor_lift_m": 0.000628193691524009,
+        "root_position_adjustment_m": [
+          0.022231109600177358,
+          0.051493812615801576,
+          -0.025128237192801883
+        ]
+      }
+    }
+  },
+  "guard_parent_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/after/mapping/jab.npz",
+  "guard_parent_sha256": "50c8ff6e18c74be8c077af912d766d1c3b2097c69c9558ee02ed05e4f9c1d329",
+  "nominal_target_adaptation": {
+    "method": "Task09 smooth Cartesian deformation/IK adapted to H2, with C2 quintic Hermite approach and withdrawal",
+    "source_annotation_time_s": 0.6166666666666667,
+    "strike_center_time_s": 0.68,
+    "deformation_interval_s": [
+      0.12,
+      1.22
+    ],
+    "contact_directed_center_radius_m": 0.04,
+    "contact_point_world": [
+      1.0211761319087422,
+      0.26000901607180604,
+      1.2284314477179406
+    ],
+    "path_correction_world_m": [
+      -0.04445798280098967,
+      -0.0003156570583662255,
+      -0.29100809020632323
+    ],
+    "modified_joint_names": [
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "root_waist_legs_head": "source trajectory unchanged",
+    "inactive_guard": "soft H2 head-relative guard position, source fist orientation",
+    "orientation": "soft local +X continuation aligned toward desired forearm; source roll retained",
+    "solver_weights": {
+      "glove_position": 1.0,
+      "glove_orientation": 0.12,
+      "elbow_position": 0.3,
+      "source_posture": 0.025,
+      "previous_correction": 0.035,
+      "step_damping": 0.025,
+      "fist_forearm_direction_alignment": 0.15
+    },
+    "step_bound_rad": 0.12,
+    "max_iterations": 13,
+    "focused_refinement_reason": "Draft translated path had a downward dip and reduced elbow extension; smooth the path, align elbow with reach and reduce measured lateral wrist kink with a soft native geometric alignment objective",
+    "no_speed_or_impact_objective": true,
+    "target": {
+      "snapshot_id": 53874,
+      "target_world": [
+        1.0611747276415282,
+        0.2603441867822694,
+        1.2284314477179406
+      ],
+      "split": "train",
+      "selection": "actual training snapshot nearest XYZ median",
+      "training_median_world": [
+        1.0609332655588561,
+        0.2597034084752888,
+        1.229232719964636
+      ],
+      "training_count": 512,
+      "median_distance_m": 0.0010540104313476533,
+      "pool_sha256": "fb56eb7771004f6980655389d7b3441e9da0f0177556016bb07292b2fdaec188",
+      "height_adjustment_m": 0.0,
+      "head_radius_m": 0.06,
+      "glove_radius_m": 0.08,
+      "encounter_radius_m": 0.14,
+      "target_is_non_solid": true
+    },
+    "source_npz_sha256": "f4c710d2d6839d8b86486d141f68d307a268a999aed1ecdbe36b49713878f8f6",
+    "source_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/references/jab.npz",
+    "asset_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+    "kinematic_only": true,
+    "reference_not_selected_for_training": true,
+    "dependent_arrays": "recomputed from native H2 qpos via arrays_from_qpos; no mannequin coordinates"
+  },
+  "nominal_first_entry_s": 0.51,
+  "nominal_closest_approach_s": 0.68,
+  "timing_anchor_status": "strike_time_s remains strike-center annotation; nominal_first_entry_s is separate. Runtime timing-anchor adoption requires an explicit next experiment.",
+  "strike_center_time_s": 0.68,
+  "source_strike_annotation_time_s": 0.6166666666666667,
+  "post_entry_motion_duration_s": 0.9099999999999999
+}

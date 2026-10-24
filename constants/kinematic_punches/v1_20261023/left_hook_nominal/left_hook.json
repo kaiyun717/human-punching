@@ -1,0 +1,593 @@
+{
+  "schema": "task10d_h2_reference_v1",
+  "family": "left_hook",
+  "active_hand": "left",
+  "strike_time_s": 0.7000000000000001,
+  "end_time_s": 1.9000000000000004,
+  "recovery_duration_s": 1.2000000000000002,
+  "ttc_range_s": [
+    0.6225,
+    0.7608333333333334
+  ],
+  "terminal_guard_hold_s": 0.4,
+  "guard_start_time_s": 0.0,
+  "terminal_guard_interval_s": [
+    1.8000000000000003,
+    1.9000000000000004
+  ],
+  "withdrawal_interval_s": [
+    0.7000000000000001,
+    1.7800000000000002
+  ],
+  "annotation_rationale": "Own-family native sweep/extension center and measured 5 ms first entry are distinct; source frames remain original event lineage.",
+  "source": {
+    "schema": "human_punching_duobox_crop_v1",
+    "punch": "left_hook",
+    "candidate_id": "lh_006_ma_00401_00563",
+    "actor": "ma",
+    "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/006_ma_leadhook_liu_shanbi_joints.npy",
+    "source_sha256": "790fb445dd9dd002756f9902f29730e69a40de8259a8c6add7bf4bd3f48de23b",
+    "source_rate_hz": 120.0,
+    "source_frame_range_inclusive": [
+      389,
+      575
+    ],
+    "selected_frame_range_inclusive": [
+      401,
+      563
+    ],
+    "outward_completion_frame": 472,
+    "padding_requested_s": 0.1,
+    "anatomical_hand": "left",
+    "active_hand_joint_index": 8,
+    "original_named_drill": "leadhook",
+    "coordinate_system": "world z-up, metres; local bind +y up, +x anatomical left, +z forward",
+    "rotation_convention": "column vectors; global child = global parent @ local child",
+    "label_status": "inherited machine candidate; human label review pending",
+    "retargeting": "none; source skeleton only",
+    "fk_max_error_m": 2.979898836541323e-07,
+    "fk_rms_error_m": 7.188002027737274e-08,
+    "rest_offset_max_deviation_m": 3.3128862445922943e-07,
+    "rotation_orthogonality_max_error": 1.3602673405443966e-06,
+    "rotation_determinant_max_error": 1.2183805435661554e-06
+  },
+  "adapter": {
+    "source_world_convention": "z-up metres; no centimetre conversion or LAFAN world rotation",
+    "source_to_reference_rotation": [
+      [
+        -0.6678954132078113,
+        -0.7442551424182215,
+        0.0
+      ],
+      [
+        0.7442551424182215,
+        -0.6678954132078113,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "source_ground_origin": [
+      -0.2469804733991623,
+      0.34815460443496704,
+      0.0
+    ],
+    "removed_scene_yaw_rad": -2.302173737422394,
+    "foot_frame": "recorded Foot-to-Toe direction with bind-derived local orientation offset",
+    "source_target_offsets_torso_m": {
+      "RightHand": [
+        0.05,
+        -0.025,
+        0.0
+      ],
+      "RightForeArm": [
+        0.04,
+        -0.025,
+        0.0
+      ]
+    },
+    "target_offset_convention": "Optional elbow/wrist IK target adjustment in source metres, torso axes +x forward/+y left/+z up; GMR scaling follows. Original recorded skeleton and all source rotations remain unchanged."
+  },
+  "source_revisions": {
+    "GMR": "bb1bbe40774794fceb2a7c579a3464a28e68c844",
+    "h2_extension": "3d9a05d951b49e803d9d2c3555aed29a4b1e4b2b"
+  },
+  "asset_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+  "retarget_config_sha256": "a3f07153c3d17bf5beaf2cc7785453821c0b359c1d608cdf2717398511c96bf6",
+  "retarget_config_path": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/configs/task10c/duobox_to_h2_31.json",
+  "retarget_arm_target_revision": "position_fit_v2",
+  "solver": "GMR inherited two-stage Mink proxqp",
+  "ik_dt_s": 0.008333333333333333,
+  "solver_api_correction": "Four local call sites pass the existing limits by keyword; equations, task updates and iteration remain inherited. See _gmr/SOURCE.json.",
+  "ik_joint_interior_margin_rad": 0.001,
+  "output_hz": 50.0,
+  "quaternion_order": "wxyz",
+  "qvel_root_angular_frame": "MuJoCo local root frame",
+  "glove_radius_m": 0.08,
+  "glove_attachment_offsets_m": [
+    [
+      0.135,
+      -0.01,
+      0.0
+    ],
+    [
+      0.135,
+      0.01,
+      0.0
+    ]
+  ],
+  "smoothing_sigma_source_frames": 1.5,
+  "sole_ground_shift_range_m": [
+    -0.008095885332606538,
+    0.13410483345511068
+  ],
+  "head_coordinates": "31-joint model pitch/yaw explicitly neutral and zero velocity",
+  "generation_wall_s": 1.6442538220144343,
+  "guard_correction": {
+    "method": "bounded independent guard-pose correction and endpoint quintic blending",
+    "central_punch_unchanged_interval_s": [
+      0.24,
+      1.24
+    ],
+    "launch_guard_reference_hold_s": 0.02,
+    "terminal_guard_reference_hold_s": 0.04,
+    "launch_clock": "unchanged t=0; every initial hold/blend millisecond counts toward commanded TTC",
+    "preserved_endpoint_coordinates": "pelvis orientation including lean/yaw and head; launch waist unchanged; hook terminal waist matches recorded source torso; family foot XY/yaw used as fit targets",
+    "source_frame_annotation": "source_frames remain provenance; endpoint poses are intentionally modified, not exact source samples",
+    "launch": {
+      "before": {
+        "pelvis_world": [
+          -0.007525594212967682,
+          -0.029152783676542587,
+          1.0987587324255244
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9999487249676428,
+          -0.00848325172632355,
+          0.004207384221362016,
+          -0.0035888429538469407
+        ],
+        "center_of_mass_world": [
+          0.0888845917007074,
+          0.010021061594282224,
+          1.1184874448152138
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.28657879097486094,
+              0.2513154510836919,
+              0.15124119402128253
+            ],
+            "rotation_xyz_rad": [
+              -0.15546547872134814,
+              -0.11087582501645876,
+              0.1263481516664713
+            ],
+            "lowest_vertex_m": 0.12843352251156587,
+            "near_ground_vertices": 0
+          },
+          "right": {
+            "center_world": [
+              -0.17257113757905315,
+              -0.136328848984719,
+              0.08582535978341395
+            ],
+            "rotation_xyz_rad": [
+              0.2652336493017834,
+              0.6844815650792544,
+              -0.6019072405018318
+            ],
+            "lowest_vertex_m": 0.002000000000000182,
+            "near_ground_vertices": 1
+          }
+        },
+        "com_outside_near_ground_support_m": null,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "after": {
+        "pelvis_world": [
+          0.0204223945446339,
+          0.03282453001789261,
+          0.9983312525748294
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9999487249676428,
+          -0.00848325172632355,
+          0.004207384221362016,
+          -0.0035888429538469407
+        ],
+        "center_of_mass_world": [
+          0.09500717554271722,
+          0.06703400836039418,
+          1.0126657494640527
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.28646888699465084,
+              0.25127427174270855,
+              0.005888999988894111
+            ],
+            "rotation_xyz_rad": [
+              0.0001200221442358429,
+              0.0007485675161464922,
+              0.12637482412155002
+            ],
+            "lowest_vertex_m": 0.001798114997681369,
+            "near_ground_vertices": 4
+          },
+          "right": {
+            "center_world": [
+              -0.17267588674670659,
+              -0.1363432971235916,
+              0.005181535831448383
+            ],
+            "rotation_xyz_rad": [
+              0.00033410486095658554,
+              -0.0014624018433271324,
+              -0.6016590575457046
+            ],
+            "lowest_vertex_m": 0.0010000000000001431,
+            "near_ground_vertices": 4
+          }
+        },
+        "com_outside_near_ground_support_m": -0.09138120095139808,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "fit": {
+        "stance_fit": {
+          "function_evaluations": 33,
+          "cost": 0.6045417176850121
+        },
+        "arm_clearance_fit": {
+          "function_evaluations": 1,
+          "cost": 0.0
+        },
+        "final_stance_fit": {
+          "function_evaluations": 6,
+          "cost": 0.6045417200412478
+        },
+        "maximum_joint_adjustment_rad": 0.5699832586049066,
+        "maximum_leg_adjustment_rad": 0.5699832586049066,
+        "maximum_arm_adjustment_rad": 0.0,
+        "final_uniform_floor_lift_m": 0.0005345580158662945,
+        "root_position_adjustment_m": [
+          0.027947988757601582,
+          0.061977313694435196,
+          -0.100427479850695
+        ]
+      }
+    },
+    "recovery": {
+      "before": {
+        "pelvis_world": [
+          0.042479176011342816,
+          -0.10833381048045435,
+          1.083771815058115
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9989648699673765,
+          0.004537808981712804,
+          -0.03776570504120493,
+          0.02494691130077231
+        ],
+        "center_of_mass_world": [
+          0.14048327345054124,
+          -0.008541874625188914,
+          1.104111870180499
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.35601481986711964,
+              0.301481462423929,
+              0.18152998047205865
+            ],
+            "rotation_xyz_rad": [
+              -0.0334144720497678,
+              -0.07112937429328614,
+              0.08017317293162532
+            ],
+            "lowest_vertex_m": 0.16803638882983263,
+            "near_ground_vertices": 0
+          },
+          "right": {
+            "center_world": [
+              -0.05861933682442029,
+              -0.12131877004045014,
+              0.09709286295773992
+            ],
+            "rotation_xyz_rad": [
+              0.4146943108030737,
+              0.782299092413774,
+              -0.5271408384752195
+            ],
+            "lowest_vertex_m": 0.00200000000000021,
+            "near_ground_vertices": 1
+          }
+        },
+        "com_outside_near_ground_support_m": null,
+        "physical_contact_penetrations_over_1mm": [
+          {
+            "geoms": [
+              "robot/head_collision",
+              "robot/left_glove_collision"
+            ],
+            "penetration_m": 0.016452176475372407
+          }
+        ],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "after": {
+        "pelvis_world": [
+          0.08932309644840224,
+          0.05166618951951225,
+          0.9859684710182792
+        ],
+        "pelvis_quaternion_wxyz": [
+          0.9989648699673765,
+          0.004537808981712804,
+          -0.03776570504120493,
+          0.02494691130077231
+        ],
+        "center_of_mass_world": [
+          0.14933066659248276,
+          0.08971561322962456,
+          1.023549940480118
+        ],
+        "feet": {
+          "left": {
+            "center_world": [
+              0.35600976598406264,
+              0.3014795692524129,
+              0.005082648129268626
+            ],
+            "rotation_xyz_rad": [
+              -1.791350849376233e-05,
+              3.2975664551182504e-05,
+              0.08013171205034389
+            ],
+            "lowest_vertex_m": 0.001078139390323191,
+            "near_ground_vertices": 4
+          },
+          "right": {
+            "center_world": [
+              -0.058619325406142384,
+              -0.12132172874885175,
+              0.005043291236460232
+            ],
+            "rotation_xyz_rad": [
+              5.833533119725676e-06,
+              0.00037441892699985324,
+              -0.5272105225103758
+            ],
+            "lowest_vertex_m": 0.0009999999999999653,
+            "near_ground_vertices": 4
+          }
+        },
+        "com_outside_near_ground_support_m": -0.11330119907059541,
+        "physical_contact_penetrations_over_1mm": [],
+        "adjacent_geometry_policy": "MuJoCo training contact exclusions/parent filtering retained; no all-pairs rejection"
+      },
+      "fit": {
+        "stance_fit": {
+          "function_evaluations": 30,
+          "cost": 0.13725414450791537
+        },
+        "arm_clearance_fit": {
+          "function_evaluations": 9,
+          "cost": 0.010257865975861893
+        },
+        "final_stance_fit": {
+          "function_evaluations": 4,
+          "cost": 0.13706665643863225
+        },
+        "maximum_joint_adjustment_rad": 0.7499999999999929,
+        "maximum_leg_adjustment_rad": 0.7499999999999929,
+        "maximum_arm_adjustment_rad": 0.0905023892738028,
+        "final_uniform_floor_lift_m": 6.228139160339291e-05,
+        "root_position_adjustment_m": [
+          0.04684392043705942,
+          0.15999999999996659,
+          -0.09780334403983582
+        ]
+      }
+    },
+    "source_terminal_torso": {
+      "method": "analytic fixed-pelvis ZXY waist match to recorded Spine1 with existing bind correction",
+      "source_frame": 573.8,
+      "source_sha256": "790fb445dd9dd002756f9902f29730e69a40de8259a8c6add7bf4bd3f48de23b",
+      "waist_joint_names": [
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint"
+      ],
+      "waist_before_rad": [
+        0.14488840819111193,
+        -0.41092190121254457,
+        0.4318456777571843
+      ],
+      "waist_after_rad": [
+        0.159773619464546,
+        -0.09337457549298245,
+        0.23214598355949045
+      ],
+      "waist_limits_rad": [
+        [
+          -1.7453,
+          1.7453
+        ],
+        [
+          -0.5236,
+          0.5236
+        ],
+        [
+          -0.43633,
+          0.5236
+        ]
+      ],
+      "maximum_waist_adjustment_rad": 0.3175473257195621,
+      "target_torso_world_quaternion_wxyz": [
+        0.9910576025018657,
+        -0.05646436744081701,
+        0.07241711034605591,
+        0.09681098006884117
+      ],
+      "source_torso_tilt_deg": 10.537609473900845,
+      "analytic_orientation_error_deg": 1.3828756546562992e-14,
+      "scope": "hook terminal guard and existing final recovery blend only; pelvis and central punch unchanged",
+      "final_orientation_error_deg": 1.3828756546562992e-14
+    }
+  },
+  "guard_parent_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/after/mapping/left_hook.npz",
+  "guard_parent_sha256": "84999069dffc58eb3bf2b8a0a7e29f95f979d91efe0c3be141b8c13caa133e61",
+  "hook_final_correction": {
+    "revision": "hook_recovery_bypass_v1",
+    "input_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/hooks_final/before/left_hook.npz",
+    "input_sha256": "f17dfb87aad109100de521334eb68b019beedd8cfd4635cb6fadea41d1a17326",
+    "family": "left_hook",
+    "clock": "Unchanged time_s, launch at0, nominal strike and all postlaunch wind-up; no retiming",
+    "changes": "None; existing family-specific LH guard and complete trajectory retained"
+  },
+  "hook_guard_return": {
+    "revision": "initial_upper_guard_return_v1",
+    "input_reference": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/hooks_final/selected/left_hook.npz",
+    "input_sha256": "f17dfb87aad109100de521334eb68b019beedd8cfd4635cb6fadea41d1a17326",
+    "method": "One smooth quintic blend of arm/head joint posture into this family's corrected initial guard, on the existing recovered root/legs/waist",
+    "recovery_change_start_s": 1.09,
+    "terminal_hold_start_s": 1.7800000000000002,
+    "zero_stored_velocity_hold_start_s": 1.8000000000000003,
+    "original_duration_s": 1.54,
+    "duration_s": 1.9000000000000004,
+    "extension_s": 0.3600000000000003,
+    "changed_joint_names": [
+      "head_pitch_joint",
+      "head_yaw_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_yaw_joint"
+    ],
+    "initial_guard_time_s": 0.0,
+    "initial_guard_source_frame": 389.0,
+    "upper_body_goal": "Exact initial arm/head posture relative to retained torso/head; no full world-pose reset",
+    "preserved_coordinates": "Original pelvis position/quaternion, leg joints and waist at all existing times; their recovered final values are held through the extension",
+    "clock": "Launch t=0 and nominal strike unchanged; all original timestamps retained, only recovery duration extended",
+    "source_lineage": {
+      "original_frame_array_preserved": true,
+      "appended_samples": 18,
+      "appended_repeated_source_frame": 573.8,
+      "meaning": "Repeated last source frame denotes inherited lineage, not new recorded time or a captured held pose. The appended return/hold is generated; its upper-body endpoint comes from initial_guard_source_frame, while its stance/torso comes from the recovered input endpoint."
+    },
+    "parent_annotation_status": "Inherited guard_correction and hook_final_correction describe the input trajectory; this operation supersedes their terminal upper-body guard claims",
+    "discrete_velocity_note": "Central-difference velocities are rebuilt from the complete new qpos path. The first constant-pose sample can retain its preceding-sample derivative; the subsequent stationary tail has zero velocity."
+  },
+  "terminal_guard_upper_body_source_frame": 389.0,
+  "strike_center_time_s": 0.7000000000000001,
+  "source_strike_annotation_time_s": 0.6916666666666667,
+  "nominal_first_entry_s": 0.685,
+  "nominal_closest_approach_s": 0.7000000000000001,
+  "nominal_target_adaptation": {
+    "method": "family-aware smooth Cartesian deformation and native bounded arm IK",
+    "path_method": "curved_source_offset",
+    "active_hand": "left",
+    "source_annotation_time_s": 0.6916666666666667,
+    "strike_center_time_s": 0.7000000000000001,
+    "deformation_interval_s": [
+      0.26,
+      1.08
+    ],
+    "contact_point_world": [
+      1.02117475,
+      0.260344207,
+      1.228431463
+    ],
+    "peak_path_correction_world_m": [
+      -0.16000000000000014,
+      0.0,
+      -0.32079969590366786
+    ],
+    "source_to_world_placement": {
+      "xy": [
+        0.0965124503953497,
+        0.15285244118492503
+      ],
+      "yaw": 0.0,
+      "z": 0.0,
+      "baked_into_reference_qpos": true,
+      "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+      "closer_reset_m": 0.16,
+      "runtime_placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      }
+    },
+    "modified_joint_names": [
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint"
+    ],
+    "maximum_joint_adjustment_rad": 0.8548239391869483,
+    "max_iterations": 65,
+    "step_bound_rad": 0.12,
+    "correction_bound_rad_times_envelope": 1.25,
+    "source_posture_weight": ".025 + .15*(1-envelope)^2; stronger source attraction at adaptation edges",
+    "hook_temporal_fit": {
+      "method": "one sparse bounded fit of complete arm correction trajectory",
+      "correction_first_difference_weight": 0.3,
+      "correction_second_difference_weight": 1.0,
+      "source_posture_weight": 0.035,
+      "final_optimization_step_rad": 0.11999999999999998,
+      "endpoint_corrections": "identically zero; both fixed edges included in derivative residuals"
+    },
+    "unchanged_after_reset_placement": "root trajectory, legs, waist, head, inactive arm and endpoints",
+    "source_curvature": "native XY sweep retained by desired path",
+    "orientation": "source roll retained with soft fist continuation toward adapted forearm",
+    "source_frame_role": "original event lineage; adapted samples are not exact recorded poses",
+    "no_dynamic_feasibility_claim": true,
+    "target": {
+      "snapshot_id": 53874,
+      "split": "train",
+      "head_world": [
+        1.06117475,
+        0.260344207,
+        1.228431463
+      ],
+      "height_adjustment_m": 0.0
+    },
+    "source_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10c/reference_correction/hooks_final/initial_guard_return/selected/left_hook.npz",
+    "source_npz_sha256": "d634f431c50547b601c93fdcb02dd8d96949d011903faaac6102f66f459df9bd",
+    "source_json_sha256": "9a8d4e005de52602933d76a7f8c265b09382ec4db160b364f928347a9d96bbbc"
+  },
+  "runtime_placement": {
+    "xy": [
+      0.0,
+      0.0
+    ],
+    "yaw": 0.0
+  },
+  "dependent_arrays": "Recomputed from placed/adapted native qpos using arrays_from_qpos"
+}

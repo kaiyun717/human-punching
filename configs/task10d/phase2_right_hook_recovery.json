@@ -1,0 +1,18 @@
+{
+  "schema": "task10d_right_hook_recovery_v1",
+  "source": "outputs/task10d/phase2/variants/raw/right_hook_014_02074/right_hook.npz",
+  "source_sha256": "6d55e55b2e469e6c0235e5da1a68766a73deb39f99338294d23d06eb1bc2bc0b",
+  "output": "outputs/task10d/phase2/variants/right_hook_repair01/recovery01/attempt02",
+  "terminal_seed": "raw_end",
+  "preserve_through_s": 0.90,
+  "offset_ramp_complete_s": 1.10,
+  "glove_offset_head_frame_m": [0.05, -0.04, 0.0],
+  "head_glove_center_preference_m": 0.17,
+  "glove_pair_center_preference_m": 0.175,
+  "fist_forearm_alignment_weight": 0.25,
+  "maximum_correction_rad": 3.8,
+  "correction_first_difference_weight": 0.20,
+  "correction_second_difference_weight": 0.80,
+  "max_trajectory_iterations": 80,
+  "note": "A derived right-arm recovery and revised terminal guard only. Root, nonactive joints, source timing, and all poses through 0.90 s remain unchanged."
+}

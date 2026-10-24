@@ -1,0 +1,280 @@
+{
+  "schema": "task10d_h2_reference_v1",
+  "primitive_id": "jab_004_01107",
+  "family": "jab",
+  "active_hand": "left",
+  "stance": "left_foot_forward",
+  "strike_time_s": 0.8,
+  "end_time_s": 2.04,
+  "recovery_duration_s": 1.24,
+  "terminal_guard_hold_s": 0.4,
+  "guard_start_time_s": 0.0,
+  "guard_preparation_interval_s": [
+    0.0,
+    0.7
+  ],
+  "withdrawal_interval_s": [
+    0.8,
+    1.96
+  ],
+  "terminal_guard_interval_s": [
+    1.96,
+    2.04
+  ],
+  "annotation_rationale": "Own-event source projection selects design aim center; first entry/closest approach are measured separately. Original source frames follow processed clock through terminal easing.",
+  "source": {
+    "schema": "human_punching_duobox_crop_v1",
+    "punch": "jab",
+    "candidate_id": "jab_004_01107",
+    "actor": "ma",
+    "source_path": "/home/kaisyun/Azizan_Lab/HumanBox/DuoBox/fbx_export_joints/004_ma_jab_liu_shanbi_joints.npy",
+    "source_sha256": "65969689a7d07d6be665de541f64aeb2bcffedf45077f30bd18c1c7edd764289",
+    "source_rate_hz": 120.0,
+    "source_frame_range_inclusive": [
+      1023,
+      1235
+    ],
+    "selected_frame_range_inclusive": [
+      1023,
+      1235
+    ],
+    "outward_completion_frame": 1107,
+    "anatomical_hand": "left",
+    "active_hand_joint_index": 8,
+    "original_named_drill": "jab",
+    "source_time_convention": "120 Hz; absolute source frame / 120; crop time zero is first included frame",
+    "label_status": "source-drill family with explicit anatomical hand; descriptor-assisted event nomination",
+    "fk_max_error_m": 2.6252576742968754e-07,
+    "retargeting": "none; source skeleton only"
+  },
+  "source_event": {
+    "event_id": "jab_004_01107",
+    "family": "jab",
+    "source_recording": "004_ma_jab_liu_shanbi_joints.npy",
+    "source_sha256": "65969689a7d07d6be665de541f64aeb2bcffedf45077f30bd18c1c7edd764289",
+    "source_frame_range_inclusive": [
+      1023,
+      1235
+    ],
+    "extension_frame": 1107,
+    "source_time_convention": "120 Hz; absolute frame / 120; crop clock begins at first included frame",
+    "anatomical_active_hand": "left",
+    "measured_larger_reach_excursion_hand": "left",
+    "bilateral_wrist_shoulder_reach_excursion_m_left_right": [
+      0.30419890078280243,
+      0.03593430163485303
+    ],
+    "hand_evidence_agrees_with_family": true,
+    "stance": "left_foot_forward",
+    "initial_left_minus_right_foot_forward_m": 0.10920854909387923,
+    "complete_guard_context_candidate": true,
+    "duration_s": 1.7666666666666666,
+    "preparation_s": 0.7,
+    "withdrawal_s": 1.0666666666666667,
+    "source_arm_reach_m": [
+      0.2708367698557564,
+      0.5553119845654491,
+      0.26615542250019236
+    ],
+    "active_hand_approach_path_chord_ratio": 1.5520462592223199,
+    "active_hand_peak_speed_pelvis_relative_m_s": 4.934320179536205,
+    "active_hand_approach_local_xyz_m": [
+      0.4027469215736789,
+      0.08511516691808868,
+      0.19021689891815186
+    ],
+    "torso_yaw_range_deg": 55.60051243174095,
+    "pelvis_net_displacement_m": [
+      -0.07800555229187012,
+      -0.03559693694114685,
+      -0.006139934062957764
+    ],
+    "active_hand_guard_height_relative_head_m": -0.2400517463684082,
+    "status": "selected_for_conversion_review",
+    "reason": "A recorded larger step and lowered terminal pelvis, faster extension, and active-hand recoil with ongoing stance travel; differs from the nearly stationary source of the nominal jab."
+  },
+  "adapter": {
+    "source_world_convention": "z-up metres; no centimetre conversion or LAFAN world rotation",
+    "source_to_reference_rotation": [
+      [
+        -0.9592570552629098,
+        -0.28253478003306237,
+        0.0
+      ],
+      [
+        0.28253478003306237,
+        -0.9592570552629098,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "source_ground_origin": [
+      -0.1580726057291031,
+      0.29318997263908386,
+      0.0
+    ],
+    "removed_scene_yaw_rad": -2.8551571279517787,
+    "foot_frame": "recorded Foot-to-Toe direction with bind-derived local orientation offset",
+    "source_target_offsets_torso_m": {},
+    "target_offset_convention": "Optional elbow/wrist IK target adjustment in source metres, torso axes +x forward/+y left/+z up; GMR scaling follows. Original recorded skeleton and all source rotations remain unchanged."
+  },
+  "provenance_category": "recorded_style_variant_with_H2_morphology_retargeting",
+  "diversity_rationale": "A recorded larger step and lowered terminal pelvis, faster extension, and active-hand recoil with ongoing stance travel; differs from the nearly stationary source of the nominal jab.",
+  "asset_sha256": "503038e774a11080a73e2d41da6fe300c8f6a7d42d1f4a3bd5f4357e03fe76ed",
+  "retarget_config_sha256": "a3f07153c3d17bf5beaf2cc7785453821c0b359c1d608cdf2717398511c96bf6",
+  "retarget_config_path": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/configs/task10c/duobox_to_h2_31.json",
+  "source_revisions": {
+    "GMR": "bb1bbe40774794fceb2a7c579a3464a28e68c844",
+    "h2_extension": "3d9a05d951b49e803d9d2c3555aed29a4b1e4b2b"
+  },
+  "solver": "GMR inherited two-stage Mink proxqp",
+  "ik_dt_s": 0.008333333333333333,
+  "output_hz": 50,
+  "quaternion_order": "wxyz",
+  "qvel_root_angular_frame": "MuJoCo local root frame",
+  "glove_radius_m": 0.08,
+  "glove_attachment_offsets_m": [
+    [
+      0.135,
+      -0.01,
+      0.0
+    ],
+    [
+      0.135,
+      0.01,
+      0.0
+    ]
+  ],
+  "smoothing_sigma_source_frames": 1.5,
+  "sole_ground_shift_range_m": [
+    -0.0503574383959211,
+    0.00182125038451233
+  ],
+  "head_coordinates": "Existing selected H2 adapter convention: pitch/yaw explicitly neutral and zero velocity.",
+  "kinematic_scope": "Source-derived prescribed motion; no inverse dynamics, torque/contact feasibility or learned balance claim.",
+  "generation_wall_s": 2.4685113379964605,
+  "strike_center_time_s": 0.8,
+  "source_strike_annotation_time_s": 0.7,
+  "nominal_first_entry_s": 0.705,
+  "nominal_closest_approach_s": 0.8,
+  "nominal_target_adaptation": {
+    "method": "family-aware smooth Cartesian deformation and native bounded arm IK",
+    "path_method": "source_path_offset",
+    "active_hand": "left",
+    "source_annotation_time_s": 0.7,
+    "strike_center_time_s": 0.8,
+    "deformation_interval_s": [
+      0.24,
+      1.42
+    ],
+    "contact_point_world": [
+      1.02117475,
+      0.260344207,
+      1.228431463
+    ],
+    "peak_path_correction_world_m": [
+      0.0,
+      -5.551115123125783e-17,
+      -0.29382684919952173
+    ],
+    "source_to_world_placement": {
+      "xy": [
+        -0.07214751655249674,
+        -0.3916735641110974
+      ],
+      "yaw": 0.0,
+      "z": 0.0,
+      "baked_into_reference_qpos": true,
+      "method": "align selected native forward-sweep center in XY, then declared closer planar reset before adaptation",
+      "closer_reset_m": 0.0,
+      "runtime_placement": {
+        "xy": [
+          0.0,
+          0.0
+        ],
+        "yaw": 0.0
+      }
+    },
+    "modified_joint_names": [
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_yaw_joint"
+    ],
+    "maximum_joint_adjustment_rad": 0.654311929598659,
+    "max_iterations": 16,
+    "step_bound_rad": 0.12,
+    "correction_bound_rad_times_envelope": 1.25,
+    "source_posture_weight": ".035; coupled whole-interval correction",
+    "hook_temporal_fit": {
+      "method": "one sparse bounded fit of complete arm correction trajectory",
+      "correction_first_difference_weight": 0.3,
+      "correction_second_difference_weight": 1.0,
+      "source_posture_weight": 0.035,
+      "final_optimization_step_rad": 1.9823077296088136e-05,
+      "termination": "small_step",
+      "convergence_claim": true,
+      "endpoint_corrections": "identically zero; both fixed edges included in derivative residuals"
+    },
+    "unchanged_after_reset_placement": "root trajectory, legs, waist, head, inactive arm and endpoints",
+    "source_curvature": "native source curve retained with smooth target offset",
+    "orientation": "source roll retained with soft fist continuation toward adapted forearm",
+    "explicit_fist_forearm_alignment_weight": 0.3,
+    "source_frame_role": "original event lineage; adapted samples are not exact recorded poses",
+    "no_dynamic_feasibility_claim": true,
+    "target": {
+      "snapshot_id": 53874,
+      "split": "train",
+      "head_world": [
+        1.06117475,
+        0.260344207,
+        1.228431463
+      ],
+      "height_adjustment_m": 0.0
+    },
+    "source_npz": "/home/kaisyun/Azizan_Lab/HumanBox/human-punching/outputs/task10d/phase2/variants/raw/jab_004_01107/jab.npz",
+    "source_npz_sha256": "7eb96ee282cb4efaf3d8a26dd38029d60083f0677ab72b0d7ddbdf6b4ffaeae4",
+    "source_json_sha256": "f22cbaa199dad788b5cce7cb570841fe99889013a4aa97ff449d884e14aac85e"
+  },
+  "derived_terminal_timing": {
+    "method": "C2 monotone terminal source clock, s=start+tail*(2u-2u^3+u^4)",
+    "source_tail_interval_s": [
+      1.56,
+      1.76
+    ],
+    "processed_tail_interval_s": [
+      1.56,
+      1.96
+    ],
+    "processed_terminal_hold_interval_s": [
+      1.96,
+      2.04
+    ],
+    "start_rate": 1.0,
+    "end_rate": 0.0,
+    "endpoint_clock_accelerations": [
+      0.0,
+      0.0
+    ],
+    "original_final_qpos_preserved_exactly": true,
+    "source_frame_mapping": "Original frame lineage follows monotone source query; the last retained source-frame coordinate (possibly fractional after 50 Hz resampling) repeats during generated hold.",
+    "provenance": "Derived recovery timing processing of this recorded-style variant; not another recorded style or runtime TTC variant."
+  },
+  "supported_ttc_range_s": null,
+  "timing_range_status": "Only source/basic integration clocks previewed; no supported TTC range established.",
+  "runtime_placement": {
+    "xy": [
+      0.0,
+      0.0
+    ],
+    "yaw": 0.0
+  },
+  "dependent_arrays": "Recomputed by native H2 FK after spatial adaptation and terminal clock processing."
+}

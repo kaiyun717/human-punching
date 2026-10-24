@@ -1,0 +1,13 @@
+{
+  "schema": "task10d_right_hook_exact_guard_return_v1",
+  "source": "outputs/task10d/phase2/variants/right_hook_repair01/final/right_hook.npz",
+  "source_sha256": "88e2c4cd723fdf384bf081d08f71583c6613fb7a02b984bb479c58a4d079c939",
+  "source_manifest": "outputs/task10d/phase2/variants/right_hook_repair01/final/candidate_manifest.json",
+  "output": "outputs/task10d/phase2/variants/right_hook_guard_revision01/candidate02",
+  "blend_start_s": 0.70,
+  "guard_complete_s": 1.60,
+  "method": "fixed_right_waypoint_and_left_blend",
+  "right_waypoint_s": 1.00,
+  "right_waypoint_shoulder_elbow_rad": [0.0, -1.5707963267948966, -0.60, -0.60],
+  "note": "Exact initial poses for both arms at the terminal guard, on the retained current torso/root/legs. Strike, source frame lineage, processed clock, and all nonarm coordinates stay unchanged. No uniform fist-straightening constraint."
+}

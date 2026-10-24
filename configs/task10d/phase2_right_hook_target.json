@@ -1,0 +1,43 @@
+{
+  "schema": "task10d_phase2_explicit_variant_adaptation_v1",
+  "target": {
+    "snapshot_id": 53874,
+    "split": "train",
+    "head_world": [
+      1.06117475,
+      0.260344207,
+      1.228431463
+    ],
+    "height_adjustment_m": 0.0
+  },
+  "contact_center_offset_m": 0.04,
+  "output": "outputs/task10d/phase2/variants/right_hook_repair01/target01",
+  "terminal_easing": {
+    "source_tail_s": 0.2,
+    "duration_multiplier": 2.0,
+    "final_pose_hold_s": 0.08
+  },
+  "events": {
+    "right_hook_014_02074": {
+      "family": "right_hook",
+      "active_hand": "right",
+      "reference": "outputs/task10d/phase2/variants/raw/right_hook_014_02074/right_hook.npz",
+      "sha256": "6d55e55b2e469e6c0235e5da1a68766a73deb39f99338294d23d06eb1bc2bc0b",
+      "placement_yaw_rad": 0.0,
+      "closer_reset_m": 0.08,
+      "anchor_window_s": [
+        0.42,
+        0.68
+      ],
+      "deformation_interval_s": [
+        0.24,
+        0.9
+      ],
+      "path": "source_path_offset",
+      "elbow_translation_fraction": 0.6,
+      "fist_forearm_alignment_weight": 0.25
+    }
+  },
+  "excluded_raw_events": [],
+  "scope": "Raw-source target adaptation of strike interval only; late recovery still overlaps own head. Intermediate draft for separate authorized recovery repair, not accepted."
+}

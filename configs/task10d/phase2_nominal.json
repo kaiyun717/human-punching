@@ -1,0 +1,67 @@
+{
+  "schema": "task10d_phase2_nominal_adaptation_v1",
+  "target": {
+    "snapshot_id": 53874,
+    "split": "train",
+    "head_world": [
+      1.06117475,
+      0.260344207,
+      1.228431463
+    ],
+    "height_adjustment_m": 0.0
+  },
+  "contact_center_offset_m": 0.04,
+  "output": "outputs/task10d/phase2/nominal_final",
+  "families": {
+    "cross": {
+      "reference": "outputs/task10c/references/cross.npz",
+      "sha256": "b41dff798ad7b25ab45fe192f66362e307810afafe28a3dc48e79ee0677d1628",
+      "active_hand": "right",
+      "placement_yaw_rad": 0.0,
+      "anchor_window_s": [
+        0.45,
+        0.76
+      ],
+      "deformation_interval_s": [
+        0.12,
+        1.26
+      ],
+      "path": "straight_c2",
+      "elbow_translation_fraction": 0.55
+    },
+    "left_hook": {
+      "reference": "outputs/task10c/reference_correction/hooks_final/initial_guard_return/selected/left_hook.npz",
+      "sha256": "d634f431c50547b601c93fdcb02dd8d96949d011903faaac6102f66f459df9bd",
+      "active_hand": "left",
+      "placement_yaw_rad": 0.0,
+      "anchor_window_s": [
+        0.6,
+        0.78
+      ],
+      "deformation_interval_s": [
+        0.26,
+        1.08
+      ],
+      "path": "curved_source_offset",
+      "elbow_translation_fraction": 0.6,
+      "closer_reset_m": 0.16
+    },
+    "right_hook": {
+      "reference": "outputs/task10c/reference_correction/hooks_final/right_compact_return/selected/right_hook.npz",
+      "sha256": "f3784396e8c55a732005664cbccc6bdbd6835c900b285056d8901b746ec680b9",
+      "active_hand": "right",
+      "placement_yaw_rad": 0.0,
+      "anchor_window_s": [
+        0.48,
+        0.68
+      ],
+      "deformation_interval_s": [
+        0.4,
+        0.9
+      ],
+      "path": "curved_source_offset",
+      "elbow_translation_fraction": 0.6,
+      "closer_reset_m": 0.16
+    }
+  }
+}
