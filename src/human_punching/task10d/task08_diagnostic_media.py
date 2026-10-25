@@ -27,6 +27,7 @@ METADATA_FIELDS = (
     "delivery_timestamps", "delivered_frame_ids", "delivered_source_tick",
     "delay_ticks", "padding", "visual_age_s", "camera_position", "camera_rotation",
     "renderer_capture_index", "visual_frame_ids", "visual_timestamps", "visual_padding",
+    "visual_delivery_timestamps", "proprioception_timestamps",
 )
 
 
@@ -178,7 +179,8 @@ def compose_frame(isometric: np.ndarray, exposure: Mapping[str, np.ndarray], *,
     draw = ImageDraw.Draw(canvas)
     pid, sid = episode.get("primitive_id", "unknown"), episode.get("snapshot_id", "unknown")
     selection = episode.get("media_outcome_class", "selected")
-    draw.text((8, 6), f"{title} | {pid} | snapshot {sid} | {selection} illustration", fill="white")
+    selection_label = f"{selection}-selected" if selection in ("success", "failure") else "selected"
+    draw.text((8, 6), f"{title} | {pid} | snapshot {sid} | {selection_label} illustration", fill="white")
     delay = int(exposure["delay_ticks"])
     clock = (f"Capture {int(exposure['capture_frame_ids'])} at {time_s:.3f}s | "
              f"intended delivery {time_s+delay/FPS:.3f}s | {20*delay}ms delay | status {status}")
@@ -241,8 +243,12 @@ class Task08DiagnosticMedia:
         if missing:
             raise ValueError(f"Missing actual exposure fields: {sorted(missing)}")
         fields = set(required) | (set(exposure) & set(DEPTH_FIELDS+METADATA_FIELDS))
-        fields |= {key for key in exposure if key.startswith("fault_")}
         owned = {key: owned_batch_row(exposure[key], index) for key in fields}
+        # Attribution/fault diagnostics may be requested only at reset. Retain
+        # them when actually supplied, without manufacturing subsequent values
+        # or changing the fixed-shape state/perception trace schema.
+        optional_faults = {key: owned_batch_row(exposure[key], index)
+                           for key in exposure if key.startswith("fault_")}
         if not np.isclose(float(owned["capture_timestamps"]), time_s, atol=1e-7, rtol=0):
             raise ValueError("Native state time must equal the actual source capture time")
         if owned["rgb"].dtype != np.uint8 or owned["rgb"].shape != (376, 672, 3):
@@ -265,6 +271,8 @@ class Task08DiagnosticMedia:
         if any(not np.isfinite(value).all() for value in state.values()):
             raise ValueError("Native media state is nonfinite")
         trace = {key: value for key, value in owned.items() if key != "rgb"}
+        if "visual_timestamps" in owned:
+            trace["actor_visual_age_s"] = time_s-owned["visual_timestamps"]
         trace.update(state, time_s=np.asarray(time_s), world_index=np.asarray(index),
                      rgb_sha256=np.asarray(hashlib.sha256(owned["rgb"].tobytes()).hexdigest()))
         if self.field_names is not None and set(trace) != self.field_names:
@@ -278,7 +286,8 @@ class Task08DiagnosticMedia:
             Image.fromarray(composed).save(self.output / "first.png")
         self.field_names = set(trace)
         self.frames.append(trace)
-        self.status_rows.append(dict(time_s=float(time_s), event=deepcopy(event), status=deepcopy(status)))
+        self.status_rows.append(dict(time_s=float(time_s), event=deepcopy(event), status=deepcopy(status),
+            fault_diagnostics_available=bool(optional_faults), fault_diagnostics=optional_faults or None))
 
     def close(self, outcome: Mapping[str, Any] | None = None, *,
               expected_outcome: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -296,6 +305,7 @@ class Task08DiagnosticMedia:
             frames=len(self.frames), fps=FPS, dimensions=[1280, 864],
             panel_order_clockwise=list(PANEL_ORDER), source_aligned=True,
             delivered_C_in_trace=True, raw_RGB_trace="SHA256 per source frame; composed MP4 preserves visible RGB panel",
+            age_metadata="visual_age_s is supplied packet age; actor_visual_age_s is capture time minus archived actor-history source timestamps, when supplied",
             recording_semantics="Real 20ms captures through first event; exact event time remains separate",
             selection="Outcome-selected illustration; not a performance sample",
             physics_steps=0, camera_acquisitions=0,

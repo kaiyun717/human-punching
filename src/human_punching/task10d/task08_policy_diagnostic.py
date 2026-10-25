@@ -147,10 +147,16 @@ class FrozenTask08Policy:
             raise ValueError("Policy observation must use the native float32 device")
         # The original forward proposes unclipped physical targets; evaluation
         # always applies this same native hard-joint limiter before execution.
-        return self.actor.deterministic_actions(actor948).collection.u_applied
+        proposal = self.actor(actor948)
+        limited = self.actor.limit(proposal)
+        # Match ResidualCollector.step: saturation must not conceal Inf/NaN
+        # proposals. The caller treats these rows as infrastructure failure.
+        return torch.where(torch.isfinite(proposal).all(-1, keepdim=True), limited,
+                           torch.full_like(limited, float("nan")))
 
     @torch.no_grad()
     def inference_health(self, actor948=None):
+        from boxing.training.residual_learning import ResidualCompositeActor, ResidualCritic
         generator = torch.Generator(device="cpu").manual_seed(270507)
         if actor948 is None:
             actor948 = (torch.randn((32, 948), generator=generator) * .05).to(self.device)
@@ -159,9 +165,27 @@ class FrozenTask08Policy:
         repeated = self.action(actor948)
         bounded = self.actor.bounded_residual(actor948)
         q = [module(critic, actions, torch.zeros_like(actions)) for module in (self.q1, self.q2)]
-        finite = all(bool(torch.isfinite(value).all()) for value in (actor948, actions, bounded, *q))
+        # A fresh archive read and separate native network objects check saved
+        # reconstruction, in addition to deterministic repeated inference.
+        manifest, weights, _ = checkpoint_payload(self.identity["path"], self.identity["sha256"])
+        other = ResidualCompositeActor(deepcopy(self.actor.nominal).cpu(),
+            self.actor.native_scale, self.actor.native_offset, self.actor.physical_low,
+            self.actor.physical_high, profile_id=manifest["config"]["profile_id"])
+        other_q = [ResidualCritic(), ResidualCritic()]
+        for group, module in (("residual", other.residual), ("q1", other_q[0]), ("q2", other_q[1])):
+            module.load_state_dict({name[len(group)+1:]: value for name, value in weights.items()
+                                    if name.startswith(group + ".")}, strict=True)
+        for module in (other, *other_q):
+            module.to(self.device).eval().requires_grad_(False)
+        fresh_action = other.deterministic_actions(actor948).collection.u_applied
+        fresh_q = [module(critic, fresh_action, torch.zeros_like(fresh_action)) for module in other_q]
+        reload_errors = dict(actor=float((actions-fresh_action).abs().max()),
+            q1=float((q[0]-fresh_q[0]).abs().max()), q2=float((q[1]-fresh_q[1]).abs().max()))
+        finite = all(bool(torch.isfinite(value).all()) for value in
+                     (actor948, actions, bounded, *q, fresh_action, *fresh_q))
         error = float((actions - repeated).abs().max())
-        return dict(passed=finite and error == 0., finite=finite, repeated_action_max_abs_error=error,
+        return dict(passed=finite and error == 0. and all(e == 0. for e in reload_errors.values()),
+            finite=finite, repeated_action_max_abs_error=error, independent_reload_max_abs_errors=reload_errors,
             residual_max_abs=float(bounded.abs().max()), physical_target_max_abs=float(actions.abs().max()),
             q1_range=[float(q[0].min()), float(q[0].max())], q2_range=[float(q[1].min()), float(q[1].max())],
             probe_rows=len(actor948), critic_probe="synthetic only, never used for control/outcomes", learning=False)

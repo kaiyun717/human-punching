@@ -46,6 +46,17 @@ def test_checkpoint_pin_is_mandatory():
         checkpoint_payload(sha256="0" * 64)
 
 
+def test_limiter_cannot_conceal_nonfinite_proposals(policy, monkeypatch):
+    def invalid_proposal(obs):
+        proposal = torch.zeros(len(obs), 29)
+        proposal[0, 0] = float("inf")
+        return proposal
+    monkeypatch.setattr(policy.actor, "forward", invalid_proposal)
+    actual = policy.action(torch.zeros(2, 948))
+    assert torch.isnan(actual[0]).all()
+    assert torch.isfinite(actual[1]).all()
+
+
 def test_history_uses_delivered_packets_at_original_lags_and_keeps_raw_actions():
     from boxing.perception.latency import VisualDelayBuffer
     count = 2

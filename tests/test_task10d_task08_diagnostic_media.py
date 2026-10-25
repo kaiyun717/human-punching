@@ -107,6 +107,11 @@ def test_actual_video_and_trace_keep_off_tick_event_and_replay_difference(tmp_pa
         episode={**expected, "media_outcome_class": "success"}, renderer=renderer)
     for tick in range(3):
         state, exposure = fixture(tick)
+        exposure.update(visual_frame_ids=torch.zeros((3, 4), dtype=torch.long),
+            visual_timestamps=torch.zeros((3, 4), dtype=torch.float64),
+            visual_padding=torch.ones((3, 4), dtype=torch.bool))
+        if tick == 0:
+            exposure["fault_dropout_probability"] = torch.tensor([.01, .02, .03])
         recorder.append(state, exposure, index=1, time_s=.02*tick)
     report = recorder.close({**expected, "event_time_s": .05}, expected_outcome=expected)
     assert report["status"] == "completed" and report["decoded_frames"] == 3
@@ -114,6 +119,8 @@ def test_actual_video_and_trace_keep_off_tick_event_and_replay_difference(tmp_pa
     assert report["exact_reported_outcome_parity"] is False
     assert report["replay_comparisons"]["safe_arrival"] is True
     assert report["scheduled_captures_complete_through_end"]
+    assert [row["fault_diagnostics_available"] for row in report["events"]] == [True, False, False]
+    assert report["events"][1]["fault_diagnostics"] is None
     assert renderer.closed and len(renderer.states) == 3
     with np.load(tmp_path / "media" / "trace.npz", allow_pickle=False) as trace:
         assert trace["world_index"].tolist() == [1, 1, 1]
@@ -123,6 +130,10 @@ def test_actual_video_and_trace_keep_off_tick_event_and_replay_difference(tmp_pa
         assert np.allclose(trace["delivered_normalized"], .9)
         assert np.allclose(trace["corrupted_normalized"], .7)
         assert "rgb" not in trace and trace["rgb_sha256"].shape == (3,)
+        assert trace["visual_frame_ids"].shape == (3, 4)
+        assert trace["visual_padding"].all()
+        np.testing.assert_allclose(trace["actor_visual_age_s"],
+            np.repeat(np.array([0., .02, .04])[:, None], 4, axis=1))
 
 
 def test_no_off_tick_fabrication_or_silent_frame_cap(tmp_path):
