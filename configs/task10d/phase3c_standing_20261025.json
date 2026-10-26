@@ -1,0 +1,63 @@
+{
+  "schema": "task10d_standing_phase3c_v1",
+  "scope": "Human2 XIII-F and XIV-A-C; standing fixture only",
+  "fixture_id": "fresh96_standing_seed102503_t2000ms",
+  "environment_seed": 102503,
+  "proprioception_seed": 102504,
+  "camera_seed": 102505,
+  "fixture_capture_s": 2.0,
+  "zero_velocity_commands": true,
+  "avoidance_residual": 0,
+  "X_m": [
+    0.45,
+    1.5,
+    0.05
+  ],
+  "Y_m": [
+    -0.55,
+    0.55,
+    0.05
+  ],
+  "yaw_deg": [
+    -180,
+    175,
+    5
+  ],
+  "primary": {
+    "min_separation_m": 0.7,
+    "max_separation_m": 1.5,
+    "min_X_m": 0.65,
+    "max_abs_Y_m": 0.55,
+    "max_abs_bearing_deg": 35
+  },
+  "camera_pitch_up_deg": 25,
+  "physics_dt_s": 0.005,
+  "control_dt_s": 0.02,
+  "source_rate": 1,
+  "glove_head_encounter_m": 0.14,
+  "both_gloves_safe_clearance_m": 0.16,
+  "native_gross_penetration_m": 0.03,
+  "batch_size": 32,
+  "calibration_count": "one per supported primitive",
+  "replay_selection": "one calibration and one tight-reach margin per supported primitive plus eight placement-first draws; predetermined before dynamic outcomes",
+  "sampler_seed": 102525,
+  "terminal_hold_s": 0.4,
+  "requested_wall_limit": "00:45:00",
+  "gpu": "l40s:1",
+  "cpus": 8,
+  "memory": "32G",
+  "fixture_job": "26865730",
+  "pdf_sha256": "5cb252daf7b303fc47af176098cab085707a5c5c3d4d179e45855fcc05362cbc",
+  "source_commit": "8961bcad9ccc1bea0178219b8707dc5d7c31f36c",
+  "branch": "task10D",
+  "primitive_ids": [
+    "jab_nominal",
+    "cross_nominal",
+    "left_hook_nominal",
+    "right_hook_nominal",
+    "jab_004_01107",
+    "cross_012_01441",
+    "left_hook_013_03243",
+    "right_hook_014_02074"
+  ]
+}
